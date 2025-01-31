@@ -17,7 +17,7 @@ function App() {
 <Route path='/dashboard' Component={Dashboard}/>
 <Route path='/vendorregister' Component={Vendorregister}/>
 <Route path='/vendorlogin' Component={Vendorlogin}/>
-<Route path='thanks' Component={Thankyou}/>
+<Route path='thank' Component={Thankyou}/>
    </Routes>
    
    </BrowserRouter>

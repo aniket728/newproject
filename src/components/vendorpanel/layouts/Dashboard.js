@@ -45,26 +45,85 @@ const Dashboard = () => {
                     <i className="bi bi-house"></i> Dashboard
                   </a>
                 </li>
+
+                {/* Inventory Section */}
+                <li className="nav-item">
+                  <a className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse">
+                    <i className="bi bi-box"></i> Inventory
+                  </a>
+                  <div className="collapse" id="inventoryCollapse">
+                    <ul className="nav flex-column ms-3">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Items</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Warehouses</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Price Lists</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                {/* Routes Section */}
+                <li className="nav-item">
+                  <a className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#routesCollapse" aria-expanded="false" aria-controls="routesCollapse">
+                    <i className="bi bi-map"></i> Routes
+                  </a>
+                  <div className="collapse" id="routesCollapse">
+                    <ul className="nav flex-column ms-3">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Regions</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Cities</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Areas</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Attendance</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                {/* Report Section */}
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    <i className="bi bi-bar-chart"></i> Analytics
+                    <i className="bi bi-file-earmark-text"></i> Report
                   </a>
                 </li>
+
+                {/* Settings Section */}
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    <i className="bi bi-chat"></i> Messages
-                    <span className="badge bg-soft-primary text-primary rounded-pill d-inline-flex align-items-center ms-auto">6</span>
+                    <i className="bi bi-gear"></i> Settings
                   </a>
                 </li>
+
+                {/* User Section */}
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="bi bi-bookmarks"></i> Collections
+                  <a className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#userCollapse" aria-expanded="false" aria-controls="userCollapse">
+                    <i className="bi bi-person"></i> User
                   </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="bi bi-people"></i> Users
-                  </a>
+                  <div className="collapse" id="userCollapse">
+                    <ul className="nav flex-column ms-3">
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">User</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Target</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Leaderboard</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="#">Achievements</a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
 
                 {/* Sales Section */}
@@ -120,13 +179,6 @@ const Dashboard = () => {
                   </a>
                 </li>
 
-                {/* Settings */}
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="bi bi-gear"></i> Settings
-                  </a>
-                </li>
-
                 {/* Live Location */}
                 <li className="nav-item">
                   <a className="nav-link" href="#">
@@ -161,20 +213,6 @@ const Dashboard = () => {
               <hr className="navbar-divider my-5 opacity-20" />
 
               <div className="mt-auto"></div>
-
-              {/* Account and Logout */}
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="bi bi-person-square"></i> Account
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="bi bi-box-arrow-left"></i> Logout
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
         </nav>
@@ -359,6 +397,7 @@ const Dashboard = () => {
                         <span className="badge badge-pill bg-soft-success text-success me-2">
                           <i className="bi bi-arrow-up me-1"></i>10%
                         </span>
+                       
                         <span className="text-nowrap text-xs text-muted">Since last month</span>
                       </div>
                     </div>
