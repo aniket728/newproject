@@ -257,7 +257,7 @@ const Dashboard = () => {
                       <li><Link className="dropdown-item" to="#">Settings</Link></li>
                       <li><Link className="dropdown-item" to="#">Billing</Link></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="#">Logout</Link></li>
+                      <li><Link className="dropdown-item" to="">Logout</Link></li>
                     </ul>
                   </li>
                 </ul>
