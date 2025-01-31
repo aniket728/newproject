@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Select from 'react-select';
 
 const VendorRegister = () => {
+  
   const [currentSection, setCurrentSection] = useState(0);
 
   const sections = [
@@ -365,8 +366,10 @@ const VendorRegister = () => {
               className="btn-submit"
               id="submitBtn"
               style={{ display: currentSection === sections.length - 1 ? 'block' : 'none' }}
+
             > <Link to="/thank"> 
               Submit</Link>
+              
             </button>
 
           </div>

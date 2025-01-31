@@ -7,7 +7,6 @@ import Vendorregister from './components/vendorpanel/Vendorregister';
 import Vendorlogin from './components/vendorpanel/Vendorlogin';
 import Thankyou from './components/vendorpanel/Thankyou';
 
-
 function App() {
   return (
    <BrowserRouter>
@@ -18,8 +17,7 @@ function App() {
 <Route path='/dashboard' Component={Dashboard}/>
 <Route path='/vendorregister' Component={Vendorregister}/>
 <Route path='/vendorlogin' Component={Vendorlogin}/>
-<Route path='/thank' Component={Thankyou}/>
-
+<Route path='thank' Component={Thankyou}/>
    </Routes>
    
    </BrowserRouter>

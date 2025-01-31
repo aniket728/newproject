@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Thankyou = () => {
   return (
@@ -33,7 +34,7 @@ const Thankyou = () => {
   <h1 className='text-center'>"Thanks for registering! Please login now"</h1>
 
 <div className='ro'>
-  <button type="button" class="btn btn-primary btn-lg">Large button</button>
+  <button type="button" class="btn btn-warning btn-lg"><Link to="/dashboard" className='text-white'>Go To Dashboard</Link></button>
   </div>
   </>
   )
