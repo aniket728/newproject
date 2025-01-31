@@ -242,10 +242,6 @@ const Dashboard = () => {
                   </li>
                 </ul>
 
-                <form className="d-flex">
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                  <button className="btn btn-outline-success" type="submit">Search</button>
-                </form>
 
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
@@ -257,7 +253,7 @@ const Dashboard = () => {
                       <li><Link className="dropdown-item" to="#">Settings</Link></li>
                       <li><Link className="dropdown-item" to="#">Billing</Link></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="">Logout</Link></li>
+                      <li><Link className="dropdown-item" to="/vendorlogin">Logout</Link></li>
                     </ul>
                   </li>
                 </ul>

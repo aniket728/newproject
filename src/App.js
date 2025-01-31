@@ -18,6 +18,8 @@ function App() {
 <Route path='/vendorregister' Component={Vendorregister}/>
 <Route path='/vendorlogin' Component={Vendorlogin}/>
 <Route path='thank' Component={Thankyou}/>
+
+
    </Routes>
    
    </BrowserRouter>
@@ -25,3 +27,34 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
