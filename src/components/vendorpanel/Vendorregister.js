@@ -360,14 +360,15 @@ const VendorRegister = () => {
             >
               Next
             </button>
-            <button
+                      <button
               type="submit"
               className="btn-submit"
               id="submitBtn"
               style={{ display: currentSection === sections.length - 1 ? 'block' : 'none' }}
-            >
-              Submit
+            > <Link to="/thank"> 
+              Submit</Link>
             </button>
+
           </div>
         </form>
       </div>
