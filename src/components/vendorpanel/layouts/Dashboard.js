@@ -30,7 +30,7 @@ const Dashboard = () => {
 
                 {/* Inventory Section */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse">
+                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse">
                     <i className="bi bi-box"></i> Inventory
                   </Link>
                   <div className="collapse" id="inventoryCollapse">
@@ -50,7 +50,7 @@ const Dashboard = () => {
 
                 {/* Routes Section */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#routesCollapse" aria-expanded="false" aria-controls="routesCollapse">
+                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#routesCollapse" aria-expanded="false" aria-controls="routesCollapse">
                     <i className="bi bi-map"></i> Routes
                   </Link>
                   <div className="collapse" id="routesCollapse">
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
                 {/* User Section */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#userCollapse" aria-expanded="false" aria-controls="userCollapse">
+                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#userCollapse" aria-expanded="false" aria-controls="userCollapse">
                     <i className="bi bi-person"></i> User
                   </Link>
                   <div className="collapse" id="userCollapse">
@@ -133,7 +133,7 @@ const Dashboard = () => {
 
                 {/* Purchase Section */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#purchaseCollapse" aria-expanded="false" aria-controls="purchaseCollapse">
+                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseCollapse" aria-expanded="false" aria-controls="purchaseCollapse">
                     <i className="bi bi-bag"></i> Purchase
                   </Link>
                   <div className="collapse" id="purchaseCollapse">
@@ -167,7 +167,7 @@ const Dashboard = () => {
 
                 {/* Parties Section */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#partiesCollapse" aria-expanded="false" aria-controls="partiesCollapse">
+                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#partiesCollapse" aria-expanded="false" aria-controls="partiesCollapse">
                     <i className="bi bi-people"></i> Parties
                   </Link>
                   <div className="collapse" id="partiesCollapse">
@@ -235,16 +235,10 @@ const Dashboard = () => {
                         <Link className="dropdown-item" to="/dashboard/profile">Profile</Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/dashboard/settings">Settings</Link>
+                        <Link className="dropdown-item" to="/dashboard/subscription">Subscription</Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/dashboard/billing">Billing</Link>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/logout">Logout</Link>
+                        <Link className="dropdown-item" to="/vendorlogin">Logout</Link>
                       </li>
                     </ul>
                   </li>

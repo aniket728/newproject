@@ -33,6 +33,9 @@ import Suppliers from './components/vendorpanel/pages/Suppliers';
 import Groups from './components/vendorpanel/pages/Groups';
 import Visited from './components/vendorpanel/pages/Visited';
 import LIveLocation from './components/vendorpanel/pages/LIveLocation';
+import Profile from './components/vendorpanel/pages/Profile';
+import Subscription from './components/vendorpanel/pages/Subscription';
+import SubscriptionPay from './components/vendorpanel/pages/SubscriptionPay';
 
 function App() {
   return (
@@ -75,6 +78,11 @@ function App() {
           <Route path="suppliers" element={<Suppliers />} />
           <Route path="groups" element={<Groups />} />
           <Route path="visited" element={<Visited />} />
+
+          <Route path="profile" element={<Profile />} />
+          <Route path="subscription" element={<Subscription />} />
+          <Route path="subscriptionpay" element={<SubscriptionPay />} />
+          
          
         </Route>
       </Routes>
