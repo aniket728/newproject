@@ -15,7 +15,7 @@ const Dashboard = () => {
 
             {/* Brand Logo */}
             <Link className="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" to="/dashboard">
-              <img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" alt="..." />
+              <img src="../../assets/img/salesOn-logo-blue-0c78f65e7ba254993032ec4455e34f51.png" className='w-70' alt="..." />
             </Link>
 
             {/* Sidebar Navigation */}
@@ -193,16 +193,16 @@ const Dashboard = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="h-screen flex-grow-1 overflow-y-lg-auto">
+        <div className="h-screen flex-grow-1 overflow-y-lg-auto" >
           {/* Top Navbar */}
-          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom" >
             <div className="container-fluid">
               {/* Top Navbar Content */}
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
 
-              <div className="collapse navbar-collapse" id="topNavbar">
+              <div className="collapse navbar-collapse"  id="topNavbar">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <Link className="nav-link active" aria-current="page" to="/dashboard">Home</Link>
@@ -217,7 +217,10 @@ const Dashboard = () => {
                     <Link className="nav-link" to="/dashboard/about">About</Link>
                   </li>
                 </ul>
-
+                <form className="d-flex">
+                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                  <button className="btn btn-outline-success" type="submit">Search</button>
+                </form>    
                 {/* Profile Dropdown */}
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
@@ -244,7 +247,7 @@ const Dashboard = () => {
                         <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/logout">Logout</Link>
+                        <Link className="dropdown-item" to="/vendorlogin">Logout</Link>
                       </li>
                     </ul>
                   </li>
