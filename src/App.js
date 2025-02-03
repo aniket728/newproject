@@ -56,7 +56,7 @@ function App() {
           <Route path="cities" element={<Cities />} />
           <Route path="areas" element={<Areas />} />
           <Route path="attendance" element={<Attendance />} />
-          <Route path="report" element={<Report />} />
+          <Route path="reports" element={<Report />} />
           <Route path="settings" element={<Settings />} />
           <Route path="user" element={<User />} />
           <Route path="target" element={<Target />} />
