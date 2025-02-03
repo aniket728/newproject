@@ -35,132 +35,132 @@ const VendorRegister = () => {
   const progress = ((currentSection + 1) / sections.length) * 100;
 
   // Example list of Indian cities
-  // const indianCities = [
-  //   { value: 'mumbai', label: 'Mumbai' },
-  //   { value: 'delhi', label: 'Delhi' },
-  //   { value: 'bangalore', label: 'Bangalore' },
-  //   { value: 'hyderabad', label: 'Hyderabad' },
-  //   { value: 'ahmedabad', label: 'Ahmedabad' },
-  //   { value: 'chennai', label: 'Chennai' },
-  //   { value: 'kolkata', label: 'Kolkata' },
-  //   { value: 'surat', label: 'Surat' },
-  //   { value: 'pune', label: 'Pune' },
-  //   { value: 'jaipur', label: 'Jaipur' },
-  //   { value: 'lucknow', label: 'Lucknow' },
-  //   { value: 'kanpur', label: 'Kanpur' },
-  //   { value: 'nagpur', label: 'Nagpur' },
-  //   { value: 'indore', label: 'Indore' },
-  //   { value: 'thane', label: 'Thane' },
-  //   { value: 'bhopal', label: 'Bhopal' },
-  //   { value: 'visakhapatnam', label: 'Visakhapatnam' },
-  //   { value: 'patna', label: 'Patna' },
-  //   { value: 'vadodara', label: 'Vadodara' },
-  //   { value: 'ghaziabad', label: 'Ghaziabad' },
-  //   { value: 'ludhiana', label: 'Ludhiana' },
-  //   { value: 'agra', label: 'Agra' },
-  //   { value: 'nashik', label: 'Nashik' },
-  //   { value: 'faridabad', label: 'Faridabad' },
-  //   { value: 'meerut', label: 'Meerut' },
-  //   { value: 'rajkot', label: 'Rajkot' },
-  //   { value: 'kalyan-dombivli', label: 'Kalyan-Dombivli' },
-  //   { value: 'vasai-virar', label: 'Vasai-Virar' },
-  //   { value: 'varanasi', label: 'Varanasi' },
-  //   { value: 'srinagar', label: 'Srinagar' },
-  //   { value: 'aurangabad', label: 'Aurangabad' },
-  //   { value: 'dhanbad', label: 'Dhanbad' },
-  //   { value: 'amritsar', label: 'Amritsar' },
-  //   { value: 'navi-mumbai', label: 'Navi Mumbai' },
-  //   { value: 'allahabad', label: 'Allahabad' },
-  //   { value: 'howrah', label: 'Howrah' },
-  //   { value: 'ranchi', label: 'Ranchi' },
-  //   { value: 'jabalpur', label: 'Jabalpur' },
-  //   { value: 'gwalior', label: 'Gwalior' },
-  //   { value: 'coimbatore', label: 'Coimbatore' },
-  //   { value: 'vijayawada', label: 'Vijayawada' },
-  //   { value: 'jodhpur', label: 'Jodhpur' },
-  //   { value: 'madurai', label: 'Madurai' },
-  //   { value: 'raipur', label: 'Raipur' },
-  //   { value: 'kota', label: 'Kota' },
-  //   { value: 'guwahati', label: 'Guwahati' },
-  //   { value: 'chandigarh', label: 'Chandigarh' },
-  //   { value: 'solapur', label: 'Solapur' },
-  //   { value: 'hubli-dharwad', label: 'Hubli-Dharwad' },
-  //   { value: 'bareilly', label: 'Bareilly' },
-  //   { value: 'moradabad', label: 'Moradabad' },
-  //   { value: 'mysore', label: 'Mysore' },
-  //   { value: 'tiruchirappalli', label: 'Tiruchirappalli' },
-  //   { value: 'tiruppur', label: 'Tiruppur' },
-  //   { value: 'gurgaon', label: 'Gurgaon' },
-  //   { value: 'aligarh', label: 'Aligarh' },
-  //   { value: 'jalandhar', label: 'Jalandhar' },
-  //   { value: 'bhubaneswar', label: 'Bhubaneswar' },
-  //   { value: 'salem', label: 'Salem' },
-  //   { value: 'mira-bhayandar', label: 'Mira-Bhayandar' },
-  //   { value: 'warangal', label: 'Warangal' },
-  //   { value: 'guntur', label: 'Guntur' },
-  //   { value: 'bhiwandi', label: 'Bhiwandi' },
-  //   { value: 'saharanpur', label: 'Saharanpur' },
-  //   { value: 'gorakhpur', label: 'Gorakhpur' },
-  //   { value: 'bikaner', label: 'Bikaner' },
-  //   { value: 'amravati', label: 'Amravati' },
-  //   { value: 'noida', label: 'Noida' },
-  //   { value: 'jamshedpur', label: 'Jamshedpur' },
-  //   { value: 'bhilai', label: 'Bhilai' },
-  //   { value: 'cuttack', label: 'Cuttack' },
-  //   { value: 'firozabad', label: 'Firozabad' },
-  //   { value: 'kochi', label: 'Kochi' },
-  //   { value: 'nellore', label: 'Nellore' },
-  //   { value: 'bhavnagar', label: 'Bhavnagar' },
-  //   { value: 'dehradun', label: 'Dehradun' },
-  //   { value: 'durgapur', label: 'Durgapur' },
-  //   { value: 'asansol', label: 'Asansol' },
-  //   { value: 'rourkela', label: 'Rourkela' },
-  //   { value: 'nanded', label: 'Nanded' },
-  //   { value: 'kolhapur', label: 'Kolhapur' },
-  //   { value: 'ajmer', label: 'Ajmer' },
-  //   { value: 'akola', label: 'Akola' },
-  //   { value: 'gulbarga', label: 'Gulbarga' },
-  //   { value: 'jamnagar', label: 'Jamnagar' },
-  //   { value: 'ujjain', label: 'Ujjain' },
-  //   { value: 'loni', label: 'Loni' },
-  //   { value: 'siliguri', label: 'Siliguri' },
-  //   { value: 'jhansi', label: 'Jhansi' },
-  // ];
+  const indianCities = [
+    { value: 'mumbai', label: 'Mumbai' },
+    { value: 'delhi', label: 'Delhi' },
+    { value: 'bangalore', label: 'Bangalore' },
+    { value: 'hyderabad', label: 'Hyderabad' },
+    { value: 'ahmedabad', label: 'Ahmedabad' },
+    { value: 'chennai', label: 'Chennai' },
+    { value: 'kolkata', label: 'Kolkata' },
+    { value: 'surat', label: 'Surat' },
+    { value: 'pune', label: 'Pune' },
+    { value: 'jaipur', label: 'Jaipur' },
+    { value: 'lucknow', label: 'Lucknow' },
+    { value: 'kanpur', label: 'Kanpur' },
+    { value: 'nagpur', label: 'Nagpur' },
+    { value: 'indore', label: 'Indore' },
+    { value: 'thane', label: 'Thane' },
+    { value: 'bhopal', label: 'Bhopal' },
+    { value: 'visakhapatnam', label: 'Visakhapatnam' },
+    { value: 'patna', label: 'Patna' },
+    { value: 'vadodara', label: 'Vadodara' },
+    { value: 'ghaziabad', label: 'Ghaziabad' },
+    { value: 'ludhiana', label: 'Ludhiana' },
+    { value: 'agra', label: 'Agra' },
+    { value: 'nashik', label: 'Nashik' },
+    { value: 'faridabad', label: 'Faridabad' },
+    { value: 'meerut', label: 'Meerut' },
+    { value: 'rajkot', label: 'Rajkot' },
+    { value: 'kalyan-dombivli', label: 'Kalyan-Dombivli' },
+    { value: 'vasai-virar', label: 'Vasai-Virar' },
+    { value: 'varanasi', label: 'Varanasi' },
+    { value: 'srinagar', label: 'Srinagar' },
+    { value: 'aurangabad', label: 'Aurangabad' },
+    { value: 'dhanbad', label: 'Dhanbad' },
+    { value: 'amritsar', label: 'Amritsar' },
+    { value: 'navi-mumbai', label: 'Navi Mumbai' },
+    { value: 'allahabad', label: 'Allahabad' },
+    { value: 'howrah', label: 'Howrah' },
+    { value: 'ranchi', label: 'Ranchi' },
+    { value: 'jabalpur', label: 'Jabalpur' },
+    { value: 'gwalior', label: 'Gwalior' },
+    { value: 'coimbatore', label: 'Coimbatore' },
+    { value: 'vijayawada', label: 'Vijayawada' },
+    { value: 'jodhpur', label: 'Jodhpur' },
+    { value: 'madurai', label: 'Madurai' },
+    { value: 'raipur', label: 'Raipur' },
+    { value: 'kota', label: 'Kota' },
+    { value: 'guwahati', label: 'Guwahati' },
+    { value: 'chandigarh', label: 'Chandigarh' },
+    { value: 'solapur', label: 'Solapur' },
+    { value: 'hubli-dharwad', label: 'Hubli-Dharwad' },
+    { value: 'bareilly', label: 'Bareilly' },
+    { value: 'moradabad', label: 'Moradabad' },
+    { value: 'mysore', label: 'Mysore' },
+    { value: 'tiruchirappalli', label: 'Tiruchirappalli' },
+    { value: 'tiruppur', label: 'Tiruppur' },
+    { value: 'gurgaon', label: 'Gurgaon' },
+    { value: 'aligarh', label: 'Aligarh' },
+    { value: 'jalandhar', label: 'Jalandhar' },
+    { value: 'bhubaneswar', label: 'Bhubaneswar' },
+    { value: 'salem', label: 'Salem' },
+    { value: 'mira-bhayandar', label: 'Mira-Bhayandar' },
+    { value: 'warangal', label: 'Warangal' },
+    { value: 'guntur', label: 'Guntur' },
+    { value: 'bhiwandi', label: 'Bhiwandi' },
+    { value: 'saharanpur', label: 'Saharanpur' },
+    { value: 'gorakhpur', label: 'Gorakhpur' },
+    { value: 'bikaner', label: 'Bikaner' },
+    { value: 'amravati', label: 'Amravati' },
+    { value: 'noida', label: 'Noida' },
+    { value: 'jamshedpur', label: 'Jamshedpur' },
+    { value: 'bhilai', label: 'Bhilai' },
+    { value: 'cuttack', label: 'Cuttack' },
+    { value: 'firozabad', label: 'Firozabad' },
+    { value: 'kochi', label: 'Kochi' },
+    { value: 'nellore', label: 'Nellore' },
+    { value: 'bhavnagar', label: 'Bhavnagar' },
+    { value: 'dehradun', label: 'Dehradun' },
+    { value: 'durgapur', label: 'Durgapur' },
+    { value: 'asansol', label: 'Asansol' },
+    { value: 'rourkela', label: 'Rourkela' },
+    { value: 'nanded', label: 'Nanded' },
+    { value: 'kolhapur', label: 'Kolhapur' },
+    { value: 'ajmer', label: 'Ajmer' },
+    { value: 'akola', label: 'Akola' },
+    { value: 'gulbarga', label: 'Gulbarga' },
+    { value: 'jamnagar', label: 'Jamnagar' },
+    { value: 'ujjain', label: 'Ujjain' },
+    { value: 'loni', label: 'Loni' },
+    { value: 'siliguri', label: 'Siliguri' },
+    { value: 'jhansi', label: 'Jhansi' },
+  ];
    
   // Add more cities as needed
 
  // Example list of Indian states
 
-  // const indianStates = [
-  //   { value: 'andhra-pradesh', label: 'Andhra Pradesh' },
-  //   { value: 'arunachal-pradesh', label: 'Arunachal Pradesh' },
-  //   { value: 'assam', label: 'Assam' },
-  //   { value: 'bihar', label: 'Bihar' },
-  //   { value: 'chhattisgarh', label: 'Chhattisgarh' },
-  //   { value: 'goa', label: 'Goa' },
-  //   { value: 'gujarat', label: 'Gujarat' },
-  //   { value: 'haryana', label: 'Haryana' },
-  //   { value: 'himachal-pradesh', label: 'Himachal Pradesh' },
-  //   { value: 'jharkhand', label: 'Jharkhand' },
-  //   { value: 'karnataka', label: 'Karnataka' },
-  //   { value: 'kerala', label: 'Kerala' },
-  //   { value: 'madhya-pradesh', label: 'Madhya Pradesh' },
-  //   { value: 'maharashtra', label: 'Maharashtra' },
-  //   { value: 'manipur', label: 'Manipur' },
-  //   { value: 'meghalaya', label: 'Meghalaya' },
-  //   { value: 'mizoram', label: 'Mizoram' },
-  //   { value: 'nagaland', label: 'Nagaland' },
-  //   { value: 'odisha', label: 'Odisha' },
-  //   { value: 'punjab', label: 'Punjab' },
-  //   { value: 'rajasthan', label: 'Rajasthan' },
-  //   { value: 'sikkim', label: 'Sikkim' },
-  //   { value: 'tamil-nadu', label: 'Tamil Nadu' },
-  //   { value: 'telangana', label: 'Telangana' },
-  //   { value: 'tripura', label: 'Tripura' },
-  //   { value: 'uttar-pradesh', label: 'Uttar Pradesh' },
-  //   { value: 'uttarakhand', label: 'Uttarakhand' },
-  //   { value: 'west-bengal', label: 'West Bengal' },
-  // ];
+  const indianStates = [
+    { value: 'andhra-pradesh', label: 'Andhra Pradesh' },
+    { value: 'arunachal-pradesh', label: 'Arunachal Pradesh' },
+    { value: 'assam', label: 'Assam' },
+    { value: 'bihar', label: 'Bihar' },
+    { value: 'chhattisgarh', label: 'Chhattisgarh' },
+    { value: 'goa', label: 'Goa' },
+    { value: 'gujarat', label: 'Gujarat' },
+    { value: 'haryana', label: 'Haryana' },
+    { value: 'himachal-pradesh', label: 'Himachal Pradesh' },
+    { value: 'jharkhand', label: 'Jharkhand' },
+    { value: 'karnataka', label: 'Karnataka' },
+    { value: 'kerala', label: 'Kerala' },
+    { value: 'madhya-pradesh', label: 'Madhya Pradesh' },
+    { value: 'maharashtra', label: 'Maharashtra' },
+    { value: 'manipur', label: 'Manipur' },
+    { value: 'meghalaya', label: 'Meghalaya' },
+    { value: 'mizoram', label: 'Mizoram' },
+    { value: 'nagaland', label: 'Nagaland' },
+    { value: 'odisha', label: 'Odisha' },
+    { value: 'punjab', label: 'Punjab' },
+    { value: 'rajasthan', label: 'Rajasthan' },
+    { value: 'sikkim', label: 'Sikkim' },
+    { value: 'tamil-nadu', label: 'Tamil Nadu' },
+    { value: 'telangana', label: 'Telangana' },
+    { value: 'tripura', label: 'Tripura' },
+    { value: 'uttar-pradesh', label: 'Uttar Pradesh' },
+    { value: 'uttarakhand', label: 'Uttarakhand' },
+    { value: 'west-bengal', label: 'West Bengal' },
+  ];
 
 
 // Add more states as needed
@@ -179,8 +179,8 @@ const [firstName, setFirstName] = useState("");
   const [nationality, setNationality] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  // const [city, setCity] = useState(null);
-  // const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
   const [pincode, setPincode] = useState("");
   const [country, setCountry] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -206,8 +206,8 @@ const [firstName, setFirstName] = useState("");
       userNumber,
       nationality,
       username,
-      // city: city ? city.value : "",
-      // state: state ? state.value : "",
+      city: city ? city.value : "",
+      state: state ? state.value : "",
       pincode,
       country,
       jobTitle,
@@ -234,7 +234,7 @@ const [firstName, setFirstName] = useState("");
   
       if (result.status === 201) {
         alert(result.message);
-        navigate("/dashboard");
+        navigate("/Vendorlogin");
       } else {
         alert(result.message);
       }
@@ -339,26 +339,22 @@ const [firstName, setFirstName] = useState("");
                     <label htmlFor="username">Username</label>
                     <input type="text" id="username" placeholder="Enter username" onChange={(e) => setUsername(e.target.value)} required />
                   </div>
-                  {/* <div className="form-group">
+                  <div className="form-group">
                     <label htmlFor="city">City</label>
-                    <Select
-                      id="city"
-                      options={indianCities}
-                      placeholder="Select city"
-                      onChange={(e) => setCity(e.target.value)}
-                      required
-                    />
+                   <Select
+  options={indianCities}
+  placeholder="Select city"
+  onChange={(selectedOption) => setCity(selectedOption)} // Ensure it stores an object
+/>
                   </div>
                   <div className="form-group">
                   <label htmlFor="state">State</label>
-          <Select
-            id="state"
-              options={indianStates}
-              placeholder="Select State"
-              onChange={(e) => setState(e.target.value)}
-               required
-               />
-                  </div> */}
+         <Select
+  options={indianStates}
+  placeholder="Select state"
+  onChange={(selectedOption) => setState(selectedOption)} // Ensure it stores an object
+/>
+                  </div>
                   <div className="form-group">
                     <label htmlFor="pincode">Pincode</label>
                     <input type="text" id="pincode" placeholder="Enter pincode" onChange={(e) => setPincode(e.target.value)} required />
