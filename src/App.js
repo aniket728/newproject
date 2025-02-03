@@ -30,9 +30,6 @@ import Groups from './components/vendorpanel/pages/Groups';
 import Visited from './components/vendorpanel/pages/Visited';
 import LIveLocation from './components/vendorpanel/pages/LIveLocation';
 import Reports from './components/vendorpanel/pages/Reports';
-import SalesOrder from './components/vendorpanel/pages/SalesOrder';
-import CreditNotes from './components/vendorpanel/pages/CreditNotes';
-import PurchaseOrderForm from './components/vendorpanel/pages/PurchaseOrderForm';
 
 function App() {
   return (
@@ -66,7 +63,6 @@ function App() {
           <Route path="estimates" element={<Estimates />} />
           <Route path="delivery-challan" element={<DeliveryChallan />} />
           <Route path="sales-return" element={<SalesReturn />} />
-          <Route path="purchase-order" element={<PurchaseOrderForm />} />
           <Route path="purchase-invoice" element={<PurchaseInvoice />} />
           <Route path="purchase-return" element={<PurchaseReturn />} />
           <Route path="van-sales" element={<VanSales />} />
@@ -75,8 +71,7 @@ function App() {
           <Route path="suppliers" element={<Suppliers />} />
           <Route path="groups" element={<Groups />} />
           <Route path="visited" element={<Visited />} />
-          <Route path="sales-order" element={<SalesOrder />} />
-          <Route path="credit-notes" element={<CreditNotes />} />
+         
         </Route>
       </Routes>
     </BrowserRouter>

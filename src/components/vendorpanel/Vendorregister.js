@@ -34,6 +34,7 @@ const VendorRegister = () => {
 
   const progress = ((currentSection + 1) / sections.length) * 100;
 
+
   // Example list of Indian cities
   const indianCities = [
     { value: 'mumbai', label: 'Mumbai' },
