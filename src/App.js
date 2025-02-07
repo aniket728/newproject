@@ -33,6 +33,8 @@ import Reports from './components/vendorpanel/pages/Reports';
 import Subscription from './components/vendorpanel/pages/Subscription';
 import Profile from './components/vendorpanel/pages/Profile';
 import SubscriptionPay from './components/vendorpanel/pages/SubscriptionPay';
+import SalesOrder from './components/vendorpanel/pages/SalesOrder';
+import PurchaseOrder from './components/vendorpanel/pages/PurchaseOrder';
 
 function App() {
   return (
@@ -74,7 +76,8 @@ function App() {
           <Route path="suppliers" element={<Suppliers />} />
           <Route path="groups" element={<Groups />} />
           <Route path="visited" element={<Visited />} />
-
+          
+          <Route path="purchaseorder" element={< PurchaseOrder/>} />
           <Route path="subscription" element={< Subscription/>} />
           <Route path="profile" element={< Profile/>} />
           <Route path="subscriptionpay" element={< SubscriptionPay/>} />

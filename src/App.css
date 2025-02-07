@@ -777,3 +777,134 @@ button:hover {
 .modal-close-button:hover {
   background-color: #0056b3;
 }
+ 
+/* items css */
+
+.custom-navbar {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.spaceB{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 7px;
+}
+
+.WarehousesNav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 7px;
+}
+
+.WarehousesNavButtons {
+  display: flex;
+  gap: 7px;
+}
+
+.WarehousesNavButtons button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  cursor: pointer;
+  color: #007bff;
+}
+.WarehousesNav input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  width: 13vw;
+  padding: 4px 5px;
+}
+
+.WarehousesTable table td th {
+  border: 2px solid #ced4da;
+}
+
+@media screen and (max-width: 768px) {
+  .WarehousesNav input {
+    width: 50vw;
+  }
+  .WarehousesNavButtons {
+    flex-direction: column;
+    width: auto;
+  }
+  .WarehousesTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+.WarehousesTable .table{
+  white-space: nowrap;
+}
+}
+
+/* Ensure the table container is scrollable on smaller screens */
+.WarehousesTable .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+}
+
+@media (max-width: 768px) {
+  .WarehousesNav input {
+    width: 100%; /* Make the search input take up full width on mobile */
+  }
+
+  .WarehousesTable table {
+    width: 100%; /* Ensure table takes full width */
+    table-layout: auto; /* Adjust column widths automatically */
+  }
+
+  .WarehousesTable th, .WarehousesTable td {
+    padding: 8px; /* Add some padding for better mobile readability */
+  }
+
+  .WarehousesTable th {
+    font-size: 14px; /* Adjust font size for headers */
+  }
+
+  .WarehousesTable td {
+    font-size: 12px; /* Adjust font size for table content */
+  }
+}
+
+.primarybutton{
+  background-color: #1c9104;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 2px;
+  font-size: 10px;
+  width: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;/* Full width button */
+}
+
+.WarehousesTable td button {
+  
+  border: none;
+  padding: 5px 5px;
+  border-radius: 2px;
+  font-size: 10px;
+  width: 50%; /* Full width button */
+}
+
+.WarehousesNav option   {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  width: 15vw;
+}

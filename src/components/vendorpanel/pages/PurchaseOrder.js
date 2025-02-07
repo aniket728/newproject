@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PurchaseReturn = () => {
+const PurchaseOrder = () => {
   return (
     <>
     <div className="WarehousesNav spaceB">
@@ -12,13 +12,19 @@ const PurchaseReturn = () => {
         <button className="btn btn-primary">Create purchase return</button>
     </div>
     </div>
-      <div className="WarehousesNav" style={{display: 'flex',flexWrap: 'wrap'}}> 
+      <div className="WarehousesNav jsenter" style={{display: 'flex',flexWrap: 'wrap'}}> 
       <input type="text" placeholder="Search" />
       <input type="date" placeholder="Search" />
       <input type="text" placeholder="Search" />
+      <input type="text" placeholder="Search" />
+      
+      
+    
+    
+  
       </div>
     </>
   )
 }
 
-export default PurchaseReturn
+export default PurchaseOrder

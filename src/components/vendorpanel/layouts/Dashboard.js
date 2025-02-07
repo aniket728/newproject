@@ -139,7 +139,7 @@ const Dashboard = () => {
                   <div className="collapse" id="purchaseCollapse">
                     <ul className="nav flex-column ms-3">
                       <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/purchase-order">Purchase Order</Link>
+                        <Link className="nav-link" to="/dashboard/purchaseorder">Purchase Order</Link>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/dashboard/purchase-invoice">Purchase Invoice</Link>
