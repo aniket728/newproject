@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Vendorlogin = () => {
   const [usernameFocused, setUsernameFocused] = useState(false);
@@ -14,7 +15,48 @@ const Vendorlogin = () => {
     }
   };
 
-  
+  const navigate = useNavigate();
+ 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const vName = localStorage.getItem("vendorName");
+
+  useEffect(() => {
+    if (vName !== null) {
+      navigate("/dashboard");
+    }
+  }, [navigate, vName]);
+
+  const loginVendor = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    try {
+      const response = await fetch("http://localhost:3005/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password
+        }),
+        headers: {
+          "Content-Type": 'application/json'
+        }
+      });
+      const result = await response.json();
+
+      if (result.status === 201) {
+        localStorage.setItem("vendorId", result.vendor?._id);
+        localStorage.setItem("vendorusername", result.vendor?.email);
+        localStorage.setItem("vendorName", result.vendor?.name);
+        alert(result.message);
+        navigate("/dashboard");
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login. Please try again.");
+    }
+  };
 
   return (
     <div className="login">
@@ -24,7 +66,7 @@ const Vendorlogin = () => {
           <img src="./assets/img/bg.svg" alt="background" />
         </div>
         <div className="login-content">
-          <form action="index.html">
+          <form onSubmit={loginVendor}>
             <img src="./assets/img/avatar.svg" alt="avatar" />
             <h2 className="title">Welcome</h2>
             <div className={`input-div one ${usernameFocused ? 'focus' : ''}`}>
@@ -38,6 +80,8 @@ const Vendorlogin = () => {
                   className="input"
                   onFocus={() => handleFocus(setUsernameFocused)}
                   onBlur={(e) => handleBlur(setUsernameFocused, e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -52,11 +96,13 @@ const Vendorlogin = () => {
                   className="input"
                   onFocus={() => handleFocus(setPasswordFocused)}
                   onBlur={(e) => handleBlur(setPasswordFocused, e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
             </div>
             <a href="#">Forgot Password?</a>
-            <input type="submit" className="btn" value="Login" />
+            <button type="submit" className="btn">Login</button>
           </form>
         </div>
       </div>
