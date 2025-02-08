@@ -908,3 +908,36 @@ button:hover {
   font-family: 'Poppins', sans-serif;
   width: 15vw;
 }
+
+.ReportsFlex{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  flex-wrap: wrap;
+  margin-right: 20vw;
+}
+
+.ReportsFields{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vw;
+
+}
+
+.responsivehai{
+  margin-bottom: 80px;
+  overflow: scroll;
+}
+
+.responsivehai table td,th{
+ border: hidden;
+}
+
+.bgff{
+  background-color: #fff;
+  padding: 10px;
+}
+
+

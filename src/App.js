@@ -35,6 +35,7 @@ import Profile from './components/vendorpanel/pages/Profile';
 import SubscriptionPay from './components/vendorpanel/pages/SubscriptionPay';
 import SalesOrder from './components/vendorpanel/pages/SalesOrder';
 import PurchaseOrder from './components/vendorpanel/pages/PurchaseOrder';
+import AllTransaction from './components/vendorpanel/pages/AllTransaction';
 
 function App() {
   return (
@@ -81,6 +82,8 @@ function App() {
           <Route path="subscription" element={< Subscription/>} />
           <Route path="profile" element={< Profile/>} />
           <Route path="subscriptionpay" element={< SubscriptionPay/>} />
+
+          <Route path="alltransaction" element={< AllTransaction/>} />
          
         </Route>
       </Routes>
