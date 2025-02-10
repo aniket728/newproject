@@ -1,8 +1,79 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { api_url } from '../../../helpers/api_helper';
 
 const Profile = () => {
 
+  const navigate = useNavigate();
+  const vId = localStorage.getItem("vendorId");
+  const [visible, setVisible] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [vendorData, setVendorData] = useState([]);
+  const getVendorDetails = async () => {
+      const response = await fetch(`${api_url}/api/users`);
+      const result = await response.json();
+      console.log(result);
+      
+      if (result.status === 201) {
+          setVendorData(result.vendor)
+      } else {
+          setVendorData([])
+      }
 
+  }
+  useEffect(() => {
+      getVendorDetails();
+  }, [])
+
+  useEffect(() => {
+      setFirstName(vendorData.firstName)
+      setLastName(vendorData.lastName)
+      setMobile(vendorData.mobile)
+      setEmail(vendorData.email)
+      setAddress(vendorData.address)
+      setState(vendorData.state)
+      setCountry(vendorData.country)
+  }, [vendorData])
+
+  const headerElement = (
+      <div className="inline-flex align-items-center justify-content-center gap-2 p-3">
+          <span className="font-bold white-space-nowrap">Edit Profile</span>
+      </div>
+  );
+
+
+
+  const updateVendorData = async () => {
+      const formData = new FormData();
+      formData.append("id", vendorData._id)
+      formData.append("firstname", firstName)
+      formData.append("lastname", lastName)
+      formData.append("mobile", mobile)
+      formData.append("email", email)
+      formData.append("address", address)
+      formData.append("country", country)
+      formData.append("state", state)
+
+      const response = await fetch(`${api_url}/api/users`, {
+          method: "POST",
+          body: formData
+      })
+      const result = await response.json();
+      if (result.status === 201) {
+          setVisible(false)
+          alert(result.message);
+          navigate("/dashboard/profile")
+      } else {
+          alert(result.message);
+      }
+
+  }
   return (
     <>
     <div class="card-body" >
@@ -32,22 +103,19 @@ const Profile = () => {
       </div>
     </div>
   </div>
+  
   <div class="card-body pt-4"style={{border:"1px solid #dbdddf"}}>
     <form id="formAccountSettings" method="POST" onsubmit="return false">
       <div class="row g-6">
         <div class="col-md-6">
-          <label for="firstName" class="form-label">First Name</label>
-          <input
-            class="form-control"
-            type="text"
-            id="firstName"
-            name="firstName"
-            value="John"
-            autofocus />
+          <label  class="form-label">First Name</label>
+        <label>{vendorData.firstName}</label>
+        <input class="form-control" type="text" name="firstName" id="firstName" value="" />
         </div>
         <div class="col-md-6">
           <label for="lastName" class="form-label">Last Name</label>
-          <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+          <label> {vendorData.lastName}</label>
+          <input class="form-control" type="text" name="lastName" id="lastName" value="" />
         </div>
         <div class="col-md-6">
           <label for="email" class="form-label">E-mail</label>
@@ -56,20 +124,12 @@ const Profile = () => {
             type="text"
             id="email"
             name="email"
-            value="john.doe@example.com"
-            placeholder="john.doe@example.com" />
-        </div>
-        <div class="col-md-6">
-          <label for="organization" class="form-label">Organization</label>
-          <input
-            type="text"
-            class="form-control"
-            id="organization"
-            name="organization"
-            value="ThemeSelection" />
+            value=""
+            placeholder="" />
         </div>
         <div class="col-md-6">
           <label class="form-label" for="phoneNumber">Phone Number</label>
+          <label> {vendorData.mobilenumber}</label>
           <div class="input-group input-group-merge">
             <span class="input-group-text">US (+1)</span>
             <input
@@ -77,29 +137,23 @@ const Profile = () => {
               id="phoneNumber"
               name="phoneNumber"
               class="form-control"
-              placeholder="202 555 0111" />
+              placeholder="" />
           </div>
         </div>
         <div class="col-md-6">
           <label for="address" class="form-label">Address</label>
-          <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+          <label> {vendorData.address}</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="" />
         </div>
         <div class="col-md-6">
           <label for="state" class="form-label">State</label>
-          <input class="form-control" type="text" id="state" name="state" placeholder="California" />
+          <label> {vendorData.state}</label>
+          <input class="form-control" type="text" id="state" name="state" placeholder="" />
         </div>
-        <div class="col-md-6">
-          <label for="zipCode" class="form-label">Zip Code</label>
-          <input
-            type="text"
-            class="form-control"
-            id="zipCode"
-            name="zipCode"
-            placeholder="231465"
-            maxlength="6" />
-        </div>
+       
         <div class="col-md-6">
           <label class="form-label" for="country">Country</label>
+          <label> {vendorData.country}</label>
           <select id="country" class="select2 form-select">
             <option value="">Select</option>
             <option value="Australia">Australia</option>
@@ -128,53 +182,9 @@ const Profile = () => {
             <option value="United States">United States</option>
           </select>
         </div>
-        <div class="col-md-6">
-          <label for="language" class="form-label">Language</label>
-          <select id="language" class="select2 form-select">
-            <option value="">Select Language</option>
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="pt">Portuguese</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="timeZones" class="form-label">Timezone</label>
-          <select id="timeZones" class="select2 form-select">
-            <option value="">Select Timezone</option>
-            <option value="-12">(GMT-12:00) International Date Line West</option>
-            <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-            <option value="-10">(GMT-10:00) Hawaii</option>
-            <option value="-9">(GMT-09:00) Alaska</option>
-            <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-            <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
-            <option value="-7">(GMT-07:00) Arizona</option>
-            <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-            <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-            <option value="-6">(GMT-06:00) Central America</option>
-            <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-            <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-            <option value="-6">(GMT-06:00) Saskatchewan</option>
-            <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-            <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-            <option value="-5">(GMT-05:00) Indiana (East)</option>
-            <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-            <option value="-4">(GMT-04:00) Caracas, La Paz</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="currency" class="form-label">Currency</label>
-          <select id="currency" class="select2 form-select">
-            <option value="">Select Currency</option>
-            <option value="usd">USD</option>
-            <option value="euro">Euro</option>
-            <option value="pound">Pound</option>
-            <option value="bitcoin">Bitcoin</option>
-          </select>
-        </div>
       </div>
       <div class="mt-6">
-        <button type="submit" class="btn btn-primary me-3">Save changes</button>
+        <button type="submit" class="btn btn-primary me-3" onClick={() => setVisible(true)}>Save changes</button>
         <button type="reset" class="btn btn-outline-secondary">Cancel</button>
       </div>
     </form>
