@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import { api_url } from '../../helpers/api_helper';
 
 const VendorRegister = () => {
-  
   const [currentSection, setCurrentSection] = useState(0);
 
   const sections = [
-    "Personal Information",
-    "Personal Information",
-    "Personal Information",
-    "Personal Information",
-    "Employment Details",
-    "Employment Details",
+    'Personal Information',
+    'Personal Information',
+    'Personal Information',
+    'Personal Information',
+    'Employment Details',
+    'Employment Details',
   ];
 
   const handleNext = () => {
@@ -29,11 +29,10 @@ const VendorRegister = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Form submitted successfully!");
+    alert('Form submitted successfully!');
   };
 
   const progress = ((currentSection + 1) / sections.length) * 100;
-
 
   // Example list of Indian cities
   const indianCities = [
@@ -127,10 +126,10 @@ const VendorRegister = () => {
     { value: 'siliguri', label: 'Siliguri' },
     { value: 'jhansi', label: 'Jhansi' },
   ];
-   
+
   // Add more cities as needed
 
- // Example list of Indian states
+  // Example list of Indian states
 
   const indianStates = [
     { value: 'andhra-pradesh', label: 'Andhra Pradesh' },
@@ -163,90 +162,99 @@ const VendorRegister = () => {
     { value: 'west-bengal', label: 'West Bengal' },
   ];
 
+  // Add more states as needed
+  const navigate = useNavigate();
 
-// Add more states as needed
-const navigate = useNavigate();
-
-const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [altMobile, setAltMobile] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
-  const [maritalStatus, setMaritalStatus] = useState("");
-  const [userNumber, setUserNumber] = useState("");
-  const [nationality, setNationality] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState('');
+  const [dob, setDob] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [altMobile, setAltMobile] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState('');
+  const [userNumber, setUserNumber] = useState('');
+  const [nationality, setNationality] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [city, setCity] = useState(null);
   const [state, setState] = useState(null);
-  const [pincode, setPincode] = useState("");
-  const [country, setCountry] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [salary, setSalary] = useState("");
-  const [hireDate, setHireDate] = useState("");
-  const [terminationDate, setTerminationDate] = useState("");
-  const [trainingPeriod, setTrainingPeriod] = useState("");
-  const [terminationPeriod, setTerminationPeriod] = useState("");
-  const [remark, setRemark] = useState("");
-  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState('');
+  const [country, setCountry] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [salary, setSalary] = useState('');
+  const [hireDate, setHireDate] = useState('');
+  const [terminationDate, setTerminationDate] = useState('');
+  const [trainingPeriod, setTrainingPeriod] = useState('');
+  const [terminationPeriod, setTerminationPeriod] = useState('');
+  const [remark, setRemark] = useState('');
+  const [address, setAddress] = useState('');
   const storeVendorData = async () => {
-    const data = {
-      mobile,
-      email,
-      password,
-      firstName,
-      lastName,
-      gender,
-      dob,
-      altMobile,
-      whatsapp,
-      maritalStatus,
-      userNumber,
-      nationality,
-      username,
-      city: city ? city.value : "",
-      state: state ? state.value : "",
-      pincode,
-      country,
-      jobTitle,
-      salary,
-      hireDate,
-      terminationDate,
-      trainingPeriod,
-      terminationPeriod,
-      remark,
-      address,
-    };
-  
     try {
-      const response = await fetch("http://localhost:3005/api/users", {
-        method: "POST",
+      const response = await fetch(`${api_url}/api/users`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), // Convert data to JSON
+        body: JSON.stringify({
+          mobile,
+          email,
+          password,
+          firstName,
+          lastName,
+          gender,
+          dob,
+          altMobile,
+          whatsapp,
+          maritalStatus,
+          userNumber,
+          nationality,
+          username,
+          city: city ? city.value : '',
+          state: state ? state.value : '',
+          pincode,
+          country,
+          jobTitle,
+          salary,
+          hireDate,
+          terminationDate,
+          trainingPeriod,
+          terminationPeriod,
+          remark,
+          address,
+          role: {
+            id: 1,
+            name: 'employee',
+          },
+        }),
       });
-  
-      const result = await response.json();
-      console.log(result);
-  
-      if (result.status === 201) {
-        alert(result.message);
-        navigate("/Vendorlogin");
+
+      console.log('Response Status:', response.status);
+
+      // Ensure response is JSON before parsing
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        console.error('Invalid JSON response', jsonError);
+        alert('Invalid response from server.');
+        return;
+      }
+
+      console.log('Response Data:', result);
+
+      if (response.ok) {
+        alert(result.message || 'User created successfully.');
+        navigate('/Vendorlogin');
       } else {
-        alert(result.message);
+        alert(result.message || 'Failed to create user.');
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to fetch. Please check your network or server.");
+      console.error('Error:', error);
+      alert('Failed to fetch. Please check your network or server.');
     }
   };
-
-
-
 
   return (
     <div className="ragister">
@@ -267,11 +275,23 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" placeholder="Enter first name"  onChange={(e) => setFirstName(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="firstName"
+                      placeholder="Enter first name"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="lastName">Last Name</label>
-                    <input type="text" id="lastName" placeholder="Enter last name"onChange={(e) => setLastName(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="lastName"
+                      placeholder="Enter last name"
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="gender">Gender</label>
@@ -292,19 +312,41 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} required />
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="Enter email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="mobile">Mobile Number</label>
-                    <input type="tel" id="mobile" placeholder="Enter mobile number"onChange={(e) => setMobile(e.target.value)} required />
+                    <input
+                      type="tel"
+                      id="mobile"
+                      placeholder="Enter mobile number"
+                      onChange={(e) => setMobile(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="altMobile">Alternative Mobile Number</label>
-                    <input type="tel" id="altMobile" placeholder="Enter alternative mobile number" onChange={(e) => setAltMobile(e.target.value)}/>
+                    <input
+                      type="tel"
+                      id="altMobile"
+                      placeholder="Enter alternative mobile number"
+                      onChange={(e) => setAltMobile(e.target.value)}
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="whatsapp">WhatsApp Number</label>
-                    <input type="tel" id="whatsapp" placeholder="Enter WhatsApp number" onChange={(e) => setWhatsapp(e.target.value)}/>
+                    <input
+                      type="tel"
+                      id="whatsapp"
+                      placeholder="Enter WhatsApp number"
+                      onChange={(e) => setWhatsapp(e.target.value)}
+                    />
                   </div>
                 </>
               )}
@@ -312,7 +354,11 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="maritalStatus">Marital Status</label>
-                    <select id="maritalStatus" onChange={(e) => setMaritalStatus(e.target.value)} required>
+                    <select
+                      id="maritalStatus"
+                      onChange={(e) => setMaritalStatus(e.target.value)}
+                      required
+                    >
                       <option value="">Select...</option>
                       <option value="single">Single</option>
                       <option value="married">Married</option>
@@ -322,15 +368,33 @@ const [firstName, setFirstName] = useState("");
                   </div>
                   <div className="form-group">
                     <label htmlFor="userNumber">User Number</label>
-                    <input type="text" id="userNumber" placeholder="Enter user number" onChange={(e) => setUserNumber(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="userNumber"
+                      placeholder="Enter user number"
+                      onChange={(e) => setUserNumber(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="nationality">Nationality</label>
-                    <input type="text" id="nationality" placeholder="Enter nationality" onChange={(e) => setNationality(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="nationality"
+                      placeholder="Enter nationality"
+                      onChange={(e) => setNationality(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)} required />
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="Enter password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
                   </div>
                 </>
               )}
@@ -338,31 +402,43 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter username" onChange={(e) => setUsername(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="username"
+                      placeholder="Enter username"
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="city">City</label>
-                   <Select
-  options={indianCities}
-  placeholder="Select city"
-  onChange={(selectedOption) => setCity(selectedOption)} // Ensure it stores an object
-/>
+                    <Select
+                      options={indianCities}
+                      placeholder="Select city"
+                      onChange={(selectedOption) => setCity(selectedOption)} // Ensure it stores an object
+                    />
                   </div>
                   <div className="form-group">
-                  <label htmlFor="state">State</label>
-         <Select
-  options={indianStates}
-  placeholder="Select state"
-  onChange={(selectedOption) => setState(selectedOption)} // Ensure it stores an object
-/>
+                    <label htmlFor="state">State</label>
+                    <Select
+                      options={indianStates}
+                      placeholder="Select state"
+                      onChange={(selectedOption) => setState(selectedOption)} // Ensure it stores an object
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="pincode">Pincode</label>
-                    <input type="text" id="pincode" placeholder="Enter pincode" onChange={(e) => setPincode(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="pincode"
+                      placeholder="Enter pincode"
+                      onChange={(e) => setPincode(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="country">Country</label>
-                    <select id="country"onChange={(e) => setCountry(e.target.value)} required>
+                    <select id="country" onChange={(e) => setCountry(e.target.value)} required>
                       <option value="">Select...</option>
                       <option value="India">India</option>
                       <option value="USA">USA</option>
@@ -378,19 +454,40 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="jobTitle">Job Title</label>
-                    <input type="text" id="jobTitle" placeholder="Enter job title" onChange={(e) => setJobTitle(e.target.value)} required />
+                    <input
+                      type="text"
+                      id="jobTitle"
+                      placeholder="Enter job title"
+                      onChange={(e) => setJobTitle(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="salary">Salary</label>
-                    <input type="number" id="salary" placeholder="Enter salary" onChange={(e) => setSalary(e.target.value)} required />
+                    <input
+                      type="number"
+                      id="salary"
+                      placeholder="Enter salary"
+                      onChange={(e) => setSalary(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="hireDate">Hire Date</label>
-                    <input type="date" id="hireDate" onChange={(e) => setHireDate(e.target.value)} required />
+                    <input
+                      type="date"
+                      id="hireDate"
+                      onChange={(e) => setHireDate(e.target.value)}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="terminationDate">Termination Date</label>
-                    <input type="date" id="terminationDate" onChange={(e) => setTerminationDate(e.target.value)}/>
+                    <input
+                      type="date"
+                      id="terminationDate"
+                      onChange={(e) => setTerminationDate(e.target.value)}
+                    />
                   </div>
                 </>
               )}
@@ -398,27 +495,43 @@ const [firstName, setFirstName] = useState("");
                 <>
                   <div className="form-group">
                     <label htmlFor="trainingPeriod">Training Period</label>
-                    <input type="text" id="trainingPeriod" placeholder="Enter training period"  onChange={(e) => setTrainingPeriod(e.target.value)}/>
+                    <input
+                      type="text"
+                      id="trainingPeriod"
+                      placeholder="Enter training period"
+                      onChange={(e) => setTrainingPeriod(e.target.value)}
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="terminationPeriod">Termination Period</label>
-                    <input type="text" id="terminationPeriod" placeholder="Enter termination period" onChange={(e) => setTerminationPeriod(e.target.value)}/>
+                    <input
+                      type="text"
+                      id="terminationPeriod"
+                      placeholder="Enter termination period"
+                      onChange={(e) => setTerminationPeriod(e.target.value)}
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="remark">Remark</label>
-                    <textarea id="remark" rows="3" placeholder="Enter remark" onChange={(e) => setRemark(e.target.value)}></textarea>
+                    <textarea
+                      id="remark"
+                      rows="3"
+                      placeholder="Enter remark"
+                      onChange={(e) => setRemark(e.target.value)}
+                    ></textarea>
                   </div>
                   <div className="form-group">
                     <label htmlFor="notes">Address</label>
-                    <textarea id="notes" rows="3" placeholder="Enter address" onChange={(e) => setAddress(e.target.value)}></textarea>
+                    <textarea
+                      id="notes"
+                      rows="3"
+                      placeholder="Enter address"
+                      onChange={(e) => setAddress(e.target.value)}
+                    ></textarea>
                   </div>
                 </>
               )}
-              {index === 6 && (
-                <>
-                  
-                </>
-              )}
+              {index === 6 && <></>}
             </div>
           ))}
           <div className="buttons">
@@ -440,22 +553,20 @@ const [firstName, setFirstName] = useState("");
             >
               Next
             </button>
-                      <button
+            <button
               type="submit"
               className="btn-submit"
               id="submitBtn"
               style={{ display: currentSection === sections.length - 1 ? 'block' : 'none' }}
               onClick={() => storeVendorData()}
-            > 
+            >
               Submit
-              
             </button>
-
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default VendorRegister;

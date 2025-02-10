@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api_url } from '../../helpers/api_helper';
 
 const Vendorlogin = () => {
   const [usernameFocused, setUsernameFocused] = useState(false);
@@ -31,7 +32,7 @@ const Vendorlogin = () => {
     e.preventDefault(); // Prevent default form submission
 
     try {
-      const response = await fetch("http://localhost:3005/api/auth/login", {
+      const response = await fetch(`${api_url}/api/auth/login`, {
         method: "POST",
         body: JSON.stringify({
           username,
@@ -43,10 +44,11 @@ const Vendorlogin = () => {
       });
       const result = await response.json();
 
-      if (result.status === 201) {
-        localStorage.setItem("vendorId", result.vendor?._id);
-        localStorage.setItem("vendorusername", result.vendor?.email);
-        localStorage.setItem("vendorName", result.vendor?.name);
+      if (result.statusCode === 200) {
+        console.log(result);
+        localStorage.setItem("vendorId", result.data?.userId);
+        localStorage.setItem("vendorusername", result.data?.username);
+  
         alert(result.message);
         navigate("/dashboard");
       } else {

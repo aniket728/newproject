@@ -1,147 +1,213 @@
 import React, { useState } from 'react';
 
 const Profile = () => {
-  const [accountDetails, setAccountDetails] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAccountDetails({
-      ...accountDetails,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Account Details:', accountDetails);
-    alert('Account details updated successfully!');
-  };
 
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Account Settings</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="name" className="form-label">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              value={accountDetails.name}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={accountDetails.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
+    <>
+    <div class="card-body" >
+    <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
+      <img
+        src=""
+        alt="user-avatar"
+        class="d-block w-px-100 h-px-100 rounded"
+        id="uploadedAvatar" />
+      <div class="button-wrapper">
+        <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
+          <span class="d-none d-sm-block">Upload new photo</span>
+          <i class="bx bx-upload d-block d-sm-none"></i>
+          <input
+            type="file"
+            id="upload"
+            class="account-file-input"
+            hidden
+            accept="image/png, image/jpeg" />
+        </label>
+        <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+          <i class="bx bx-reset d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Reset</span>
+        </button>
 
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="phone" className="form-label">Phone</label>
-            <input
-              type="tel"
-              className="form-control"
-              id="phone"
-              name="phone"
-              value={accountDetails.phone}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="address" className="form-label">Address</label>
-            <input
-              type="text"
-              className="form-control"
-              id="address"
-              name="address"
-              value={accountDetails.address}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <label htmlFor="city" className="form-label">City</label>
-            <input
-              type="text"
-              className="form-control"
-              id="city"
-              name="city"
-              value={accountDetails.city}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col-md-4">
-            <label htmlFor="state" className="form-label">State</label>
-            <input
-              type="text"
-              className="form-control"
-              id="state"
-              name="state"
-              value={accountDetails.state}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col-md-4">
-            <label htmlFor="postalCode" className="form-label">Postal Code</label>
-            <input
-              type="text"
-              className="form-control"
-              id="postalCode"
-              name="postalCode"
-              value={accountDetails.postalCode}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="country" className="form-label">Country</label>
-            <input
-              type="text"
-              className="form-control"
-              id="country"
-              name="country"
-              value={accountDetails.country}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <button type="submit" className="btn btn-primary">Update Account</button>
-      </form>
+        <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
+      </div>
     </div>
-  );
-};
+  </div>
+  <div class="card-body pt-4"style={{border:"1px solid #dbdddf"}}>
+    <form id="formAccountSettings" method="POST" onsubmit="return false">
+      <div class="row g-6">
+        <div class="col-md-6">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            class="form-control"
+            type="text"
+            id="firstName"
+            name="firstName"
+            value="John"
+            autofocus />
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">E-mail</label>
+          <input
+            class="form-control"
+            type="text"
+            id="email"
+            name="email"
+            value="john.doe@example.com"
+            placeholder="john.doe@example.com" />
+        </div>
+        <div class="col-md-6">
+          <label for="organization" class="form-label">Organization</label>
+          <input
+            type="text"
+            class="form-control"
+            id="organization"
+            name="organization"
+            value="ThemeSelection" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="phoneNumber">Phone Number</label>
+          <div class="input-group input-group-merge">
+            <span class="input-group-text">US (+1)</span>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              class="form-control"
+              placeholder="202 555 0111" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="address" class="form-label">Address</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+        </div>
+        <div class="col-md-6">
+          <label for="state" class="form-label">State</label>
+          <input class="form-control" type="text" id="state" name="state" placeholder="California" />
+        </div>
+        <div class="col-md-6">
+          <label for="zipCode" class="form-label">Zip Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="zipCode"
+            name="zipCode"
+            placeholder="231465"
+            maxlength="6" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="country">Country</label>
+          <select id="country" class="select2 form-select">
+            <option value="">Select</option>
+            <option value="Australia">Australia</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Belarus">Belarus</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Canada">Canada</option>
+            <option value="China">China</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+            <option value="India">India</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Israel">Israel</option>
+            <option value="Italy">Italy</option>
+            <option value="Japan">Japan</option>
+            <option value="Korea">Korea, Republic of</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Philippines">Philippines</option>
+            <option value="Russia">Russian Federation</option>
+            <option value="South Africa">South Africa</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Ukraine">Ukraine</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="United States">United States</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="language" class="form-label">Language</label>
+          <select id="language" class="select2 form-select">
+            <option value="">Select Language</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="pt">Portuguese</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="timeZones" class="form-label">Timezone</label>
+          <select id="timeZones" class="select2 form-select">
+            <option value="">Select Timezone</option>
+            <option value="-12">(GMT-12:00) International Date Line West</option>
+            <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
+            <option value="-10">(GMT-10:00) Hawaii</option>
+            <option value="-9">(GMT-09:00) Alaska</option>
+            <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
+            <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
+            <option value="-7">(GMT-07:00) Arizona</option>
+            <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+            <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
+            <option value="-6">(GMT-06:00) Central America</option>
+            <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
+            <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+            <option value="-6">(GMT-06:00) Saskatchewan</option>
+            <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+            <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
+            <option value="-5">(GMT-05:00) Indiana (East)</option>
+            <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
+            <option value="-4">(GMT-04:00) Caracas, La Paz</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="currency" class="form-label">Currency</label>
+          <select id="currency" class="select2 form-select">
+            <option value="">Select Currency</option>
+            <option value="usd">USD</option>
+            <option value="euro">Euro</option>
+            <option value="pound">Pound</option>
+            <option value="bitcoin">Bitcoin</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-6">
+        <button type="submit" class="btn btn-primary me-3">Save changes</button>
+        <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="card"style={{marginTop:"80px"}}>
+                    <h5 class="card-header">Delete Account</h5>
+                    <div class="card-body">
+                      <div class="mb-6 col-12 mb-0">
+                        <div class="alert alert-warning">
+                          <h5 class="alert-heading mb-1">Are you sure you want to delete your account?</h5>
+                          <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+                        </div>
+                      </div>
+                      <form id="formAccountDeactivation" onsubmit="return false">
+                        <div class="form-check my-8 ms-2">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="accountActivation"
+                            id="accountActivation" />
+                          <label class="form-check-label" for="accountActivation"
+                            >I confirm my account deactivation</label
+                          >
+                        </div>
+                        <button type="submit" class="btn btn-danger deactivate-account" disabled>
+                          Deactivate Account
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+             
+  </>
+  )
+}
 
 export default Profile;

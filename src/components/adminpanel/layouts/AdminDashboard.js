@@ -318,9 +318,9 @@ const AdminDashboard = () => {
           </nav>
 
           {/* Render Nested Routes Here */}
-          <main className="py-6 "
+          <main className="py-6 bg-surface-secondary"
       style={{
-        backgroundColor: 'rgb(255 255 255)',
+        backgroundColor: '#f8f9fa',
         padding: '20px',
         borderRadius: '15px',
         margin: '20px',

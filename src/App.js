@@ -36,6 +36,7 @@ import SubscriptionPay from './components/vendorpanel/pages/SubscriptionPay';
 import SalesOrder from './components/vendorpanel/pages/SalesOrder';
 import PurchaseOrder from './components/vendorpanel/pages/PurchaseOrder';
 import AllTransaction from './components/vendorpanel/pages/AllTransaction';
+import AdminDashboard from './components/adminpanel/layouts/AdminDashboard';
 
 function App() {
   return (
@@ -68,7 +69,7 @@ function App() {
           <Route path="achievements" element={<Achievements />} />
           <Route path="estimates" element={<Estimates />} />
           <Route path="delivery-challan" element={<DeliveryChallan />} />
-          <Route path="sales-return" element={<SalesReturn />} />
+          <Route path="sales-return" element={<SalesReturn />} /> 
           <Route path="purchase-invoice" element={<PurchaseInvoice />} />
           <Route path="purchase-return" element={<PurchaseReturn />} />
           <Route path="van-sales" element={<VanSales />} />
@@ -85,6 +86,10 @@ function App() {
 
           <Route path="alltransaction" element={< AllTransaction/>} />
          
+        </Route>
+        <Route path='admindashboard' element={< AdminDashboard/>}>
+
+
         </Route>
       </Routes>
     </BrowserRouter>
