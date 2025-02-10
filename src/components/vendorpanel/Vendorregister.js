@@ -168,7 +168,7 @@ const VendorRegister = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [gender, setGender] = useState('');
-  const [dob, setDob] = useState('');
+  const [dateOfBirth, setdateOfBirth] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [altMobile, setAltMobile] = useState('');
@@ -204,7 +204,7 @@ const VendorRegister = () => {
           firstName,
           lastName,
           gender,
-          dob,
+          dateOfBirth,
           altMobile,
           whatsapp,
           maritalStatus,
@@ -302,9 +302,10 @@ const VendorRegister = () => {
                       <option value="other">Other</option>
                     </select>
                   </div>
+                  
                   <div className="form-group">
-                    <label htmlFor="dob">Date of Birth</label>
-                    <input type="date" id="dob" onChange={(e) => setDob(e.target.value)} required />
+                    <label htmlFor="dateOfBirth">Date of Birth</label>
+                    <input type="date" id="dateOfBirth" onChange={(e) => setdateOfBirth(e.target.value)} required />
                   </div>
                 </>
               )}

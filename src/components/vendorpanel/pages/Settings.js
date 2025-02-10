@@ -185,8 +185,6 @@ const App = () => {
             padding: 20px;
             background-color: white;
             border-bottom: 1px solid #e0e0e0;
-           
-            // z-index: 100;
           }
 
           .SettingNav h3 {
@@ -209,6 +207,7 @@ const App = () => {
               position: relative;
               position: fixed;
             }
+              
 
             .sidebar-item {
               flex: 1;
@@ -228,6 +227,8 @@ const App = () => {
               flex: 1 1 100%;
             }
           }
+            
+            
         `}
       </style>
     </>
