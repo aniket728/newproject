@@ -205,23 +205,23 @@ const VendorRegister = () => {
           lastName,
           gender,
           dob,
-          altMobile,
-          whatsapp,
-          maritalStatus,
-          userNumber,
-          nationality,
+          // altMobile,
+          // whatsapp,
+          // maritalStatus,
+          // userNumber,
+          // nationality,
           username,
           city: city ? city.value : '',
           state: state ? state.value : '',
           pincode,
           country,
           jobTitle,
-          salary,
-          hireDate,
-          terminationDate,
-          trainingPeriod,
-          terminationPeriod,
-          remark,
+          // salary,
+          // hireDate,
+          // terminationDate,
+          // trainingPeriod,
+          // terminationPeriod,
+          // remark,
           address,
           role: {
             id: 1,
@@ -330,7 +330,7 @@ const VendorRegister = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label htmlFor="altMobile">Alternative Mobile Number</label>
                     <input
                       type="tel"
@@ -338,8 +338,8 @@ const VendorRegister = () => {
                       placeholder="Enter alternative mobile number"
                       onChange={(e) => setAltMobile(e.target.value)}
                     />
-                  </div>
-                  <div className="form-group">
+                  </div> */}
+                  {/* <div className="form-group">
                     <label htmlFor="whatsapp">WhatsApp Number</label>
                     <input
                       type="tel"
@@ -347,12 +347,12 @@ const VendorRegister = () => {
                       placeholder="Enter WhatsApp number"
                       onChange={(e) => setWhatsapp(e.target.value)}
                     />
-                  </div>
+                  </div> */}
                 </>
               )}
               {index === 2 && (
                 <>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label htmlFor="maritalStatus">Marital Status</label>
                     <select
                       id="maritalStatus"
@@ -365,8 +365,8 @@ const VendorRegister = () => {
                       <option value="divorced">Divorced</option>
                       <option value="widowed">Widowed</option>
                     </select>
-                  </div>
-                  <div className="form-group">
+                  </div> */}
+                  {/* <div className="form-group">
                     <label htmlFor="userNumber">User Number</label>
                     <input
                       type="text"
@@ -375,8 +375,8 @@ const VendorRegister = () => {
                       onChange={(e) => setUserNumber(e.target.value)}
                       required
                     />
-                  </div>
-                  <div className="form-group">
+                  </div> */}
+                  {/* <div className="form-group">
                     <label htmlFor="nationality">Nationality</label>
                     <input
                       type="text"
@@ -385,7 +385,7 @@ const VendorRegister = () => {
                       onChange={(e) => setNationality(e.target.value)}
                       required
                     />
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
@@ -462,7 +462,7 @@ const VendorRegister = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label htmlFor="salary">Salary</label>
                     <input
                       type="number"
@@ -519,7 +519,7 @@ const VendorRegister = () => {
                       placeholder="Enter remark"
                       onChange={(e) => setRemark(e.target.value)}
                     ></textarea>
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <label htmlFor="notes">Address</label>
                     <textarea
@@ -529,11 +529,11 @@ const VendorRegister = () => {
                       onChange={(e) => setAddress(e.target.value)}
                     ></textarea>
                   </div>
-                </>
+                  </> 
               )}
-              {index === 6 && <></>}
-            </div>
+              </div>
           ))}
+              
           <div className="buttons">
             <button
               type="button"

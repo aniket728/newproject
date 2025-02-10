@@ -53,7 +53,7 @@ const AdminDashboard = () => {
                 </li>
 
                 {/* Inventory Section */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse">
                     <i className="bi bi-box"></i> Inventory
                   </Link>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li> */}
 
                 {/* Routes Section */}
                 <li className="nav-item">
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
                 </li>
 
                 {/* Sales Section */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="#" data-bs-toggle="collapse" data-bs-target="#salesCollapse" aria-expanded="false" aria-controls="salesCollapse">
                     <i className="bi bi-cart"></i> Sales
                   </Link>
@@ -150,10 +150,10 @@ const AdminDashboard = () => {
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li> */}
 
                 {/* Purchase Section */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseCollapse" aria-expanded="false" aria-controls="purchaseCollapse">
                     <i className="bi bi-bag"></i> Purchase
                   </Link>
@@ -170,14 +170,14 @@ const AdminDashboard = () => {
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li> */}
 
                 {/* Van Sales */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/dashboard/van-sales">
                     <i className="bi bi-truck"></i> Van Sales
                   </Link>
-                </li>
+                </li> */}
 
                 {/* Live Location */}
                 <li className="nav-item">
