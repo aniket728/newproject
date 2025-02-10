@@ -64,11 +64,14 @@ const Dashboard = () => {
                       <li className="nav-item">
                         <Link className="nav-link" to="/dashboard/areas">Areas</Link>
                       </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/attendance">Attendance</Link>
-                      </li>
+                      
                     </ul>
                   </div>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/attendance">
+                    <i className="bi bi-file-earmark-text"></i> Attendance
+                  </Link>
                 </li>
 
                 {/* Reports Section */}
@@ -78,12 +81,6 @@ const Dashboard = () => {
                   </Link>
                 </li>
 
-                {/* Settings Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/settings">
-                    <i className="bi bi-gear"></i> Settings
-                  </Link>
-                </li>
 
                 {/* User Section */}
                 <li className="nav-item">
@@ -160,6 +157,7 @@ const Dashboard = () => {
 
                 {/* Live Location */}
                 <li className="nav-item">
+                
                   <Link className="nav-link" to="/dashboard/live-location">
                     <i className="bi bi-map"></i> Live Location
                   </Link>
@@ -187,6 +185,12 @@ const Dashboard = () => {
                     </ul>
                   </div>
                 </li>
+                {/* Settings Section */}
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/settings">
+                    <i className="bi bi-gear"></i> Settings
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -195,7 +199,7 @@ const Dashboard = () => {
         {/* Main Content */}
         <div className="h-screen flex-grow-1 overflow-y-lg-auto" >
           {/* Top Navbar */}
-          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom" >
+          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom"  >
             <div className="container-fluid">
               {/* Top Navbar Content */}
               <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -203,7 +207,7 @@ const Dashboard = () => {
               </button>
 
               <div className="collapse navbar-collapse"  id="topNavbar">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                {/* <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <Link className="nav-link active" aria-current="page" to="/dashboard">Home</Link>
                   </li>
@@ -216,8 +220,8 @@ const Dashboard = () => {
                   <li className="nav-item">
                     <Link className="nav-link" to="/dashboard/about">About</Link>
                   </li>
-                </ul>
-                <form className="d-flex">
+                </ul> */}
+                <form className="d-flex" style={{marginLeft:"600px"}}>
                   <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                   <button className="btn btn-outline-success" type="submit">Search</button>
                 </form>    
