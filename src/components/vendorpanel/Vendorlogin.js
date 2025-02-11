@@ -128,3 +128,14 @@ const Vendorlogin = () => {
 
 export default Vendorlogin;     
 
+
+
+
+
+
+
+
+
+
+
+  

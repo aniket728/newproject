@@ -396,7 +396,30 @@ button:hover {
 }
 
 /* <ragister end> */
+@media (min-width: 992px) {
+  .navbar-vertical.navbar-expand-lg {
+      display: block;
+      width: 12% !important;
+      max-width: 270px;
+      overflow-y: auto;
+      z-index: 1000;
+      border-radius: 0;
+      transition: all .2s ease-in-out;
+  }
+}
 
+.navbar {
+  position: relative;
+  display: flex
+;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0rem !important;
+  padding-right: 1rem;
+  padding-bottom: 0rem !important;
+  padding-left: 1rem;
+}
 /* <thanks start> */
 
 .thanks {
@@ -940,6 +963,7 @@ button:hover {
 }
 
 
+
 .reportnav{
   display: flex;
   justify-content: space-between;
@@ -958,4 +982,5 @@ button:hover {
   padding: 2px 3px;
   height: 6vh;
 }
+
 
