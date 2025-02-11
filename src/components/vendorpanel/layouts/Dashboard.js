@@ -53,7 +53,7 @@ const AdminDashboard = () => {
                 </li>
 
                 {/* Inventory Section */}
-                {/* <li className="nav-item">
+                <li className="nav-item">
                   <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse">
                     <i className="bi bi-box"></i> Inventory
                   </Link>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
                       </li>
                     </ul>
                   </div>
-                </li> */}
+                </li>
 
                 {/* Routes Section */}
                 <li className="nav-item">

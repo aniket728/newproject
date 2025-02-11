@@ -462,6 +462,15 @@ const VendorRegister = () => {
                       required
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="notes">Address</label>
+                    <textarea
+                      id="notes"
+                      rows="3"
+                      placeholder="Enter address"
+                      onChange={(e) => setAddress(e.target.value)}
+                    ></textarea>
+                  </div>
                   {/* <div className="form-group">
                     <label htmlFor="salary">Salary</label>
                     <input
@@ -520,15 +529,7 @@ const VendorRegister = () => {
                       onChange={(e) => setRemark(e.target.value)}
                     ></textarea>
                   </div> */}
-                  <div className="form-group">
-                    <label htmlFor="notes">Address</label>
-                    <textarea
-                      id="notes"
-                      rows="3"
-                      placeholder="Enter address"
-                      onChange={(e) => setAddress(e.target.value)}
-                    ></textarea>
-                  </div>
+               
                   </> 
               )}
               </div>

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { api_url } from '../../../helpers/api_helper';
 
 const Profile = () => {
-
   const navigate = useNavigate();
   const vId = localStorage.getItem("vendorId");
   const [visible, setVisible] = useState(false);
@@ -14,209 +13,210 @@ const Profile = () => {
   const [address, setAddress] = useState("");
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
-  const [vendorData, setVendorData] = useState([]);
+  const [vendorData, setVendorData] = useState({});
+
   const getVendorDetails = async () => {
-      const response = await fetch(`${api_url}/api/users`);
+    try {
+      const response = await fetch(`${api_url}/api/users/${vId}`);
       const result = await response.json();
       console.log(result);
       
-      if (result.status === 201) {
-          setVendorData(result.vendor)
+      if (result.status === 200) {
+        setVendorData(result.vendor);
       } else {
-          setVendorData([])
+        setVendorData({});
       }
+    } catch (error) {
+      console.error('Error fetching vendor details:', error);
+    }
+  };
 
-  }
   useEffect(() => {
-      getVendorDetails();
-  }, [])
+    getVendorDetails();
+  }, []);
 
   useEffect(() => {
-      setFirstName(vendorData.firstName)
-      setLastName(vendorData.lastName)
-      setMobile(vendorData.mobile)
-      setEmail(vendorData.email)
-      setAddress(vendorData.address)
-      setState(vendorData.state)
-      setCountry(vendorData.country)
-  }, [vendorData])
-
-  const headerElement = (
-      <div className="inline-flex align-items-center justify-content-center gap-2 p-3">
-          <span className="font-bold white-space-nowrap">Edit Profile</span>
-      </div>
-  );
-
-
+    if (vendorData) {
+      setFirstName(vendorData.firstName || "");
+      setLastName(vendorData.lastName || "");
+      setMobile(vendorData.mobile || "");
+      setEmail(vendorData.email || "");
+      setAddress(vendorData.address || "");
+      setState(vendorData.state || "");
+      setCountry(vendorData.country || "");
+    }
+  }, [vendorData]);
 
   const updateVendorData = async () => {
-      const formData = new FormData();
-      formData.append("id", vendorData._id)
-      formData.append("firstname", firstName)
-      formData.append("lastname", lastName)
-      formData.append("mobile", mobile)
-      formData.append("email", email)
-      formData.append("address", address)
-      formData.append("country", country)
-      formData.append("state", state)
+    const formData = new FormData();
+    formData.append("id", vendorData._id);
+    formData.append("firstname", firstName);
+    formData.append("lastname", lastName);
+    formData.append("mobile", mobile);
+    formData.append("email", email);
+    formData.append("address", address);
+    formData.append("country", country);
+    formData.append("state", state);
 
-      const response = await fetch(`${api_url}/api/users`, {
-          method: "POST",
-          body: formData
-      })
-      const result = await response.json();
-      if (result.status === 201) {
-          setVisible(false)
-          alert(result.message);
-          navigate("/dashboard/profile")
-      } else {
-          alert(result.message);
-      }
+    const response = await fetch(`${api_url}/api/users`, {
+      method: "POST",
+      body: formData
+    });
+    const result = await response.json();
+    if (result.status === 201) {
+      setVisible(false);
+      alert(result.message);
+      navigate("/dashboard/profile");
+    } else {
+      alert(result.message);
+    }
+  };
 
-  }
   return (
     <>
-    <div class="card-body" >
-    <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
-      <img
-        src=""
-        alt="user-avatar"
-        class="d-block w-px-100 h-px-100 rounded"
-        id="uploadedAvatar" />
-      <div class="button-wrapper">
-        <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
-          <span class="d-none d-sm-block">Upload new photo</span>
-          <i class="bx bx-upload d-block d-sm-none"></i>
-          <input
-            type="file"
-            id="upload"
-            class="account-file-input"
-            hidden
-            accept="image/png, image/jpeg" />
-        </label>
-        <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-          <i class="bx bx-reset d-block d-sm-none"></i>
-          <span class="d-none d-sm-block">Reset</span>
-        </button>
+      <div className="card-body">
+        <div className="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
+          <img
+            src=""
+            alt="user-avatar"
+            className="d-block w-px-100 h-px-100 rounded"
+            id="uploadedAvatar"
+          />
+          <div className="button-wrapper">
+            <label htmlFor="upload" className="btn btn-primary me-3 mb-4" tabIndex="0">
+              <span className="d-none d-sm-block">Upload new photo</span>
+              <i className="bx bx-upload d-block d-sm-none"></i>
+              <input
+                type="file"
+                id="upload"
+                className="account-file-input"
+                hidden
+                accept="image/png, image/jpeg"
+              />
+            </label>
+            <button type="button" className="btn btn-outline-secondary account-image-reset mb-4">
+              <i className="bx bx-reset d-block d-sm-none"></i>
+              <span className="d-none d-sm-block">Reset</span>
+            </button>
 
-        <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="card-body pt-4"style={{border:"1px solid #dbdddf"}}>
-    <form id="formAccountSettings" method="POST" onsubmit="return false">
-      <div class="row g-6">
-        <div class="col-md-6">
-          <label  class="form-label">First Name</label>
-        <label>{vendorData.firstName}</label>
-        </div>
-        <div class="col-md-6">
-          <label for="lastName" class="form-label">Last Name</label>
-          <label> {vendorData.lastName}</label>
-          <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
-        </div>
-        <div class="col-md-6">
-          <label for="email" class="form-label">E-mail</label>
-          <input
-            class="form-control"
-            type="text"
-            id="email"
-            name="email"
-            value="john.doe@example.com"
-            placeholder="john.doe@example.com" />
-        </div>
-        <div class="col-md-6">
-          <label class="form-label" for="phoneNumber">Phone Number</label>
-          <label> {vendorData.mobilenumber}</label>
-          <div class="input-group input-group-merge">
-            <span class="input-group-text">US (+1)</span>
-            <input
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              class="form-control"
-              placeholder="202 555 0111" />
+            <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
           </div>
         </div>
-        <div class="col-md-6">
-          <label for="address" class="form-label">Address</label>
-          <label> {vendorData.address}</label>
-          <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
-        </div>
-        <div class="col-md-6">
-          <label for="state" class="form-label">State</label>
-          <label> {vendorData.state}</label>
-          <input class="form-control" type="text" id="state" name="state" placeholder="California" />
-        </div>
-       
-        <div class="col-md-6">
-          <label class="form-label" for="country">Country</label>
-          <label> {vendorData.country}</label>
-          <select id="country" class="select2 form-select">
-            <option value="">Select</option>
-            <option value="Australia">Australia</option>
-            <option value="Bangladesh">Bangladesh</option>
-            <option value="Belarus">Belarus</option>
-            <option value="Brazil">Brazil</option>
-            <option value="Canada">Canada</option>
-            <option value="China">China</option>
-            <option value="France">France</option>
-            <option value="Germany">Germany</option>
-            <option value="India">India</option>
-            <option value="Indonesia">Indonesia</option>
-            <option value="Israel">Israel</option>
-            <option value="Italy">Italy</option>
-            <option value="Japan">Japan</option>
-            <option value="Korea">Korea, Republic of</option>
-            <option value="Mexico">Mexico</option>
-            <option value="Philippines">Philippines</option>
-            <option value="Russia">Russian Federation</option>
-            <option value="South Africa">South Africa</option>
-            <option value="Thailand">Thailand</option>
-            <option value="Turkey">Turkey</option>
-            <option value="Ukraine">Ukraine</option>
-            <option value="United Arab Emirates">United Arab Emirates</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="United States">United States</option>
-          </select>
+      </div>
+
+      <div className="card-body pt-4" style={{ border: "1px solid #dbdddf" }}>
+        <form id="formAccountSettings" method="POST" onSubmit={(e) => e.preventDefault()}>
+          <div className="row g-6">
+            <div className="col-md-6">
+              <label className="form-label">First Name</label>
+              <input
+                className="form-control"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Last Name</label>
+              <input
+                className="form-control"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">E-mail</label>
+              <input
+                className="form-control"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Phone Number</label>
+              <input
+                className="form-control"
+                type="text"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Address</label>
+              <input
+                className="form-control"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">State</label>
+              <input
+                className="form-control"
+                type="text"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Country</label>
+              <select
+                className="form-select"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              >
+                <option value="">Select</option>
+                <option value="Australia">Australia</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Canada">Canada</option>
+              </select>
+            </div>
+          </div>
+          <div className="mt-6">
+            <button type="button" className="btn btn-primary me-3" onClick={updateVendorData}>
+              Save changes
+            </button>
+            <button type="reset" className="btn btn-outline-secondary">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div className="card" style={{ marginTop: "80px" }}>
+        <h5 className="card-header">Delete Account</h5>
+        <div className="card-body">
+          <div className="mb-6 col-12 mb-0">
+            <div className="alert alert-warning">
+              <h5 className="alert-heading mb-1">Are you sure you want to delete your account?</h5>
+              <p className="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+            </div>
+          </div>
+          <form id="formAccountDeactivation" onSubmit={(e) => e.preventDefault()}>
+            <div className="form-check my-8 ms-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="accountActivation"
+                id="accountActivation"
+              />
+              <label className="form-check-label" htmlFor="accountActivation">
+                I confirm my account deactivation
+              </label>
+            </div>
+            <button type="submit" className="btn btn-danger deactivate-account" disabled>
+              Deactivate Account
+            </button>
+          </form>
         </div>
       </div>
-      <div class="mt-6">
-        <button type="submit" class="btn btn-primary me-3" onClick={() => setVisible(true)}>Save changes</button>
-        <button type="reset" class="btn btn-outline-secondary">Cancel</button>
-      </div>
-    </form>
-  </div>
-  <div class="card"style={{marginTop:"80px"}}>
-                    <h5 class="card-header">Delete Account</h5>
-                    <div class="card-body">
-                      <div class="mb-6 col-12 mb-0">
-                        <div class="alert alert-warning">
-                          <h5 class="alert-heading mb-1">Are you sure you want to delete your account?</h5>
-                          <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
-                        </div>
-                      </div>
-                      <form id="formAccountDeactivation" onsubmit="return false">
-                        <div class="form-check my-8 ms-2">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="accountActivation"
-                            id="accountActivation" />
-                          <label class="form-check-label" for="accountActivation"
-                            >I confirm my account deactivation</label
-                          >
-                        </div>
-                        <button type="submit" class="btn btn-danger deactivate-account" disabled>
-                          Deactivate Account
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-             
-  </>
-  )
-}
+    </>
+  );
+};
 
 export default Profile;
