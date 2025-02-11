@@ -61,7 +61,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="vendorregister" element={<Vendorregister />} />
           <Route path="thank" element={<Thankyou />} />
-          <Route path="vendorlogin" element={<Vendorlogin />} />
+          <Route path="vendorlogin" element={<Vendorlogin/>} />
         </Route>
 
         {/* Dashboard Route */}
