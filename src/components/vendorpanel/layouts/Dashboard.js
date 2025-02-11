@@ -223,10 +223,12 @@ const AdminDashboard = () => {
         {/* Main Content */}
         <div className="h-screen flex-grow-1 overflow-y-lg-auto" >
           {/* Top Navbar */}
-          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom"
+          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom "
       style={{
         background: 'linear-gradient(145deg, #ffffff, #f8f9fa)',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+       
+      
       }}>
             <div className="container-fluid">
               {/* Top Navbar Content */}
@@ -308,7 +310,7 @@ const AdminDashboard = () => {
                       </li>
                       <li>
 
-                        <Link className="dropdown-item" to="/vendorlogin">Logout</Link>
+                        <Link className="dropdown-item" to="">Logout</Link>
                       </li>
                     </ul>
                   </li>

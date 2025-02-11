@@ -37,6 +37,20 @@ import SalesOrder from './components/vendorpanel/pages/SalesOrder';
 import PurchaseOrder from './components/vendorpanel/pages/PurchaseOrder';
 import AllTransaction from './components/vendorpanel/pages/AllTransaction';
 import AdminDashboard from './components/adminpanel/layouts/AdminDashboard';
+import SalesByParty from './components/vendorpanel/pages/SalesByParty ';
+import StockSummary from './components/vendorpanel/pages/StockSummary';
+import SalesByUser from './components/vendorpanel/pages/SalesByUser';
+import ItemDetails from './components/vendorpanel/pages/ItemDetails';
+import SalesByItem from './components/vendorpanel/pages/SalesByItem';
+import RateList from './components/vendorpanel/pages/RateList';
+import SalesByCategory from './components/vendorpanel/pages/SalesByCategory ';
+import StockAdjustment from './components/vendorpanel/pages/StockAdjustment';
+import SalesByBrand from './components/vendorpanel/pages/SalesByBrand';
+import LowStockSummary from './components/vendorpanel/pages/LowStockSummary';
+import VanSalesByItem from './components/vendorpanel/pages/VanSalesByItem ';
+import StockSummaryByBrand from './components/vendorpanel/pages/StockSummaryByBrand';
+import VanSalesReconcilation from './components/vendorpanel/pages/VanSalesReconcilation';
+import StockSummaryByGroup from './components/vendorpanel/pages/StockSummaryByGroup';
 
 function App() {
   return (
@@ -46,7 +60,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="vendorregister" element={<Vendorregister />} />
-          <Route path="vendorlogin" element={<Vendorlogin />} />
           <Route path="thank" element={<Thankyou />} />
           <Route path="vendorlogin" element={<Vendorlogin />} />
         </Route>
@@ -85,6 +98,20 @@ function App() {
           <Route path="subscriptionpay" element={< SubscriptionPay/>} />
 
           <Route path="alltransaction" element={< AllTransaction/>} />
+          <Route path="salesbyparty" element={< SalesByParty/>} />
+          <Route path="stocksummary" element={< StockSummary/>} />
+          <Route path="salesbyuser" element={< SalesByUser/>} />
+          <Route path="itemdetails" element={< ItemDetails/>} />
+          <Route path="salesbyitem" element={< SalesByItem/>} />
+          <Route path="ratelist" element={< RateList/>} />
+          <Route path="salesbycategory" element={< SalesByCategory/>} />
+          <Route path="stockadjustment" element={< StockAdjustment/>} />
+          <Route path="salesbybrand" element={< SalesByBrand/>} />
+          <Route path="lowstocksummary" element={< LowStockSummary/>} />
+          <Route path="vansalesbyitem" element={< VanSalesByItem/>} />
+          <Route path="stocksummarybybrand" element={< StockSummaryByBrand/>} />
+          <Route path="vansalesreconcilation" element={< VanSalesReconcilation/>} />
+          <Route path="stocksummarybygroup" element={< StockSummaryByGroup/>} />
          
         </Route>
         <Route path='admindashboard' element={< AdminDashboard/>}>

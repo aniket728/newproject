@@ -19,39 +19,39 @@ const Reports = () => {
           </thead>
           <tbody>
             <tr>
-              <td><a href=''>All Transaction</a></td>
-              <td><a href=''>Sales By Party</a></td>
-              <td><a href=''>Stock Summary</a></td>
+              <td><a href='/dashboard/alltransaction'>All Transaction</a></td>
+              <td><a href='/dashboard/salesbyparty'>Sales By Party</a></td>
+              <td><a href='/dashboard/stocksummary'>Stock Summary</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Sales By User</a></td>
-              <td><a href=''>Item details</a></td>
+              <td><a href='/dashboard/salesbyuser'>Sales By User</a></td>
+              <td><a href='/dashboard/itemdetails'>Item details</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Sales By Item</a></td>
-              <td><a href=''>Rate List</a></td>
+              <td><a href='/dashboard/salesbyitem'>Sales By Item</a></td>
+              <td><a href='/dashboard/ratelist'>Rate List</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Sales By Category</a></td>
-              <td><a href=''>Stock Adjustment</a></td>
+              <td><a href='/dashboard/salesbycategory'>Sales By Category</a></td>
+              <td><a href='/dashboard/stockadjustment'>Stock Adjustment</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Sales By Brand</a></td>
-              <td><a href=''>Low Stock Summary</a></td>
+              <td><a href='/dashboard/salesbybrand'>Sales By Brand</a></td>
+              <td><a href='/dashboard/lowstocksummary'>Low Stock Summary</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Van Sales By Item</a></td>
-              <td><a href=''>Stock Summary By Brand</a></td>
+              <td><a href='/dashboard/vansalesbyitem'>Van Sales By Item</a></td>
+              <td><a href='/dashboard/stocksummarybybrand'>Stock Summary By Brand</a></td>
             </tr>
             <tr>
               <td><a href=''></a></td>
-              <td><a href=''>Van Sales Reconciliation By Item</a></td>
-              <td><a href=''>Stock Summary By Category</a></td>
+              <td><a href='/dashboard/vansalesreconcilation'>Van Sales Reconciliation By Item</a></td>
+              <td><a href='/dashboard/stocksummarybygroup'>Stock Summary By Category</a></td>
             </tr>
                 </tbody>
                 </table>

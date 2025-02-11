@@ -99,124 +99,124 @@ const Profile = () => {
               <span className="d-none d-sm-block">Reset</span>
             </button>
 
-            <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
+        <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-body pt-4"style={{border:"1px solid #dbdddf"}}>
+    <form id="formAccountSettings" method="POST" onsubmit="return false">
+      <div class="row g-6">
+        <div class="col-md-6">
+          <label  class="form-label">First Name</label>
+        <label>{vendorData.firstName}</label>
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name</label>
+          <label> {vendorData.lastName}</label>
+          <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">E-mail</label>
+          <input
+            class="form-control"
+            type="text"
+            id="email"
+            name="email"
+            value="john.doe@example.com"
+            placeholder="john.doe@example.com" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="phoneNumber">Phone Number</label>
+          <label> {vendorData.mobilenumber}</label>
+          <div class="input-group input-group-merge">
+            <span class="input-group-text">US (+1)</span>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              class="form-control"
+              placeholder="202 555 0111" />
           </div>
         </div>
-      </div>
-
-      <div className="card-body pt-4" style={{ border: "1px solid #dbdddf" }}>
-        <form id="formAccountSettings" method="POST" onSubmit={(e) => e.preventDefault()}>
-          <div className="row g-6">
-            <div className="col-md-6">
-              <label className="form-label">First Name</label>
-              <input
-                className="form-control"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Last Name</label>
-              <input
-                className="form-control"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">E-mail</label>
-              <input
-                className="form-control"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Phone Number</label>
-              <input
-                className="form-control"
-                type="text"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Address</label>
-              <input
-                className="form-control"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">State</label>
-              <input
-                className="form-control"
-                type="text"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Country</label>
-              <select
-                className="form-select"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option value="Australia">Australia</option>
-                <option value="India">India</option>
-                <option value="USA">USA</option>
-                <option value="UK">UK</option>
-                <option value="Canada">Canada</option>
-              </select>
-            </div>
-          </div>
-          <div className="mt-6">
-            <button type="button" className="btn btn-primary me-3" onClick={updateVendorData}>
-              Save changes
-            </button>
-            <button type="reset" className="btn btn-outline-secondary">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div className="card" style={{ marginTop: "80px" }}>
-        <h5 className="card-header">Delete Account</h5>
-        <div className="card-body">
-          <div className="mb-6 col-12 mb-0">
-            <div className="alert alert-warning">
-              <h5 className="alert-heading mb-1">Are you sure you want to delete your account?</h5>
-              <p className="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
-            </div>
-          </div>
-          <form id="formAccountDeactivation" onSubmit={(e) => e.preventDefault()}>
-            <div className="form-check my-8 ms-2">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                name="accountActivation"
-                id="accountActivation"
-              />
-              <label className="form-check-label" htmlFor="accountActivation">
-                I confirm my account deactivation
-              </label>
-            </div>
-            <button type="submit" className="btn btn-danger deactivate-account" disabled>
-              Deactivate Account
-            </button>
-          </form>
+        <div class="col-md-6">
+          <label for="address" class="form-label">Address</label>
+          <label> {vendorData.address}</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+        </div>
+        <div class="col-md-6">
+          <label for="state" class="form-label">State</label>
+          <label> {vendorData.state}</label>
+          <input class="form-control" type="text" id="state" name="state" placeholder="California" />
+        </div>
+       
+        <div class="col-md-6">
+          <label class="form-label" for="country">Country</label>
+          <label> {vendorData.country}</label>
+          <select id="country" class="select2 form-select">
+            <option value="">Select</option>
+            <option value="Australia">Australia</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Belarus">Belarus</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Canada">Canada</option>
+            <option value="China">China</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+            <option value="India">India</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Israel">Israel</option>
+            <option value="Italy">Italy</option>
+            <option value="Japan">Japan</option>
+            <option value="Korea">Korea, Republic of</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Philippines">Philippines</option>
+            <option value="Russia">Russian Federation</option>
+            <option value="South Africa">South Africa</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Ukraine">Ukraine</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="United States">United States</option>
+          </select>
         </div>
       </div>
-    </>
-  );
-};
+      <div class="mt-6">
+        <button type="submit" class="btn btn-primary me-3" onClick={() => setVisible(true)}>Save changes</button>
+        <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="card"style={{marginTop:"80px"}}>
+                    <h5 class="card-header">Delete Account</h5>
+                    <div class="card-body">
+                      <div class="mb-6 col-12 mb-0">
+                        <div class="alert alert-warning">
+                          <h5 class="alert-heading mb-1">Are you sure you want to delete your account?</h5>
+                          <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+                        </div>
+                      </div>
+                      <form id="formAccountDeactivation" onsubmit="return false">
+                        <div class="form-check my-8 ms-2">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="accountActivation"
+                            id="accountActivation" />
+                          <label class="form-check-label" for="accountActivation"
+                            >I confirm my account deactivation</label
+                          >
+                        </div>
+                        <button type="submit" class="btn btn-danger deactivate-account" disabled>
+                          Deactivate Account
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+             
+  </>
+  )
+}
 
 export default Profile;

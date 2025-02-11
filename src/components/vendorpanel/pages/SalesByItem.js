@@ -1,49 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const AllTransaction = () => {
-  const transactions = [
-    // { id: 1, date: '2023-10-01', customer: 'John Doe', amount: 1500, status: 'Completed' },
-    // { id: 2, date: '2023-10-02', customer: 'Jane Smith', amount: 2500, status: 'Pending' },
-    // { id: 3, date: '2023-10-03', customer: 'Alice Johnson', amount: 3500, status: 'Completed' },
-    // { id: 4, date: '2023-10-04', customer: 'Bob Brown', amount: 4500, status: 'Failed' },
-];
+const SalesByItem  = () => {
+    const transactions = [
+        // { id: 1, date: '2023-10-01', customer: 'John Doe', amount: 1500, status: 'Completed' },
+        // { id: 2, date: '2023-10-02', customer: 'Jane Smith', amount: 2500, status: 'Pending' },
+        // { id: 3, date: '2023-10-03', customer: 'Alice Johnson', amount: 3500, status: 'Completed' },
+        // { id: 4, date: '2023-10-04', customer: 'Bob Brown', amount: 4500, status: 'Failed' },
+    ];
   return (
     <>
-            <div className='reportnav'>
-                <h3>All Transaction</h3>
-                <div className="gap-3 d-md-flex justify-content-md-end">
-                    <input type="date" />
-                    <input type="date" />
-                    <select className="form-select" aria-label="Default select example"style={{height: "6vh"}}>
-                        <option value="1">Excel</option>
-                        <option value="2">PDF</option>
-                        </select>
-                    </div>
-            </div>
-
-            <div className='reportnav'>
-                <div className="gap-3 d-md-flex justify-content-md-start items-center">
-                <button className=''><i class="fa-solid fa-bars"></i></button>
-                <h6><Link to="">All Reports</Link></h6>
-                <h6>All Transaction</h6>
-                </div>
-                <div className="gap-3 d-md-flex justify-content-md-end">
-                    <h1>hello</h1>
-                    </div>
-            </div>
 
             {/* Transactions Table */}
             <div className="table-responsive">
                 <table className="table table-bordered table-striped">
                     <thead style={{padding: "12px 10px", background: "#e9ecef", fontweight: "bold"}}>
                         <tr>
-                            <th>Date</th>
                             <th>Name</th>
-                            <th>Transaction Id</th>
-                            <th>Type</th>
+                            <th>Quantity</th>
                             <th>Amount</th>
-                            <th>Dues</th>
+                          
+                            
                             
                         </tr>
                     </thead>
@@ -58,20 +35,6 @@ const AllTransaction = () => {
                             <td>{transaction.id}</td>
                             <td>{transaction.date}</td>
                             <td>{transaction.customer}</td>
-                            <td>${transaction.amount}</td>
-                            <td>
-                                <span
-                                    className={`badge ${
-                                        transaction.status === 'Completed'
-                                            ? 'bg-success'
-                                            : transaction.status === 'Pending'
-                                            ? 'bg-warning'
-                                            : 'bg-danger'
-                                    }`}
-                                >
-                                    {transaction.status}
-                                </span>
-                            </td>
                         </tr>
                     ))
                   )}
@@ -109,9 +72,8 @@ const AllTransaction = () => {
                     </li>
                 </ul>
             </nav>
-        </>
-      
-    )
+    </>
+  )
 }
 
-export default AllTransaction
+export default SalesByItem
