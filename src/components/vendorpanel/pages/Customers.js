@@ -3,7 +3,7 @@ import { FaPlus, FaTimes, FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
 import { api_url } from '../../../helpers/api_helper';
 
 const Customers = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
@@ -27,10 +27,10 @@ const Customers = () => {
     creditBillLimit: '',
   });
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    if (!isSidebarOpen) {
-      // Reset form fields when opening the sidebar
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+    if (!isModalOpen) {
+      // Reset form fields when opening the modal
       setFormData({
         businessName: '',
         code: '',
@@ -114,7 +114,7 @@ const Customers = () => {
         triggerAlert('✅ Success: Customer added successfully');
       }
 
-      toggleSidebar();
+      toggleModal();
     } catch (error) {
       console.error('Error:', error);
       triggerAlert('⚠️ Error: Failed to save customer.');
@@ -141,7 +141,7 @@ const Customers = () => {
     });
     setUploadedDocument(customer.uploadDocument);
     setEditingIndex(index);
-    setIsSidebarOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleDelete = (index) => {
@@ -163,7 +163,7 @@ const Customers = () => {
           </button>
           <button className="btn btn-primary">Export</button>
           <button className="btn btn-primary">Import</button>
-          <button className="btn btn-primary" onClick={toggleSidebar}>
+          <button className="btn btn-primary" onClick={toggleModal}>
             <FaPlus style={{ marginRight: '5px' }} /> New
           </button>
         </div>
@@ -172,201 +172,205 @@ const Customers = () => {
         <input type="text" placeholder="Search" />
       </div>
 
-      {/* Right-to-Left Sidebar */}
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h3>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
-          <button className="close-btn" onClick={toggleSidebar}>
-            &times;
-          </button>
-        </div>
-        <div className="sidebar-body">
-          <form>
-            {/* General Details Section */}
-            <h4>General Details</h4>
-            <div className="form-group">
-              <label htmlFor="businessName">Business Name</label>
-              <input
-                type="text"
-                name="businessName"
-                placeholder="Enter business name"
-                className="form-control"
-                value={formData.businessName}
-                onChange={handleInput}
-              />
+      {/* Modal Dialog */}
+      {isModalOpen && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '800px', maxWidth: '90%', padding: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
+              <button style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }} onClick={toggleModal}>
+                <FaTimes />
+              </button>
             </div>
-            <div className="form-group">
-              <label htmlFor="code">Code</label>
-              <input
-                type="text"
-                name="code"
-                placeholder="Enter code"
-                className="form-control"
-                value={formData.code}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="contactPerson">Contact Person</label>
-              <input
-                type="text"
-                name="contactPerson"
-                placeholder="Enter contact person"
-                className="form-control"
-                value={formData.contactPerson}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phoneNo">phoneNo</label>
-              <input
-                type="text"
-                name="phoneNo"
-                placeholder="Enter phoneNo number"
-                className="form-control"
-                value={formData.phoneNo}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter email"
-                className="form-control"
-                value={formData.email}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="route">Route</label>
-              <input
-                type="text"
-                name="route"
-                placeholder="Enter route"
-                className="form-control"
-                value={formData.route}
-                onChange={handleInput}
-              />
-            </div>
+            <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+              <form>
+                {/* General Details Section */}
+                <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '10px' }}>General Details</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Business Name</label>
+                    <input
+                      type="text"
+                      name="businessName"
+                      placeholder="Enter business name"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.businessName}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Code</label>
+                    <input
+                      type="text"
+                      name="code"
+                      placeholder="Enter code"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.code}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Contact Person</label>
+                    <input
+                      type="text"
+                      name="contactPerson"
+                      placeholder="Enter contact person"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.contactPerson}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Phone Number</label>
+                    <input
+                      type="text"
+                      name="phoneNo"
+                      placeholder="Enter phone number"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.phoneNo}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.email}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Route</label>
+                    <input
+                      type="text"
+                      name="route"
+                      placeholder="Enter route"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.route}
+                      onChange={handleInput}
+                    />
+                  </div>
+                </div>
 
-            {/* Other Details Section */}
-            <h4>Other Details</h4>
-            <div className="form-group">
-              <label htmlFor="billingAddress">Billing Address</label>
-              <input
-                type="text"
-                name="billingAddress"
-                placeholder="Enter billing address"
-                className="form-control"
-                value={formData.billingAddress}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="geolocation">Geolocation</label>
-              <input
-                type="text"
-                name="geolocation"
-                placeholder="Enter geolocation"
-                className="form-control"
-                value={formData.geolocation}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="gstin">GSTIN</label>
-              <input
-                type="text"
-                name="gstin"
-                placeholder="Enter GSTIN"
-                className="form-control"
-                value={formData.gstin}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="openingBalance">Opening Balance</label>
-              <input
-                type="number"
-                name="openingBalance"
-                placeholder="Enter opening balance"
-                className="form-control"
-                value={formData.openingBalance}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditPeriod">Credit Period</label>
-              <input
-                type="text"
-                name="creditPeriod"
-                placeholder="Enter credit period"
-                className="form-control"
-                value={formData.creditPeriod}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditLimit">Credit Limit</label>
-              <input
-                type="text"
-                name="creditLimit"
-                placeholder="Enter credit limit"
-                className="form-control"
-                value={formData.creditLimit}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="stateOfSupply">State of Supply</label>
-              <input
-                type="text"
-                name="stateOfSupply"
-                placeholder="Enter state of supply"
-                className="form-control"
-                value={formData.stateOfSupply}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditBillLimit">Credit Bill Limit</label>
-              <input
-                type="text"
-                name="creditBillLimit"
-                placeholder="Enter credit bill limit"
-                className="form-control"
-                value={formData.creditBillLimit}
-                onChange={handleInput}
-              />
-            </div>
+                {/* Other Details Section */}
+                <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '10px' }}>Other Details</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Billing Address</label>
+                    <input
+                      type="text"
+                      name="billingAddress"
+                      placeholder="Enter billing address"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.billingAddress}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Geolocation</label>
+                    <input
+                      type="text"
+                      name="geolocation"
+                      placeholder="Enter geolocation"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.geolocation}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>GSTIN</label>
+                    <input
+                      type="text"
+                      name="gstin"
+                      placeholder="Enter GSTIN"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.gstin}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Opening Balance</label>
+                    <input
+                      type="number"
+                      name="openingBalance"
+                      placeholder="Enter opening balance"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.openingBalance}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Credit Period</label>
+                    <input
+                      type="text"
+                      name="creditPeriod"
+                      placeholder="Enter credit period"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.creditPeriod}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Credit Limit</label>
+                    <input
+                      type="text"
+                      name="creditLimit"
+                      placeholder="Enter credit limit"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.creditLimit}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>State of Supply</label>
+                    <input
+                      type="text"
+                      name="stateOfSupply"
+                      placeholder="Enter state of supply"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.stateOfSupply}
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Credit Bill Limit</label>
+                    <input
+                      type="text"
+                      name="creditBillLimit"
+                      placeholder="Enter credit bill limit"
+                      style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      value={formData.creditBillLimit}
+                      onChange={handleInput}
+                    />
+                  </div>
+                </div>
 
-            {/* Upload Document Section */}
-            <h4>Upload Document</h4>
-            <div className="form-group">
-              <label htmlFor="uploadDocument">Upload Document</label>
-              <input
-                type="file"
-                id="uploadDocument"
-                className="form-control"
-                onChange={handleFileUpload}
-              />
+                {/* Upload Document Section */}
+                <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '10px' }}>Upload Document</h4>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px', fontWeight: '500' }}>Upload Document</label>
+                  <input
+                    type="file"
+                    style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    onChange={handleFileUpload}
+                  />
+                </div>
+              </form>
             </div>
-          </form>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button style={{ padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }} onClick={handleSave}>
+                {editingIndex !== null ? 'Update' : 'Save'}
+              </button>
+              <button style={{ padding: '8px 16px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }} onClick={toggleModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="sidebar-footer">
-          <button className="btn btn-primary" onClick={handleSave}>
-            {editingIndex !== null ? 'Update' : 'Save'}
-          </button>
-          <button className="btn btn-secondary" onClick={toggleSidebar}>
-            Cancel
-          </button>
-        </div>
-      </div>
-
-      {/* Overlay when sidebar is open */}
-      {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
+      )}
 
       {/* Table to display customers */}
       <div className="customers-table">
@@ -383,7 +387,7 @@ const Customers = () => {
                   <th>Business Name</th>
                   <th>Code</th>
                   <th>Contact Person</th>
-                  <th>phoneNo</th>
+                  <th>Phone Number</th>
                   <th>Email</th>
                   <th>Opening Balance</th>
                   <th>Actions</th>
