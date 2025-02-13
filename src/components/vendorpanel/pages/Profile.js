@@ -29,6 +29,11 @@ const Profile = () => {
           "Content-Type": "application/json",
         },
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const result = await response.json();
       console.log(result);
 
@@ -46,7 +51,7 @@ const Profile = () => {
 
   useEffect(() => {
     getVendorDetails();
-  }, []);
+  }, [vId]); // Add vId as a dependency
 
   useEffect(() => {
     if (vendorData && typeof vendorData === "object" && Object.keys(vendorData).length > 0) {
@@ -65,7 +70,7 @@ const Profile = () => {
       <div className="card-body">
         <div className="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
           <img
-            src=""
+            src={vendorData.profileImage || "default-image-url"}
             alt="user-avatar"
             className="d-block w-px-100 h-px-100 rounded"
             id="uploadedAvatar"
@@ -97,35 +102,39 @@ const Profile = () => {
           <div className="row g-6">
             <div className="col-md-6">
               <label className="form-label">First Name</label>
-              <label>{firstName}</label>
+              <div>{firstName}</div>
             </div>
             <div className="col-md-6">
               <label htmlFor="lastName" className="form-label">Last Name</label>
-              <label>{lastName}</label>
+              <div>{lastName}</div>
             </div>
             <div className="col-md-6">
               <label htmlFor="mail" className="form-label">E-mail</label>
-              <label>{mail}</label>
+              <div>{mail}</div>
             </div>
             <div className="col-md-6">
               <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
-              <label>{mobile}</label>
+              <div>{mobile}</div>
             </div>
             <div className="col-md-6">
               <label htmlFor="address" className="form-label">Address</label>
-              <label>{address}</label>
+              <div>{address}</div>
             </div>
             <div className="col-md-6">
               <label htmlFor="state" className="form-label">State</label>
-              <label>{state}</label>
+              <div>{state}</div>
             </div>
             <div className="col-md-6">
               <label className="form-label" htmlFor="country">Country</label>
-              <label>{country}</label>
+              <div>{country}</div>
             </div>
           </div>
           <div className="mt-6">
-            <button type="submit" className="btn btn-primary me-3" onClick={() => setVisible(true)}>
+            <button
+              type="submit"
+              className="btn btn-primary me-3"
+              onClick={() => setVisible(true)}
+            >
               Edit Profile
             </button>
             <button type="reset" className="btn btn-outline-secondary">
@@ -138,4 +147,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;
