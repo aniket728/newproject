@@ -52,6 +52,16 @@ import StockSummaryByBrand from './components/vendorpanel/pages/StockSummaryByBr
 import VanSalesReconcilation from './components/vendorpanel/pages/VanSalesReconcilation';
 import StockSummaryByGroup from './components/vendorpanel/pages/StockSummaryByGroup';
 
+import Plan from './components/vendorpanel/pages/Plan';
+
+import GSTRone from './components/vendorpanel/pages/GSTRone';
+import PartyOutstanding from './components/vendorpanel/pages/PartyOutstanding ';
+import PurchaseByParty from './components/vendorpanel/pages/PurchaseByParty';
+import GSTRtwo from './components/vendorpanel/pages/GSTRtwo';
+import PartyStatement from './components/vendorpanel/pages/PartyStatement';
+import PurchaseByItem from './components/vendorpanel/pages/PurchaseByItem';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -96,7 +106,7 @@ function App() {
           <Route path="subscription" element={< Subscription/>} />
           <Route path="profile" element={< Profile/>} />
           <Route path="subscriptionpay" element={< SubscriptionPay/>} />
-
+            <Route path='plan' element={<Plan/>}/>
           <Route path="alltransaction" element={< AllTransaction/>} />
           <Route path="salesbyparty" element={< SalesByParty/>} />
           <Route path="stocksummary" element={< StockSummary/>} />
@@ -112,6 +122,11 @@ function App() {
           <Route path="stocksummarybybrand" element={< StockSummaryByBrand/>} />
           <Route path="vansalesreconcilation" element={< VanSalesReconcilation/>} />
           <Route path="stocksummarybygroup" element={< StockSummaryByGroup/>} />
+          <Route path="gstrone" element={< GSTRone/>} />
+          <Route path="partyoutstanding" element={< PartyOutstanding/>} />
+          <Route path="gstrtwo" element={< GSTRtwo />} />
+          <Route path="partystatement" element={< PartyStatement/>} />
+          <Route path="purchasebyitem" element={< PurchaseByItem/>} />
          
         </Route>
         <Route path='admindashboard' element={< AdminDashboard/>}>
