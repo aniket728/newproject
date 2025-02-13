@@ -29,6 +29,11 @@ const Profile = () => {
           "Content-Type": "application/json",
         },
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const result = await response.json();
       console.log(result);
 
@@ -46,7 +51,7 @@ const Profile = () => {
 
   useEffect(() => {
     getVendorDetails();
-  }, []);
+  }, [vId]); // Add vId as a dependency
 
   useEffect(() => {
     if (vendorData && typeof vendorData === "object" && Object.keys(vendorData).length > 0) {
@@ -64,36 +69,44 @@ const Profile = () => {
     <>
       <div className="card-body">
         <div className="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
-          <h1>Information</h1>
+          <img
+            src={vendorData.profileImage || "default-image-url"}
+            alt="user-avatar"
+            className="d-block w-px-100 h-px-100 rounded"
+            id="uploadedAvatar"
+          />
+          <div className="button-wrapper">
+            <label htmlFor="upload" className="btn btn-primary me-3 mb-4" tabIndex="0">
+              <span className="d-none d-sm-block">Upload new photo</span>
+              <i className="bx bx-upload d-block d-sm-none"></i>
+              <input
+                type="file"
+                id="upload"
+                className="account-file-input"
+                hidden
+                accept="image/png, image/jpeg"
+              />
+            </label>
+            <button type="button" className="btn btn-outline-secondary account-image-reset mb-4">
+              <i className="bx bx-reset d-block d-sm-none"></i>
+              <span className="d-none d-sm-block">Reset</span>
+            </button>
+
+            <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
+          </div>
         </div>
       </div>
-      
-      <div className="card-body pt-4">
-        <form id="formAccountSettings" method="POST" onSubmit="return false">
+
+      <div className="card-body pt-4" style={{ border: "1px solid #dbdddf" }}>
+        <form id="formAccountSettings" method="POST" onSubmit={(e) => e.preventDefault()}>
           <div className="row g-6">
             <div className="col-md-6">
               <label className="form-label">First Name</label>
-              <input
-                className="form-control"
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="Enter First Name"
-              />
+              <div>{firstName}</div>
             </div>
             <div className="col-md-6">
-              <label className="form-label">Last Name</label>
-              <input
-                className="form-control"
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Enter Last Name"
-              />
+              <label htmlFor="lastName" className="form-label">Last Name</label>
+              <div>{lastName}</div>
             </div>
             <div className="col-md-6">
               <label className="form-label">E-mail</label>
@@ -102,53 +115,30 @@ const Profile = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={mail}
-                onChange={(e) => setMail(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email"
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Phone Number</label>
-              <div className="input-group input-group-merge">
-                <span className="input-group-text">US (+1)</span>
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  className="form-control"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  placeholder="Enter Phone Number"
-                />
-              </div>
+              <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
+              <div>{mobile}</div>
             </div>
             <div className="col-md-6">
-              <label className="form-label">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                name="address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter Address"
-              />
+              <label htmlFor="address" className="form-label">Address</label>
+              <div>{address}</div>
             </div>
             <div className="col-md-6">
-              <label className="form-label">State</label>
-              <input
-                className="form-control"
-                type="text"
-                id="state"
-                name="state"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                placeholder="Enter State"
-              />
+              <label htmlFor="state" className="form-label">State</label>
+              <div>{state}</div>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label" htmlFor="country">Country</label>
+              <div>{country}</div>
             </div>
           </div>
           <div className="mt-6 d-flex justify-content-end">
-            <button type="submit" className="btn btn-primary" >
+            <button type="submit" className="btn btn-primary" onClick={() => setVisible(true)}>
               Save changes
             </button>
           </div>
@@ -158,6 +148,4 @@ const Profile = () => {
   );
 };
 
-    
-
-export default Profile; 
+export default Profile;

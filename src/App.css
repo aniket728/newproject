@@ -983,6 +983,18 @@ button:hover {
   height: 6vh;
 }
 
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -650px; /* Start off-screen to the right */
+  width: 412px; /* Width of the sidebar */
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+  overflow-y: auto; /* Allow scrolling if content is too long */
+}
 
 .reportnav{
   display: flex;
@@ -1184,4 +1196,3 @@ button:hover {
   padding: 2px 3px;
   height: 6vh;
 }
-
