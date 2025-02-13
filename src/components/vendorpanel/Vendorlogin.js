@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api_url } from '../../helpers/api_helper';
@@ -20,16 +22,22 @@ const Vendorlogin = () => {
  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const vName = localStorage.getItem("vendorName");
+  const vName = localStorage.getItem("vendorusername"); // Consistent key name
 
   useEffect(() => {
-    if (vName !== null) {
-      navigate("/dashboard");
+    if (vName) {
+      navigate("");
     }
   }, [navigate, vName]);
 
-  const loginVendor = async (e) => {
+  const vendorlogin = async (e) => {
     e.preventDefault(); // Prevent default form submission
+
+    // Basic form validation
+    if (!username || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
     try {
       const response = await fetch(`${api_url}/api/auth/login`, {
@@ -42,6 +50,12 @@ const Vendorlogin = () => {
           "Content-Type": 'application/json'
         }
       });
+
+      // Check if the response is OK (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const result = await response.json();
 
       if (result.statusCode === 200) {
@@ -68,7 +82,7 @@ const Vendorlogin = () => {
           <img src="./assets/img/bg.svg" alt="background" />
         </div>
         <div className="login-content">
-          <form onSubmit={loginVendor}>
+          <form onSubmit={vendorlogin}>
             <img src="./assets/img/avatar.svg" alt="avatar" />
             <h2 className="title">Welcome</h2>
             <div className={`input-div one ${usernameFocused ? 'focus' : ''}`}>
@@ -112,4 +126,16 @@ const Vendorlogin = () => {
   );
 };
 
-export default Vendorlogin;
+export default Vendorlogin;     
+
+
+
+
+
+
+
+
+
+
+
+  

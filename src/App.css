@@ -963,6 +963,27 @@ button:hover {
 }
 
 
+
+.reportnav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 10px;
+}
+
+.reportnav input {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  width: 10vw;
+  padding: 2px 3px;
+  height: 6vh;
+}
+
+
 .reportnav{
   display: flex;
   justify-content: space-between;

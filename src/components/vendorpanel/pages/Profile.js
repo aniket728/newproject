@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api_url } from '../../../helpers/api_helper';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api_url } from "../../../helpers/api_helper";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -9,25 +9,38 @@ const Profile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
+  const [mail, setMail] = useState("");
   const [address, setAddress] = useState("");
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [vendorData, setVendorData] = useState({});
 
   const getVendorDetails = async () => {
+    if (!vId) {
+      alert("No vendor ID found. Please log in.");
+      navigate("/login");
+      return;
+    }
+
     try {
-      const response = await fetch(`${api_url}/api/users/${vId}`);
+      const response = await fetch(`${api_url}/api/users/${vId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const result = await response.json();
       console.log(result);
-      
+
       if (result.status === 200) {
-        setVendorData(result.vendor);
+        setVendorData(result.data); // Set vendor data
       } else {
         setVendorData({});
+        alert("Failed to fetch vendor details");
       }
     } catch (error) {
-      console.error('Error fetching vendor details:', error);
+      console.error("Error fetching vendor details:", error);
+      alert("An error occurred while fetching vendor details");
     }
   };
 
@@ -36,41 +49,16 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (vendorData) {
+    if (vendorData && typeof vendorData === "object" && Object.keys(vendorData).length > 0) {
       setFirstName(vendorData.firstName || "");
       setLastName(vendorData.lastName || "");
       setMobile(vendorData.mobile || "");
-      setEmail(vendorData.email || "");
+      setMail(vendorData.mail || "");
       setAddress(vendorData.address || "");
       setState(vendorData.state || "");
       setCountry(vendorData.country || "");
     }
   }, [vendorData]);
-
-  const updateVendorData = async () => {
-    const formData = new FormData();
-    formData.append("id", vendorData._id);
-    formData.append("firstname", firstName);
-    formData.append("lastname", lastName);
-    formData.append("mobile", mobile);
-    formData.append("email", email);
-    formData.append("address", address);
-    formData.append("country", country);
-    formData.append("state", state);
-
-    const response = await fetch(`${api_url}/api/users`, {
-      method: "POST",
-      body: formData
-    });
-    const result = await response.json();
-    if (result.status === 201) {
-      setVisible(false);
-      alert(result.message);
-      navigate("/dashboard/profile");
-    } else {
-      alert(result.message);
-    }
-  };
 
   return (
     <>
@@ -170,4 +158,6 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+    
+
+export default Profile; 
