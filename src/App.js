@@ -51,6 +51,7 @@ import VanSalesByItem from './components/vendorpanel/pages/VanSalesByItem ';
 import StockSummaryByBrand from './components/vendorpanel/pages/StockSummaryByBrand';
 import VanSalesReconcilation from './components/vendorpanel/pages/VanSalesReconcilation';
 import StockSummaryByGroup from './components/vendorpanel/pages/StockSummaryByGroup';
+import Plan from './components/vendorpanel/pages/Plan';
 
 function App() {
   return (
@@ -96,7 +97,7 @@ function App() {
           <Route path="subscription" element={< Subscription/>} />
           <Route path="profile" element={< Profile/>} />
           <Route path="subscriptionpay" element={< SubscriptionPay/>} />
-
+            <Route path='plan' element={<Plan/>}/>
           <Route path="alltransaction" element={< AllTransaction/>} />
           <Route path="salesbyparty" element={< SalesByParty/>} />
           <Route path="stocksummary" element={< StockSummary/>} />

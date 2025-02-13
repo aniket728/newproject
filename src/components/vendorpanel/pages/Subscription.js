@@ -1,13 +1,8 @@
 import React from 'react';
-import { redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 
 const Subscription = () => {
-
-        const handleUpgrade = () => {
-          alert('Redirecting to upgrade plan page...');
-          // Add logic to redirect or open a modal for upgrading the plan
-        };
-      
+  
 
   // Sample subscription history data
   const subscriptionHistory = [
@@ -38,12 +33,11 @@ const Subscription = () => {
   ];
 
   return (
-    <>
     <div className="container mt-5">
-      <h1 className="mb-4">Subscription History</h1>
+      <h1 className="mb-4 text-center">Subscription History</h1>
       <div className="table-responsive">
-        <table className="table table-bordered table-striped">
-          <thead>
+        <table className="table table-bordered table-striped table-hover">
+          <thead className="thead-dark">
             <tr>
               <th>Plan Name</th>
               <th>Start Date</th>
@@ -75,17 +69,17 @@ const Subscription = () => {
           </tbody>
         </table>
       </div>
+      <div className="text-center mt-4">
+        <Link to='/plan'>
+        <button
+          className="btn btn-lg btn-warning upgrade-plan-button"
+          
+        >
+          <span className="upgrade-icon">🚀</span> Upgrade Plan
+        </button>
+        </Link>
+      </div>
     </div>
-    <div className="text-center mt-4">
-      <button
-        className="btn btn-lg btn-warning upgrade-plan-button"
-        onClick={handleUpgrade}
-      >
-        <span className="upgrade-icon">🚀</span> Upgrade Plan
-      </button>
-    </div>
-
-    </>
   );
 };
 
