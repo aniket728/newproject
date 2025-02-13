@@ -174,6 +174,7 @@ const Profile = () => {
             </button>
           </div>
         </form>
+        
       </div>
     </>
   );
