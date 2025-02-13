@@ -102,8 +102,8 @@ const Profile = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={mail}
+                onChange={(e) => setMail(e.target.value)}
                 placeholder="Enter Email"
               />
             </div>
@@ -148,7 +148,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="mt-6 d-flex justify-content-end">
-            <button type="submit" className="btn btn-primary" onClick={() => setVisible(true)}>
+            <button type="submit" className="btn btn-primary" >
               Save changes
             </button>
           </div>

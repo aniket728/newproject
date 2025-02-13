@@ -33,7 +33,7 @@ import Reports from './components/vendorpanel/pages/Reports';
 import Subscription from './components/vendorpanel/pages/Subscription';
 import Profile from './components/vendorpanel/pages/Profile';
 import SubscriptionPay from './components/vendorpanel/pages/SubscriptionPay';
-import SalesOrder from './components/vendorpanel/pages/SalesOrder';
+
 import PurchaseOrder from './components/vendorpanel/pages/PurchaseOrder';
 import AllTransaction from './components/vendorpanel/pages/AllTransaction';
 import AdminDashboard from './components/adminpanel/layouts/AdminDashboard';
@@ -51,7 +51,6 @@ import VanSalesByItem from './components/vendorpanel/pages/VanSalesByItem ';
 import StockSummaryByBrand from './components/vendorpanel/pages/StockSummaryByBrand';
 import VanSalesReconcilation from './components/vendorpanel/pages/VanSalesReconcilation';
 import StockSummaryByGroup from './components/vendorpanel/pages/StockSummaryByGroup';
-<<<<<<< Updated upstream
 import Plan from './components/vendorpanel/pages/Plan';
 
 function App() {
@@ -114,11 +113,9 @@ function App() {
           <Route path="stocksummarybybrand" element={< StockSummaryByBrand/>} />
           <Route path="vansalesreconcilation" element={< VanSalesReconcilation/>} />
           <Route path="stocksummarybygroup" element={< StockSummaryByGroup/>} />
-          <Route path="gstrone" element={< GSTRone/>} />
-          <Route path="partyoutstanding" element={< PartyOutstanding/>} />
-          <Route path="gstrtwo" element={< GSTRtwo />} />
-          <Route path="partystatement" element={< PartyStatement/>} />
-          <Route path="purchasebyitem" element={< PurchaseByItem/>} />
+        
+         
+      
          
         </Route>
         <Route path='admindashboard' element={< AdminDashboard/>}>

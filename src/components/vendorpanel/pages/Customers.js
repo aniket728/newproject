@@ -1,46 +1,52 @@
 import React, { useState } from 'react';
 import { FaPlus, FaTimes, FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
+import { api_url } from '../../../helpers/api_helper';
 
 const Customers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [customers, setCustomers] = useState([]);
-  const [businessName, setBusinessName] = useState('');
-  const [code, setCode] = useState('');
-  const [contactPerson, setContactPerson] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [email, setEmail] = useState('');
-  const [route, setRoute] = useState('');
-  const [billingAddress, setBillingAddress] = useState('');
-  const [geolocation, setGeolocation] = useState('');
-  const [gstin, setGstin] = useState('');
-  const [openingBalance, setOpeningBalance] = useState('');
-  const [creditPeriod, setCreditPeriod] = useState('');
-  const [creditLimit, setCreditLimit] = useState('');
-  const [stateOfSupply, setStateOfSupply] = useState('');
-  const [creditBillLimit, setCreditBillLimit] = useState('');
-  const [uploadedDocument, setUploadedDocument] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [uploadedDocument, setUploadedDocument] = useState(null);
+
+  const [formData, setFormData] = useState({
+    businessName: '',
+    code: '',
+    contactPerson: '',
+    phoneNo: '',
+    email: '',
+    route: '',
+    billingAddress: '',
+    geolocation: '',
+    gstin: '',
+    openingBalance: '',
+    creditPeriod: '',
+    creditLimit: '',
+    stateOfSupply: '',
+    creditBillLimit: '',
+  });
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
     if (!isSidebarOpen) {
       // Reset form fields when opening the sidebar
-      setBusinessName('');
-      setCode('');
-      setContactPerson('');
-      setMobile('');
-      setEmail('');
-      setRoute('');
-      setBillingAddress('');
-      setGeolocation('');
-      setGstin('');
-      setOpeningBalance('');
-      setCreditPeriod('');
-      setCreditLimit('');
-      setStateOfSupply('');
-      setCreditBillLimit('');
+      setFormData({
+        businessName: '',
+        code: '',
+        contactPerson: '',
+        phoneNo: '',
+        email: '',
+        route: '',
+        billingAddress: '',
+        geolocation: '',
+        gstin: '',
+        openingBalance: '',
+        creditPeriod: '',
+        creditLimit: '',
+        stateOfSupply: '',
+        creditBillLimit: '',
+      });
       setUploadedDocument(null);
       setEditingIndex(null);
     }
@@ -55,59 +61,84 @@ const Customers = () => {
     }, 3000);
   };
 
-  const handleSave = () => {
-    if (!businessName || !code || !contactPerson || !mobile || !email || !openingBalance) {
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedDocument(file);
+    }
+  };
+
+  const handleSave = async () => {
+    const { businessName, code, contactPerson, phoneNo, email, openingBalance } = formData;
+
+    if (!businessName || !code || !contactPerson || !phoneNo || !email || !openingBalance) {
       triggerAlert('⚠️ Error: All fields are required.');
       return;
     }
 
     const newCustomer = {
-      businessName,
-      code,
-      contactPerson,
-      mobile,
-      email,
-      route,
-      billingAddress,
-      geolocation,
-      gstin,
-      openingBalance,
-      creditPeriod,
-      creditLimit,
-      stateOfSupply,
-      creditBillLimit,
+      ...formData,
       uploadDocument: uploadedDocument,
     };
 
-    if (editingIndex !== null) {
-      const updatedCustomers = [...customers];
-      updatedCustomers[editingIndex] = newCustomer;
-      setCustomers(updatedCustomers);
-      triggerAlert('✅ Success: Customer updated successfully');
-    } else {
-      setCustomers([...customers, newCustomer]);
-      triggerAlert('✅ Success: Customer added successfully');
-    }
+    try {
+      const response = await fetch(`${api_url}/api/customers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newCustomer),
+      });
 
-    toggleSidebar();
+      if (!response.ok) {
+        throw new Error('Failed to save customer');
+      }
+
+      const result = await response.json();
+
+      if (editingIndex !== null) {
+        const updatedCustomers = [...customers];
+        updatedCustomers[editingIndex] = newCustomer;
+        setCustomers(updatedCustomers);
+        triggerAlert('✅ Success: Customer updated successfully');
+      } else {
+        setCustomers([...customers, newCustomer]);
+        triggerAlert('✅ Success: Customer added successfully');
+      }
+
+      toggleSidebar();
+    } catch (error) {
+      console.error('Error:', error);
+      triggerAlert('⚠️ Error: Failed to save customer.');
+    }
   };
 
   const handleEdit = (index) => {
     const customer = customers[index];
-    setBusinessName(customer.businessName);
-    setCode(customer.code);
-    setContactPerson(customer.contactPerson);
-    setMobile(customer.mobile);
-    setEmail(customer.email);
-    setRoute(customer.route);
-    setBillingAddress(customer.billingAddress);
-    setGeolocation(customer.geolocation);
-    setGstin(customer.gstin);
-    setOpeningBalance(customer.openingBalance);
-    setCreditPeriod(customer.creditPeriod);
-    setCreditLimit(customer.creditLimit);
-    setStateOfSupply(customer.stateOfSupply);
-    setCreditBillLimit(customer.creditBillLimit);
+    setFormData({
+      businessName: customer.businessName,
+      code: customer.code,
+      contactPerson: customer.contactPerson,
+      phoneNo: customer.phoneNo,
+      email: customer.email,
+      route: customer.route,
+      billingAddress: customer.billingAddress,
+      geolocation: customer.geolocation,
+      gstin: customer.gstin,
+      openingBalance: customer.openingBalance,
+      creditPeriod: customer.creditPeriod,
+      creditLimit: customer.creditLimit,
+      stateOfSupply: customer.stateOfSupply,
+      creditBillLimit: customer.creditBillLimit,
+    });
     setUploadedDocument(customer.uploadDocument);
     setEditingIndex(index);
     setIsSidebarOpen(true);
@@ -117,13 +148,6 @@ const Customers = () => {
     const updatedCustomers = customers.filter((_, i) => i !== index);
     setCustomers(updatedCustomers);
     triggerAlert('🗑️ Success: Customer deleted successfully');
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setUploadedDocument(file);
-    }
   };
 
   return (
@@ -164,66 +188,66 @@ const Customers = () => {
               <label htmlFor="businessName">Business Name</label>
               <input
                 type="text"
-                id="businessName"
+                name="businessName"
                 placeholder="Enter business name"
                 className="form-control"
-                value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
+                value={formData.businessName}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="code">Code</label>
               <input
                 type="text"
-                id="code"
+                name="code"
                 placeholder="Enter code"
                 className="form-control"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
+                value={formData.code}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="contactPerson">Contact Person</label>
               <input
                 type="text"
-                id="contactPerson"
+                name="contactPerson"
                 placeholder="Enter contact person"
                 className="form-control"
-                value={contactPerson}
-                onChange={(e) => setContactPerson(e.target.value)}
+                value={formData.contactPerson}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="mobile">Mobile</label>
+              <label htmlFor="phoneNo">phoneNo</label>
               <input
                 type="text"
-                id="mobile"
-                placeholder="Enter mobile number"
+                name="phoneNo"
+                placeholder="Enter phoneNo number"
                 className="form-control"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
+                value={formData.phoneNo}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                id="email"
+                name="email"
                 placeholder="Enter email"
                 className="form-control"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="route">Route</label>
               <input
                 type="text"
-                id="route"
+                name="route"
                 placeholder="Enter route"
                 className="form-control"
-                value={route}
-                onChange={(e) => setRoute(e.target.value)}
+                value={formData.route}
+                onChange={handleInput}
               />
             </div>
 
@@ -233,88 +257,88 @@ const Customers = () => {
               <label htmlFor="billingAddress">Billing Address</label>
               <input
                 type="text"
-                id="billingAddress"
+                name="billingAddress"
                 placeholder="Enter billing address"
                 className="form-control"
-                value={billingAddress}
-                onChange={(e) => setBillingAddress(e.target.value)}
+                value={formData.billingAddress}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="geolocation">Geolocation</label>
               <input
                 type="text"
-                id="geolocation"
+                name="geolocation"
                 placeholder="Enter geolocation"
                 className="form-control"
-                value={geolocation}
-                onChange={(e) => setGeolocation(e.target.value)}
+                value={formData.geolocation}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="gstin">GSTIN</label>
               <input
                 type="text"
-                id="gstin"
+                name="gstin"
                 placeholder="Enter GSTIN"
                 className="form-control"
-                value={gstin}
-                onChange={(e) => setGstin(e.target.value)}
+                value={formData.gstin}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="openingBalance">Opening Balance</label>
               <input
                 type="number"
-                id="openingBalance"
+                name="openingBalance"
                 placeholder="Enter opening balance"
                 className="form-control"
-                value={openingBalance}
-                onChange={(e) => setOpeningBalance(e.target.value)}
+                value={formData.openingBalance}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="creditPeriod">Credit Period</label>
               <input
                 type="text"
-                id="creditPeriod"
+                name="creditPeriod"
                 placeholder="Enter credit period"
                 className="form-control"
-                value={creditPeriod}
-                onChange={(e) => setCreditPeriod(e.target.value)}
+                value={formData.creditPeriod}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="creditLimit">Credit Limit</label>
               <input
                 type="text"
-                id="creditLimit"
+                name="creditLimit"
                 placeholder="Enter credit limit"
                 className="form-control"
-                value={creditLimit}
-                onChange={(e) => setCreditLimit(e.target.value)}
+                value={formData.creditLimit}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="stateOfSupply">State of Supply</label>
               <input
                 type="text"
-                id="stateOfSupply"
+                name="stateOfSupply"
                 placeholder="Enter state of supply"
                 className="form-control"
-                value={stateOfSupply}
-                onChange={(e) => setStateOfSupply(e.target.value)}
+                value={formData.stateOfSupply}
+                onChange={handleInput}
               />
             </div>
             <div className="form-group">
               <label htmlFor="creditBillLimit">Credit Bill Limit</label>
               <input
                 type="text"
-                id="creditBillLimit"
+                name="creditBillLimit"
                 placeholder="Enter credit bill limit"
                 className="form-control"
-                value={creditBillLimit}
-                onChange={(e) => setCreditBillLimit(e.target.value)}
+                value={formData.creditBillLimit}
+                onChange={handleInput}
               />
             </div>
 
@@ -347,8 +371,8 @@ const Customers = () => {
       {/* Table to display customers */}
       <div className="customers-table">
         {customers.length === 0 ? (
-          <div className="no-data img-nodata" style={{ textAlign: "center", marginTop: "20px" }}>
-            <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: "200px", marginTop: "20px" }} />
+          <div className="no-data img-nodata" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: '200px', marginTop: '20px' }} />
             <p>Sorry! No customers found.</p>
           </div>
         ) : (
@@ -359,7 +383,7 @@ const Customers = () => {
                   <th>Business Name</th>
                   <th>Code</th>
                   <th>Contact Person</th>
-                  <th>Mobile</th>
+                  <th>phoneNo</th>
                   <th>Email</th>
                   <th>Opening Balance</th>
                   <th>Actions</th>
@@ -371,7 +395,7 @@ const Customers = () => {
                     <td>{customer.businessName}</td>
                     <td>{customer.code}</td>
                     <td>{customer.contactPerson}</td>
-                    <td>{customer.mobile}</td>
+                    <td>{customer.phoneNo}</td>
                     <td>{customer.email}</td>
                     <td>{customer.openingBalance}</td>
                     <td>
