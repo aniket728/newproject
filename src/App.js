@@ -51,12 +51,9 @@ import VanSalesByItem from './components/vendorpanel/pages/VanSalesByItem ';
 import StockSummaryByBrand from './components/vendorpanel/pages/StockSummaryByBrand';
 import VanSalesReconcilation from './components/vendorpanel/pages/VanSalesReconcilation';
 import StockSummaryByGroup from './components/vendorpanel/pages/StockSummaryByGroup';
-
 import Plan from './components/vendorpanel/pages/Plan';
-
 import GSTRone from './components/vendorpanel/pages/GSTRone';
 import PartyOutstanding from './components/vendorpanel/pages/PartyOutstanding ';
-import PurchaseByParty from './components/vendorpanel/pages/PurchaseByParty';
 import GSTRtwo from './components/vendorpanel/pages/GSTRtwo';
 import PartyStatement from './components/vendorpanel/pages/PartyStatement';
 import PurchaseByItem from './components/vendorpanel/pages/PurchaseByItem';
