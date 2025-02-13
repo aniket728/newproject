@@ -109,16 +109,8 @@ const Profile = () => {
               <div>{lastName}</div>
             </div>
             <div className="col-md-6">
-              <label className="form-label">E-mail</label>
-              <input
-                className="form-control"
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email"
-              />
+              <label htmlFor="mail" className="form-label">E-mail</label>
+              <div>{mail}</div>
             </div>
             <div className="col-md-6">
               <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
@@ -137,9 +129,16 @@ const Profile = () => {
               <div>{country}</div>
             </div>
           </div>
-          <div className="mt-6 d-flex justify-content-end">
-            <button type="submit" className="btn btn-primary" onClick={() => setVisible(true)}>
-              Save changes
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="btn btn-primary me-3"
+              onClick={() => setVisible(true)}
+            >
+              Edit Profile
+            </button>
+            <button type="reset" className="btn btn-outline-secondary">
+              Cancel
             </button>
           </div>
         </form>
