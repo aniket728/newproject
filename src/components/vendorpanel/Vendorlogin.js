@@ -116,7 +116,7 @@ const Vendorlogin = () => {
                   required
                 />
                 <span className="eye-icon" onClick={handleToggle}>
-                  <i className={`fas ${icon}`}></i>
+                  <i className={`fas ${icon}`} style={{paddingLeft:"294px", paddingTop:"21px"}}></i>
                 </span>
               </div>
             </div>
