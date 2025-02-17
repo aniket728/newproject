@@ -1,543 +1,308 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import Chart from 'chart.js/auto';
+import $ from 'jquery';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
+  const salesChartRef = useRef(null); // Reference to store the sales chart instance
+  const visitorsChartRef = useRef(null); // Reference to store the visitors chart instance
+  const [activeMenuItem, setActiveMenuItem] = useState('dashboard'); // State to track active menu item
+  const location = useLocation(); // Hook to get the current location
+
+  useEffect(() => {
+    // Set the active menu item based on the current route
+    const path = location.pathname.split('/')[2]; // Get the second part of the path (e.g., 'visited' from '/dashboard/visited')
+    setActiveMenuItem(path || 'dashboard'); // Default to 'dashboard' if no sub-route is active
+  }, [location]);
+
+  useEffect(() => {
+    // Sidebar dropdown functionality
+    const initializeDropdowns = () => {
+      $('.sidebar-dropdown-menu').hide(); // Hide all dropdown menus initially
+
+      $('.sidebar-menu-item.has-dropdown > a, .sidebar-dropdown-menu-item.has-dropdown > a').on('click', function (e) {
+        e.preventDefault();
+
+        const $parent = $(this).parent();
+        const $dropdownMenu = $(this).next('.sidebar-dropdown-menu');
+
+        if (!$parent.hasClass('focused')) {
+          $parent.siblings('.has-dropdown').removeClass('focused').find('.sidebar-dropdown-menu').slideUp('fast');
+        }
+
+        $dropdownMenu.slideToggle('fast');
+        $parent.toggleClass('focused');
+      });
+
+      // Close dropdowns when clicking outside
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('.sidebar-menu-item.has-dropdown, .sidebar-dropdown-menu-item.has-dropdown').length) {
+          $('.sidebar-dropdown-menu').slideUp('fast');
+          $('.has-dropdown').removeClass('focused');
+        }
+      });
+
+      // Collapse sidebar on small screens
+      if (window.innerWidth < 768) {
+        $('.sidebar').addClass('collapsed');
+      }
+
+      // Toggle sidebar
+      $('.sidebar-toggle').on('click', function () {
+        $('.sidebar').toggleClass('collapsed');
+      });
+
+      // Close sidebar when clicking outside
+      $('.sidebar-overlay').on('click', function () {
+        $('.sidebar').addClass('collapsed');
+      });
+    };
+
+    initializeDropdowns();
+
+    // Charts initialization
+    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+    // Destroy existing chart instances if they exist
+    if (salesChartRef.current) {
+      salesChartRef.current.destroy();
+    }
+    if (visitorsChartRef.current) {
+      visitorsChartRef.current.destroy();
+    }
+
+    // Create new chart instances
+    salesChartRef.current = new Chart($('#sales-chart'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          backgroundColor: '#6610f2',
+          data: [5, 10, 5, 2, 20, 30, 45],
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+
+    visitorsChartRef.current = new Chart($('#visitors-chart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Children', 'Teenager', 'Parent'],
+        datasets: [{
+          backgroundColor: ['#6610f2', '#198754', '#ffc107'],
+          data: [40, 60, 80],
+        }]
+      }
+    });
+
+    // Cleanup function to destroy charts and remove event listeners
+    return () => {
+      if (salesChartRef.current) {
+        salesChartRef.current.destroy();
+      }
+      if (visitorsChartRef.current) {
+        visitorsChartRef.current.destroy();
+      }
+
+      // Remove event listeners
+      $('.sidebar-menu-item.has-dropdown > a, .sidebar-dropdown-menu-item.has-dropdown > a').off('click');
+      $(document).off('click');
+      $('.sidebar-toggle').off('click');
+      $('.sidebar-overlay').off('click');
+    };
+  }, []);
+
   return (
     <>
-      <div className="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
-        {/* Sidebar */}
-        <nav className="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
-          id="navbarVertical"
-          style={{
-            background: 'linear-gradient(145deg, #ffffff, #f8f9fa)',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            borderRadius: '0 15px 15px 0',
-          }}>
-          <div className="container-fluid">
-            {/* Sidebar Toggle Button */}
-            <button className="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-
-            {/* Brand Logo */}
-            <Link className="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" to="/dashboard"
-              style={{
-                transition: 'transform 0.3s ease',
-              }}
-            >
-              <img src="../../assets/img/salesOn-logo-blue-0c78f65e7ba254993032ec4455e34f51.png" className='w-70' alt="..." />
+      <div className="sidebar position-fixed top-0 bottom-0 bg-white border-end">
+        <div className="d-flex align-items-center p-3">
+          <a href="#" className="sidebar-logo text-uppercase fw-bold text-decoration-none text-indigo fs-4">Foxy</a>
+          <i className="sidebar-toggle ri-arrow-left-circle-line ms-auto fs-5 d-none d-md-block"></i>
+        </div>
+        <ul className="sidebar-menu p-3 m-0 mb-0">
+          <li className={`sidebar-menu-item ${activeMenuItem === 'dashboard' ? 'active' : ''}`}>
+            <Link to="/dashboard" onClick={() => setActiveMenuItem('dashboard')}>
+              <i className="ri-dashboard-line sidebar-menu-item-icon"></i>
+              Dashboard
             </Link>
+          </li>
+          <li className="sidebar-menu-divider mt-3 mb-1 text-uppercase">Navigation</li>
+          <li className={`sidebar-menu-item ${activeMenuItem === 'live-location' ? 'active' : ''}`}>
+            <Link to="live-location" onClick={() => setActiveMenuItem('live-location')}>
+              <i className="ri-map-pin-line sidebar-menu-item-icon"></i>
+              Live Location
+            </Link>
+          </li>
+          <li className="sidebar-menu-item has-dropdown">
+            <Link to="parties">
+              <i className="ri-group-line sidebar-menu-item-icon"></i>
+              Parties
+              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
+            </Link>
+            <ul className="sidebar-dropdown-menu">
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'customers' ? 'active' : ''}`}>
+                <Link to="customers" onClick={() => setActiveMenuItem('customers')}>Customers</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'suppliers' ? 'active' : ''}`}>
+                <Link to="suppliers" onClick={() => setActiveMenuItem('suppliers')}>Suppliers</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'visited' ? 'active' : ''}`}>
+                <Link to="visited" onClick={() => setActiveMenuItem('visited')}>Visited</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'groups' ? 'active' : ''}`}>
+                <Link to="groups" onClick={() => setActiveMenuItem('groups')}>Groups</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="sidebar-menu-item has-dropdown">
+            <a href="#">
+              <i className="ri-store-line sidebar-menu-item-icon"></i>
+              Inventory
+              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
+            </a>
+            <ul className="sidebar-dropdown-menu">
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'items' ? 'active' : ''}`}>
+                <Link to="items" onClick={() => setActiveMenuItem('items')}>Items</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'warehouses' ? 'active' : ''}`}>
+                <Link to="warehouses" onClick={() => setActiveMenuItem('warehouses')}>Warehouses</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'priceLists' ? 'active' : ''}`}>
+                <Link to="priceLists" onClick={() => setActiveMenuItem('priceLists')}>Price Lists</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="sidebar-menu-item has-dropdown">
+            <a href="#">
+              <i className="ri-route-line sidebar-menu-item-icon"></i>
+              Routes
+              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
+            </a>
+            <ul className="sidebar-dropdown-menu">
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'regions' ? 'active' : ''}`}>
+                <Link to="regions" onClick={() => setActiveMenuItem('regions')}>Regions</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'cities' ? 'active' : ''}`}>
+                <Link to="cities" onClick={() => setActiveMenuItem('cities')}>Cities</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'areas' ? 'active' : ''}`}>
+                <Link to="areas" onClick={() => setActiveMenuItem('areas')}>Areas</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="sidebar-menu-item has-dropdown">
+            <a href="#">
+              <i className="ri-user-line sidebar-menu-item-icon"></i>
+              User
+              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
+            </a>
+            <ul className="sidebar-dropdown-menu">
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'users' ? 'active' : ''}`}>
+                <Link to="user" onClick={() => setActiveMenuItem('users')}>Users</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'target' ? 'active' : ''}`}>
+                <Link to="target" onClick={() => setActiveMenuItem('target')}>Target</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'leaderboard' ? 'active' : ''}`}>
+                <Link to="leaderboard" onClick={() => setActiveMenuItem('leaderboard')}>Leaderboard</Link>
+              </li>
+            </ul>
+          </li>
+          <li className={`sidebar-menu-item ${activeMenuItem === 'attendance' ? 'active' : ''}`}>
+            <Link to="attendance" onClick={() => setActiveMenuItem('attendance')}>
+              <i className="ri-calendar-check-line sidebar-menu-item-icon"></i>
+              Attendance
+            </Link>
+          </li>
+          <li className={`sidebar-menu-item ${activeMenuItem === 'report' ? 'active' : ''}`}>
+            <Link to="report" onClick={() => setActiveMenuItem('report')}>
+              <i className="ri-file-chart-line sidebar-menu-item-icon"></i>
+              Report
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div className="sidebar-overlay"></div>
 
-            {/* Sidebar Navigation */}
-            <div className="collapse navbar-collapse show" id="sidebarCollapse">
-              <ul className="navbar-nav">
-                {/* Dashboard */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-house"></i> Dashboard
-                  </Link>
-                </li>
-
-                {/* Inventory Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-box"></i> Inventory
-                  </Link>
-                  <div className="collapse" id="inventoryCollapse">
-                    <ul className="nav flex-column ms-3">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/items"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Items
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/warehouses"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Warehouses
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/price-lists"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Price Lists
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-
-                {/* Routes Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#routesCollapse" aria-expanded="false" aria-controls="routesCollapse"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-map"></i> Routes
-                  </Link>
-                  <div className="collapse" id="routesCollapse">
-                    <ul className="nav flex-column ms-3">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/cities"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Cities
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/regions"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Regions
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/areas"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Areas
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-
-                {/* Attendance Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/attendance"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-file-earmark-text"></i> Attendance
-                  </Link>
-                </li>
-
-                {/* Reports Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/reports"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-file-earmark-text"></i> Reports
-                  </Link>
-                </li>
-
-                {/* User Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#userCollapse" aria-expanded="false" aria-controls="userCollapse"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-person"></i> User
-                  </Link>
-                  <div className="collapse" id="userCollapse">
-                    <ul className="nav flex-column ms-3">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/target"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Target
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/leaderboard"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Leaderboard
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/achievements"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Achievements
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-
-                {/* Live Location */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/live-location"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-map"></i> Live Location
-                  </Link>
-                </li>
-
-                {/* Parties Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#partiesCollapse" aria-expanded="false" aria-controls="partiesCollapse"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-people"></i> Parties
-                  </Link>
-                  <div className="collapse" id="partiesCollapse">
-                    <ul className="nav flex-column ms-3">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/customers"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Customers
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/suppliers"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Suppliers
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/groups"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Groups
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard/visited"
-                          style={{
-                            color: '#4a5568',
-                            transition: 'color 0.3s ease',
-                            padding: '8px 12px',
-                            fontSize: '1rem',
-                            fontWeight: '400',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
-                          Visited
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-
-                {/* Settings Section */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/settings"
-                    style={{
-                      color: '#4a5568',
-                      transition: 'color 0.3s ease, background-color 0.3s ease',
-                      padding: '10px 15px',
-                      borderRadius: '8px',
-                      fontSize: '1.1rem',
-                      fontWeight: '500',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#1a365d';
-                      e.currentTarget.style.backgroundColor = '#edf2f7';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = '#4a5568';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
-                    <i className="bi bi-gear"></i> Settings
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        {/* Main Content */}
-        <div className="h-screen flex-grow-1 overflow-y-lg-auto">
-          {/* Top Navbar */}
-          <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom"
-            style={{
-              background: 'linear-gradient(145deg, #ffffff, #f8f9fa)',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            }}>
-            <div className="container-fluid">
-              {/* Top Navbar Content */}
-              <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              <div className="collapse navbar-collapse" id="topNavbar">
-                <form className="d-flex" style={{ marginLeft: "600px" }}>
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                    style={{
-                      border: '1px solid #ced4da',
-                      borderRadius: '8px',
-                      transition: 'border-color 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = '#4a5568'}
-                    onMouseLeave={(e) => e.currentTarget.style.borderColor = '#ced4da'} />
-                  <button className="btn btn-outline-success" type="submit"
-                    style={{
-                      borderRadius: '8px',
-                      transition: 'background-color 0.3s ease, color 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#38a169';
-                      e.currentTarget.style.color = '#ffffff';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#38a169';
-                    }}>
-                    Search
-                  </button>
-                </form>
-
-                {/* Profile Dropdown */}
-                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li className="nav-item dropdown">
-                    <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                      style={{
-                        transition: 'transform 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-                      <img
-                        src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                        alt="Profile"
-                        className="rounded-circle"
-                        width="30"
-                        height="30"
-                      />
-                    </Link>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                      <li>
-                        <Link className="dropdown-item" to="/dashboard/profile">Profile</Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/dashboard/subscription">Subscription</Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/dashboard/billing">Billing</Link>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/vendorlogin">Logout</Link>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
+      <main className="bg-light">
+        <div className="p-2">
+          <nav className="px-3 py-2 bg-white rounded shadow-sm">
+            <i className="ri-menu-line sidebar-toggle me-3 d-block d-md-none"></i>
+            <h5 className="fw-bold mb-0 me-auto">Dashboard</h5>
+            <div className="dropdown me-3 d-none d-sm-block">
+              <div className="cursor-pointer dropdown-toggle navbar-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <i className="ri-notification-line"></i>
               </div>
+              <div className="dropdown-menu fx-dropdown-menu">
+                <h5 className="p-3 bg-indigo text-light">Notification</h5>
+                <div className="list-group list-group-flush">
+                  <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div className="me-auto">
+                      <div className="fw-semibold">Subheading</div>
+                      <span className="fs-7">Content for list item</span>
+                    </div>
+                    <span className="badge bg-primary rounded-pill">14</span>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div className="me-auto">
+                      <div className="fw-semibold">Subheading</div>
+                      <span className="fs-7">Content for list item</span>
+                    </div>
+                    <span className="badge bg-primary rounded-pill">14</span>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div className="me-auto">
+                      <div className="fw-semibold">Subheading</div>
+                      <span className="fs-7">Content for list item</span>
+                    </div>
+                    <span className="badge bg-primary rounded-pill">14</span>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div className="me-auto">
+                      <div className="fw-semibold">Subheading</div>
+                      <span className="fs-7">Content for list item</span>
+                    </div>
+                    <span className="badge bg-primary rounded-pill">14</span>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div className="me-auto">
+                      <div className="fw-semibold">Subheading</div>
+                      <span className="fs-7">Content for list item</span>
+                    </div>
+                    <span className="badge bg-primary rounded-pill">14</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="dropdown">
+              <div className="d-flex align-items-center cursor-pointer dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <span className="me-2 d-none d-sm-block">John Doe</span>
+                {/* Replace the profile image with an SVG icon */}
+                <svg className="navbar-profile-image" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 16C19.3137 16 22 13.3137 22 10C22 6.68629 19.3137 4 16 4C12.6863 4 10 6.68629 10 10C10 13.3137 12.6863 16 16 16Z" fill="#6610f2"/>
+                  <path d="M16 18C11.5817 18 8 21.5817 8 26C8 26.5523 8.44772 27 9 27H23C23.5523 27 24 26.5523 24 26C24 21.5817 20.4183 18 16 18Z" fill="#6610f2"/>
+                </svg>
+              </div>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a className="dropdown-item" href="#">Action</a></li>
+                <li><a className="dropdown-item" href="#">Another action</a></li>
+                <li><a className="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </div>
           </nav>
 
-          {/* Render Nested Routes Here */}
-          <main className="py-6"
-            style={{
-              backgroundColor: 'rgb(255 255 255)',
-              padding: '20px',
-              borderRadius: '15px',
-              margin: '20px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            }}>
-            <div className="container-fluid">
-              <Outlet /> {/* This will render the nested routes */}
-            </div>
-          </main>
+         
         </div>
-      </div>
+        <Outlet/>
+      </main>
     </>
-  )
-}
+  );
+};
 
 export default Dashboard;
