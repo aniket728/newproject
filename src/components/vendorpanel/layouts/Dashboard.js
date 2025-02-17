@@ -160,7 +160,24 @@ const Dashboard = () => {
               </li>
             </ul>
           </li>
-      
+          <li className="sidebar-menu-item has-dropdown">
+            <a href="#">
+              <i className="ri-store-line sidebar-menu-item-icon"></i>
+              Inventory
+              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
+            </a>
+            <ul className="sidebar-dropdown-menu">
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'items' ? 'active' : ''}`}>
+                <Link to="items" onClick={() => setActiveMenuItem('items')}>Items</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'warehouses' ? 'active' : ''}`}>
+                <Link to="warehouses" onClick={() => setActiveMenuItem('warehouses')}>Warehouses</Link>
+              </li>
+              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'priceLists' ? 'active' : ''}`}>
+                <Link to="priceLists" onClick={() => setActiveMenuItem('priceLists')}>Price Lists</Link>
+              </li>
+            </ul>
+          </li>
           <li className="sidebar-menu-item has-dropdown">
             <a href="#">
               <i className="ri-route-line sidebar-menu-item-icon"></i>
@@ -209,13 +226,6 @@ const Dashboard = () => {
               Report
             </Link>
           </li>
-          <li className={`sidebar-menu-item ${activeMenuItem === 'settings' ? 'active' : ''}`}>
-            <Link to="settings" onClick={() => setActiveMenuItem('settings')}>
-              <i className="ri-file-chart-line sidebar-menu-item-icon"></i>
-              Settings
-            </Link>
-          </li>
-         
         </ul>
       </div>
       <div className="sidebar-overlay"></div>

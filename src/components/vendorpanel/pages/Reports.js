@@ -1,8 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-
-const Reports = () => {
+const Report = () => {
   return (
+<<<<<<< HEAD
+   <div>hi</div>
+  )
+}
+
+export default Report
+=======
     <>
     
     </>
@@ -10,3 +16,4 @@ const Reports = () => {
 };
 
 export default Reports;
+>>>>>>> 9d57991c79f948846edd332849cb01d6f67afbe1

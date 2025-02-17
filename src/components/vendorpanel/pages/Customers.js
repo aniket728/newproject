@@ -1,71 +1,156 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { FaPlus, FaTimes, FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
 import { api_url } from '../../../helpers/api_helper';
+import { useNavigate } from 'react-router-dom';
+
 
 const Customers = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [customers, setCustomers] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [uploadedDocument, setUploadedDocument] = useState(null);
+
   const [formData, setFormData] = useState({
     businessName: '',
-    mail: '',
+    code: '',
+    contactPerson: '',
     phoneNo: '',
-    address: '',
-    city: '',
-    state: '',
-    contactPersonName: '',
-    createdDate: '',
-    gstNo: '',
-    billingAddress: ''
+    email: '',
+    route: '',
+    billingAddress: '',
+    geolocation: '',
+    gstin: '',
+    openingBalance: '',
+    creditPeriod: '',
+    creditLimit: '',
+    stateOfSupply: '',
+    creditBillLimit: '',
   });
-  const [customers, setCustomers] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    if (!isSidebarOpen) {
+      // Reset form fields when opening the sidebar
+      setFormData({
+        businessName: '',
+        code: '',
+        contactPerson: '',
+        phoneNo: '',
+        email: '',
+        route: '',
+        billingAddress: '',
+        geolocation: '',
+        gstin: '',
+        openingBalance: '',
+        creditPeriod: '',
+        creditLimit: '',
+        stateOfSupply: '',
+        creditBillLimit: '',
+      });
+      setUploadedDocument(null);
+      setEditingIndex(null);
+    }
+  };
+
+  const triggerAlert = (message) => {
+    setAlertMessage(message);
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+      setAlertMessage('');
+    }, 3000);
+  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setFormData((prevValue) => ({
-      ...prevValue,
-      [name]: value
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
 
-  const storeCustomer = async (e) => {
-    e.preventDefault();
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedDocument(file);
+    }
+  };
+
+  const handleSave = async () => {
+    const { businessName, code, contactPerson, phoneNo, email, openingBalance } = formData;
+
+    if (!businessName || !code || !contactPerson || !phoneNo || !email || !openingBalance) {
+      triggerAlert('⚠️ Error: All fields are required.');
+      return;
+    }
+
+    const newCustomer = {
+      ...formData,
+      uploadDocument: uploadedDocument,
+    };
+
     try {
       const response = await fetch(`${api_url}/api/customers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(newCustomer),
       });
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Failed to save customer');
       }
+
       const result = await response.json();
-      console.log(result);
-      setIsDialogOpen(false);
-      getCustomer(); // Refresh the customer list after adding a new customer
+
+      if (editingIndex !== null) {
+        const updatedCustomers = [...customers];
+        updatedCustomers[editingIndex] = newCustomer;
+        setCustomers(updatedCustomers);
+        triggerAlert('✅ Success: Customer updated successfully');
+      } else {
+        setCustomers([...customers, newCustomer]);
+        triggerAlert('✅ Success: Customer added successfully');
+      }
+
+      toggleSidebar();
     } catch (error) {
       console.error('Error:', error);
+      triggerAlert('⚠️ Error: Failed to save customer.');
     }
   };
 
-  const getCustomer = async () => {
-    try {
-      const response = await fetch(`${api_url}/api/customers`);
-      const data = await response.json();
-      if (data.status === 201) {
-        setCustomers(data.Customer_data || []);
-      } else {
-        setCustomers(data.result || []);
-      }
-    } catch (error) {
-      console.error('Error fetching customers:', error);
-      setCustomers([]);
-    }
+  const handleEdit = (index) => {
+    const customer = customers[index];
+    setFormData({
+      businessName: customer.businessName,
+      code: customer.code,
+      contactPerson: customer.contactPerson,
+      phoneNo: customer.phoneNo,
+      email: customer.email,
+      route: customer.route,
+      billingAddress: customer.billingAddress,
+      geolocation: customer.geolocation,
+      gstin: customer.gstin,
+      openingBalance: customer.openingBalance,
+      creditPeriod: customer.creditPeriod,
+      creditLimit: customer.creditLimit,
+      stateOfSupply: customer.stateOfSupply,
+      creditBillLimit: customer.creditBillLimit,
+    });
+    setUploadedDocument(customer.uploadDocument);
+    setEditingIndex(index);
+    setIsSidebarOpen(true);
   };
 
-  useEffect(() => {
-    getCustomer();
-  }, []);
+  const handleDelete = (index) => {
+    const updatedCustomers = customers.filter((_, i) => i !== index);
+    setCustomers(updatedCustomers);
+    triggerAlert('🗑️ Success: Customer deleted successfully');
+  };
 
   return (
     <>
@@ -78,13 +163,10 @@ const Customers = () => {
           <button style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
             <i className="fa-solid fa-gear fa-lg"></i>
           </button>
-          <button style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Export</button>
-          <button style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Import</button>
-          <button
-            style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-            onClick={() => setIsDialogOpen(true)}
-          >
-            Add Customers
+          <button className="btn btn-primary">Export</button>
+          <button className="btn btn-primary">Import</button>
+          <button className="btn btn-primary" onClick={toggleSidebar}>
+            <FaPlus style={{ marginRight: '5px' }} /> New
           </button>
         </div>
       </div>
@@ -96,173 +178,254 @@ const Customers = () => {
         />
       </div>
 
-      {isDialogOpen && (
-        <div style={{ position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px', width: '90%', maxWidth: '600px', margin: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3>Add Customer</h3>
-              <button
-                style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-                onClick={() => setIsDialogOpen(false)}
-              >
-                <i className="fa-solid fa-times"></i>
-              </button>
+      {/* Right-to-Left Sidebar */}
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <h3>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
+          <button className="close-btn" onClick={toggleSidebar}>
+            &times;
+          </button>
+        </div>
+        <div className="sidebar-body">
+          <form>
+            {/* General Details Section */}
+            <h4>General Details</h4>
+            <div className="form-group">
+              <label htmlFor="businessName">Business Name</label>
+              <input
+                type="text"
+                name="businessName"
+                placeholder="Enter business name"
+                className="form-control"
+                value={formData.businessName}
+                onChange={handleInput}
+              />
             </div>
-            <form onSubmit={storeCustomer}>
-              <div style={{ marginBottom: '20px' }}>
-                <h4>General Details</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Business Name</label>
-                    <input
-                      type="text"
-                      name="businessName"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Mail</label>
-                    <input
-                      type="email"
-                      name="mail"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Phone No</label>
-                    <input
-                      type="text"
-                      name="phoneNo"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Address</label>
-                    <input
-                      type="text"
-                      name="address"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>City</label>
-                    <input
-                      type="text"
-                      name="city"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>State</label>
-                    <input
-                      type="text"
-                      name="state"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div style={{ marginBottom: '20px' }}>
-                <h4>Other Details</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Contact Person Name</label>
-                    <input
-                      type="text"
-                      name="contactPersonName"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Created Date</label>
-                    <input
-                      type="date"
-                      name="createdDate"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>GST No</label>
-                    <input
-                      type="text"
-                      name="gstNo"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Billing Address</label>
-                    <input
-                      type="text"
-                      name="billingAddress"
-                      onChange={handleInput}
-                      style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                <button
-                  type="button"
-                  style={{ padding: '5px 10px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
+            <div className="form-group">
+              <label htmlFor="code">Code</label>
+              <input
+                type="text"
+                name="code"
+                placeholder="Enter code"
+                className="form-control"
+                value={formData.code}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="contactPerson">Contact Person</label>
+              <input
+                type="text"
+                name="contactPerson"
+                placeholder="Enter contact person"
+                className="form-control"
+                value={formData.contactPerson}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phoneNo">phoneNo</label>
+              <input
+                type="text"
+                name="phoneNo"
+                placeholder="Enter phoneNo number"
+                className="form-control"
+                value={formData.phoneNo}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                className="form-control"
+                value={formData.email}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="route">Route</label>
+              <input
+                type="text"
+                name="route"
+                placeholder="Enter route"
+                className="form-control"
+                value={formData.route}
+                onChange={handleInput}
+              />
+            </div>
+
+            {/* Other Details Section */}
+            <h4>Other Details</h4>
+            <div className="form-group">
+              <label htmlFor="billingAddress">Billing Address</label>
+              <input
+                type="text"
+                name="billingAddress"
+                placeholder="Enter billing address"
+                className="form-control"
+                value={formData.billingAddress}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="geolocation">Geolocation</label>
+              <input
+                type="text"
+                name="geolocation"
+                placeholder="Enter geolocation"
+                className="form-control"
+                value={formData.geolocation}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="gstin">GSTIN</label>
+              <input
+                type="text"
+                name="gstin"
+                placeholder="Enter GSTIN"
+                className="form-control"
+                value={formData.gstin}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="openingBalance">Opening Balance</label>
+              <input
+                type="number"
+                name="openingBalance"
+                placeholder="Enter opening balance"
+                className="form-control"
+                value={formData.openingBalance}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="creditPeriod">Credit Period</label>
+              <input
+                type="text"
+                name="creditPeriod"
+                placeholder="Enter credit period"
+                className="form-control"
+                value={formData.creditPeriod}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="creditLimit">Credit Limit</label>
+              <input
+                type="text"
+                name="creditLimit"
+                placeholder="Enter credit limit"
+                className="form-control"
+                value={formData.creditLimit}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="stateOfSupply">State of Supply</label>
+              <input
+                type="text"
+                name="stateOfSupply"
+                placeholder="Enter state of supply"
+                className="form-control"
+                value={formData.stateOfSupply}
+                onChange={handleInput}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="creditBillLimit">Credit Bill Limit</label>
+              <input
+                type="text"
+                name="creditBillLimit"
+                placeholder="Enter credit bill limit"
+                className="form-control"
+                value={formData.creditBillLimit}
+                onChange={handleInput}
+              />
+            </div>
+
+            {/* Upload Document Section */}
+            <h4>Upload Document</h4>
+            <div className="form-group">
+              <label htmlFor="uploadDocument">Upload Document</label>
+              <input
+                type="file"
+                id="uploadDocument"
+                className="form-control"
+                onChange={handleFileUpload}
+              />
+            </div>
+          </form>
+        </div>
+        <div className="sidebar-footer">
+          <button className="btn btn-primary" onClick={handleSave}>
+            {editingIndex !== null ? 'Update' : 'Save'}
+          </button>
+          <button className="btn btn-secondary" onClick={toggleSidebar}>
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      {/* Overlay when sidebar is open */}
+      {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
+
+      {/* Table to display customers */}
+      <div className="customers-table">
+        {customers.length === 0 ? (
+          <div className="no-data img-nodata" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: '200px', marginTop: '20px' }} />
+            <p>Sorry! No customers found.</p>
           </div>
+        ) : (
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Business Name</th>
+                  <th>Code</th>
+                  <th>Contact Person</th>
+                  <th>phoneNo</th>
+                  <th>Email</th>
+                  <th>Opening Balance</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {customers.map((customer, index) => (
+                  <tr key={index}>
+                    <td>{customer.businessName}</td>
+                    <td>{customer.code}</td>
+                    <td>{customer.contactPerson}</td>
+                    <td>{customer.phoneNo}</td>
+                    <td>{customer.email}</td>
+                    <td>{customer.openingBalance}</td>
+                    <td>
+                      <button className="btn-edit" onClick={() => handleEdit(index)}>
+                        <FaEdit /> Edit
+                      </button>
+                      <button className="btn-delete" onClick={() => handleDelete(index)}>
+                        <FaTrash /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Alert Message */}
+      {showAlert && (
+        <div className="alert-box">
+          <p>{alertMessage}</p>
         </div>
       )}
-      <div style={{ overflowX: 'auto' }}>
-        <table className="table table-bordered mt-3" style={{ minWidth: '600px' }}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Business Name</th>
-              <th>Gst No</th>
-              <th>Phone No</th>
-              <th>Address</th>
-              <th>Mail</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers && customers.map((customer, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{customer.businessName}</td>
-                <td>{customer.gstNo}</td>
-                <td>{customer.phoneNo}</td>
-                <td>{customer.address}</td>
-                <td>{customer.mail}</td>
-                <td>
-                  <button 
-                    style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-                  >
-                    Edit
-                  </button>
-                  <button style={{ padding: '5px 10px', backgroundColor: '#dc3545', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '10px' }}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </>
   );
 };
