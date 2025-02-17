@@ -160,24 +160,7 @@ const Dashboard = () => {
               </li>
             </ul>
           </li>
-          <li className="sidebar-menu-item has-dropdown">
-            <a href="#">
-              <i className="ri-store-line sidebar-menu-item-icon"></i>
-              Inventory
-              <i className="ri-arrow-down-s-line sidebar-menu-item-accordion ms-auto"></i>
-            </a>
-            <ul className="sidebar-dropdown-menu">
-              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'items' ? 'active' : ''}`}>
-                <Link to="items" onClick={() => setActiveMenuItem('items')}>Items</Link>
-              </li>
-              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'warehouses' ? 'active' : ''}`}>
-                <Link to="warehouses" onClick={() => setActiveMenuItem('warehouses')}>Warehouses</Link>
-              </li>
-              <li className={`sidebar-dropdown-menu-item ${activeMenuItem === 'priceLists' ? 'active' : ''}`}>
-                <Link to="priceLists" onClick={() => setActiveMenuItem('priceLists')}>Price Lists</Link>
-              </li>
-            </ul>
-          </li>
+      
           <li className="sidebar-menu-item has-dropdown">
             <a href="#">
               <i className="ri-route-line sidebar-menu-item-icon"></i>
@@ -226,6 +209,13 @@ const Dashboard = () => {
               Report
             </Link>
           </li>
+          <li className={`sidebar-menu-item ${activeMenuItem === 'settings' ? 'active' : ''}`}>
+            <Link to="settings" onClick={() => setActiveMenuItem('settings')}>
+              <i className="ri-file-chart-line sidebar-menu-item-icon"></i>
+              Settings
+            </Link>
+          </li>
+         
         </ul>
       </div>
       <div className="sidebar-overlay"></div>
@@ -281,20 +271,27 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="dropdown">
-              <div className="d-flex align-items-center cursor-pointer dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span className="me-2 d-none d-sm-block">John Doe</span>
-                {/* Replace the profile image with an SVG icon */}
-                <svg className="navbar-profile-image" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 16C19.3137 16 22 13.3137 22 10C22 6.68629 19.3137 4 16 4C12.6863 4 10 6.68629 10 10C10 13.3137 12.6863 16 16 16Z" fill="#6610f2"/>
-                  <path d="M16 18C11.5817 18 8 21.5817 8 26C8 26.5523 8.44772 27 9 27H23C23.5523 27 24 26.5523 24 26C24 21.5817 20.4183 18 16 18Z" fill="#6610f2"/>
-                </svg>
-              </div>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </div>
+  <div className="d-flex align-items-center cursor-pointer dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    <span className="me-2 d-none d-sm-block">John Doe</span>
+    {/* Updated profile icon with user icon inside a circle */}
+    <div className="position-relative">
+      <svg className="navbar-profile-image" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Circle background */}
+        <circle cx="16" cy="16" r="16" fill="#6610f2" />
+        {/* User icon */}
+        <path d="M16 16C19.3137 16 22 13.3137 22 10C22 6.68629 19.3137 4 16 4C12.6863 4 10 6.68629 10 10C10 13.3137 12.6863 16 16 16Z" fill="#ffffff"/>
+        <path d="M16 18C11.5817 18 8 21.5817 8 26C8 26.5523 8.44772 27 9 27H23C23.5523 27 24 26.5523 24 26C24 21.5817 20.4183 18 16 18Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    {/* Dropdown icon positioned outside the circle */}
+    <i className="ri-arrow-down-s-line ms-2" style={{ color: '#6610f2', fontSize: '12px' }}></i>
+  </div>
+  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a className="dropdown-item" href="#">Action</a></li>
+    <li><a className="dropdown-item" href="#">Another action</a></li>
+    <li><a className="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
           </nav>
 
          
