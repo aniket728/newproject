@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { api_url } from "../../../helpers/api_helper";
@@ -127,3 +128,14 @@ const Profile = () => {
 };
 
 export default ProfilePage;
+=======
+import React from 'react'
+
+const Profile = () => {
+  return (
+    <div>Profile</div>
+  )
+}
+
+export default Profile
+>>>>>>> Stashed changes
