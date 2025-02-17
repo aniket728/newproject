@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api_url } from '../../helpers/api_helper';
@@ -7,51 +5,55 @@ import { api_url } from '../../helpers/api_helper';
 const Vendorlogin = () => {
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [icon, setIcon] = useState('fa-eye-slash');
+  const [type, setType] = useState('password');
+
+  const navigate = useNavigate();
+  const vName = localStorage.getItem('vendorusername');
+
+  useEffect(() => {
+    if (vName) {
+      navigate('');
+    }
+  }, [navigate, vName]);
 
   const handleFocus = (setFocus) => {
     setFocus(true);
   };
 
   const handleBlur = (setFocus, value) => {
-    if (value === "") {
+    if (value === '') {
       setFocus(false);
     }
   };
 
-  const navigate = useNavigate();
- 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const vName = localStorage.getItem("vendorusername"); // Consistent key name
-
-  useEffect(() => {
-    if (vName) {
-      navigate("");
+  const handleToggle = () => {
+    if (type === 'password') {
+      setIcon('fa-eye');
+      setType('text');
+    } else {
+      setIcon('fa-eye-slash');
+      setType('password');
     }
-  }, [navigate, vName]);
+  };
 
   const vendorlogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Basic form validation
     if (!username || !password) {
-      alert("Please fill in all fields.");
+      alert('Please fill in all fields.');
       return;
     }
 
     try {
       const response = await fetch(`${api_url}/api/auth/login`, {
-        method: "POST",
-        body: JSON.stringify({
-          username,
-          password
-        }),
-        headers: {
-          "Content-Type": 'application/json'
-        }
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+        headers: { 'Content-Type': 'application/json' },
       });
 
-      // Check if the response is OK (status code 200-299)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -59,18 +61,16 @@ const Vendorlogin = () => {
       const result = await response.json();
 
       if (result.statusCode === 200) {
-        console.log(result);
-        localStorage.setItem("vendorId", result.data?.userId);
-        localStorage.setItem("vendorusername", result.data?.username);
-  
+        localStorage.setItem('vendorId', result.data?.userId);
+        localStorage.setItem('vendorusername', result.data?.username);
         alert(result.message);
-        navigate("/dashboard");
+        navigate('/dashboard');
       } else {
         alert(result.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login. Please try again.");
+      console.error('Login error:', error);
+      alert('An error occurred during login. Please try again.');
     }
   };
 
@@ -108,34 +108,83 @@ const Vendorlogin = () => {
               <div className="div">
                 <h5>Password</h5>
                 <input
-                  type="password"
+                  type={type}
                   className="input"
                   onFocus={() => handleFocus(setPasswordFocused)}
                   onBlur={(e) => handleBlur(setPasswordFocused, e.target.value)}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <span className="eye-icon" onClick={handleToggle}>
+                  <i className={`fas ${icon}`}></i>
+                </span>
               </div>
             </div>
-            <a href="#">Forgot Password?</a>
-            <button type="submit" className="btn">Login</button>
+            {/* <a href="#">Forgot Password?</a> */}
+                <p className="signup-link">
+              Don't have an account? <a href="/vendorregister">Sign up</a>
+            </p>
+            <button type="submit" className="btn">
+              Login
+            </button>
+
+            {/* Add "Don't have an account? Sign up" link */}
+        
+
+            {/* Add social media icons */}
+            {/* <div className="social-icons">
+              <p>Or connect with:</p>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-twitter"></i>
+              </a>
+            </div> */}
           </form>
         </div>
       </div>
+      <style>
+        {
+          `/* Add this to your CSS file */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-link a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+  color:black;
+}
+
+.social-icons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.social-icons p {
+  margin-bottom: 10px;
+}
+
+.social-icons a {
+  color: #333;
+  font-size: 24px;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  color: green;
+}`
+        }
+      </style>
     </div>
   );
 };
 
-export default Vendorlogin;     
-
-
-
-
-
-
-
-
-
-
-
-  
+export default Vendorlogin;

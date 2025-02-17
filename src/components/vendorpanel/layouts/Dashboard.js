@@ -55,7 +55,7 @@ const Dashboard = () => {
                 </li>
 
                 {/* Inventory Section */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#inventoryCollapse" aria-expanded="false" aria-controls="inventoryCollapse"
                     style={{
                       color: '#4a5568',
@@ -121,7 +121,7 @@ const Dashboard = () => {
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li> */}
 
                 {/* Routes Section */}
                 <li className="nav-item">
@@ -261,6 +261,20 @@ const Dashboard = () => {
                   </Link>
                   <div className="collapse" id="userCollapse">
                     <ul className="nav flex-column ms-3">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard/user"
+                          style={{
+                            color: '#4a5568',
+                            transition: 'color 0.3s ease',
+                            padding: '8px 12px',
+                            fontSize: '1rem',
+                            fontWeight: '400',
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.color = '#1a365d'}
+                          onMouseLeave={(e) => e.currentTarget.style.color = '#4a5568'}>
+                          Users
+                        </Link>
+                      </li>
                       <li className="nav-item">
                         <Link className="nav-link" to="/dashboard/target"
                           style={{
