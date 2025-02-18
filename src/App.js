@@ -25,13 +25,23 @@ import Achievements from './components/vendorpanel/pages/Achievements';
 import Leaderboard from './components/vendorpanel/pages/Leaderboard';
 import PriceLists from './components/vendorpanel/pages/PriceLists';
 import Target from './components/vendorpanel/pages/Target';
+<<<<<<< Updated upstream
 
 import Profile from './components/vendorpanel/pages/Profile';
+=======
+import Warehouses from './components/vendorpanel/pages/Warehouses';
+
+>>>>>>> Stashed changes
 import Dashboard from './components/vendorpanel/layouts/Dashboard';
 import LiveLocation from './components/vendorpanel/pages/LIveLocation';
+
+import User from './components/vendorpanel/pages/Users';
 import Reports from './components/vendorpanel/pages/Reports';
+<<<<<<< Updated upstream
 import User from './components/vendorpanel/pages/User';
 import VendorRegister from './components/vendorpanel/Vendorregister';
+=======
+>>>>>>> Stashed changes
 
 function App() {
     return (
@@ -67,8 +77,13 @@ function App() {
                    <Route path='leaderboard' element={<Leaderboard/>}/>
                    <Route path='priceLists' element={<PriceLists/>}/>
                    <Route path='target' element={<Target/>}/>
+<<<<<<< Updated upstream
           
                    <Route path='profile' element={<Profile/>}/>
+=======
+                   <Route path='warehouses' element={<Warehouses/>}/>
+                  
+>>>>>>> Stashed changes
 
 
                 </Route>
