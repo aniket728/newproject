@@ -150,7 +150,7 @@
 }
 
 .login a{
-	display: block;
+	/* display: block; */
 	text-align: right;
 	text-decoration: none;
 	color: #999;
@@ -928,3 +928,29 @@ form .button input:hover {
     flex-direction: column;
   }
 }
+
+/* Eye Icon Styling */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999;
+}
+
+.eye-icon:hover {
+  color: #333;
+}
+
+.input-div.pass {
+  position: relative;
+}
+
+.input-div.pass .div {
+  position: relative;
+}
+
+
+
+

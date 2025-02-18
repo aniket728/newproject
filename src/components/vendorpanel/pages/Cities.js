@@ -1,94 +1,93 @@
-
-
-
 import React, { useState } from 'react';
 import { FaPlus, FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
 
 const Cities = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [cities, setCities] = useState([]);
-  const [Name, setName] = useState('');
-  const [Region, setRegion] = useState('');
+  const [citiesName, setCitiesName] = useState('');
+  const [regionName, setRegionName] = useState(''); // New state for region name
   const [editingIndex, setEditingIndex] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
-  // Function to show an alert message
+  // Show alert message for 3 seconds
   const triggerAlert = (message) => {
     setAlertMessage(message);
     setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-      setAlertMessage('');
-    }, 3000);
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
-  // Save a new city or update an existing one
+  // Save a new region or update an existing one
   const handleSave = () => {
-    if (Name.trim() === '' || Region.trim() === '') {
-      triggerAlert('⚠️ Error: Both City Name and City Region are required.');
+    if (citiesName.trim() === '') {
+      triggerAlert('⚠️ Error: Cities name is required.');
       return;
     }
 
     if (editingIndex !== null) {
       const updatedCities = [...cities];
-      updatedCities[editingIndex] = { name: Name, region: Region };
+      updatedCities[editingIndex] = { name: citiesName, region: regionName }; // Update with region name
       setCities(updatedCities);
-      triggerAlert('✅ Success: City updated successfully');
+      triggerAlert('✅ Success: Cities updated successfully');
       setEditingIndex(null);
     } else {
-      setCities([...cities, { name: Name, region: Region }]);
-      triggerAlert('✅ Success: City added successfully');
+      setCities([...cities, { name: citiesName, region: regionName }]); // Add with region name
+      triggerAlert('✅ Success: Cities created successfully');
     }
 
-    setName('');
-    setRegion('');
+    setCitiesName('');
+    setRegionName(''); // Reset region name
     setShowDialog(false);
   };
 
   const handleEdit = (index) => {
-    setName(cities[index].name);
-    setRegion(cities[index].region);
+    setCitiesName(cities[index].name);
+    setRegionName(cities[index].region); // Set region name for editing
     setEditingIndex(index);
     setShowDialog(true);
   };
 
   const handleDelete = (index) => {
-    const updatedCities = cities.filter((_, i) => i !== index);
-    setCities(updatedCities);
-    triggerAlert('🗑️ Success: City deleted successfully');
+    setCities(cities.filter((_, i) => i !== index));
+    triggerAlert('🗑️ Cities deleted successfully');
   };
 
   return (
     <div>
+      {/* Header Section with "New" Button on the Right */}
       <div className="WarehousesNav spaceB">
         <h3>Cities</h3>
-        <div className="WarehousesNavButtons">
+        <div className="WarehousesNavButtons mx-2">
           <button className={`btn btn-primary ${showDialog ? 'active' : ''}`} onClick={() => setShowDialog(true)}>
             <FaPlus style={{ marginRight: '5px' }} /> New
           </button>
         </div>
       </div>
-      <div className="WarehousesNav">
-        <input type="text" placeholder="Search" />
-        <input type="text" placeholder="Select Region" />
-      </div>
 
+      {/* Search Bar */}
+
+      <div className="Warehouses-Nav">
+        <input className='px-2 mx-2 py-2' type="text" placeholder="Search" />
+        <input className='px-2 mx-3 py-2' type="text" placeholder="Region" />
+      </div>
+    
+
+      {/* Success Alert Message */}
       {showAlert && <div className="alert-box">{alertMessage}</div>}
 
+      {/* Show Image When No Data is Available */}
       {cities.length === 0 ? (
-        <div className="no-data img-nodata">
-          <img src="../../assets/img/nodata.svg" alt="No data available"/>
-          <p>
-          Sorry! No cities found.</p>
+        <div className="no-data">
+          <img src="../../assets/img/nodata.svg" alt="No data available" />
+          <p>Sorry! No cities found.</p>
         </div>
       ) : (
         <div className="table-container">
           <table className="cities-table">
             <thead>
               <tr>
-                <th className="left-align">Name</th>
-                <th className="left-align">Region</th>
+                <th className="left-align">Cities name</th>
+                <th className="left-align">Region name</th>
                 <th className="right-align">Actions</th>
               </tr>
             </thead>
@@ -112,26 +111,27 @@ const Cities = () => {
         </div>
       )}
 
+      {/* Dialog Box */}
       {showDialog && (
         <div className="modal-overlay" onClick={() => setShowDialog(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={() => setShowDialog(false)}>
               <FaTimes />
             </button>
-            <h2>{editingIndex !== null ? 'Edit City' : 'Add New City'}</h2>
+            <h2>{editingIndex !== null ? 'Edit Cities' : 'Add New Cities'}</h2>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Cities Name"
               className="modal-input"
-              value={Name}
-              onChange={(e) => setName(e.target.value)}
+              value={citiesName}
+              onChange={(e) => setCitiesName(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Region"
+              placeholder="Region Name"
               className="modal-input"
-              value={Region}
-              onChange={(e) => setRegion(e.target.value)}
+              value={regionName}
+              onChange={(e) => setRegionName(e.target.value)}
             />
             <div className="modal-actions">
               <button className="btn btn-secondary" onClick={() => setShowDialog(false)}>Cancel</button>
@@ -142,8 +142,42 @@ const Cities = () => {
           </div>
         </div>
       )}
-   <style>
+
+      {/* Styles */}
+      <style>
         {`
+          .WarehousesNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            // border-bottom: 1px solid #ddd;
+          }
+          .WarehousesNavButtons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          }
+          .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+          }
+          .btn-primary {
+            background: #007bff;
+            color: white;
+          }
+          .btn-primary.active {
+            background: #0056b3; /* Darker shade for active state */
+          }
+          .btn-secondary {
+            background: #6c757d;
+            color: white;
+          }
           .modal-overlay {
             position: fixed;
             top: 0;
@@ -167,7 +201,7 @@ const Cities = () => {
             text-align: center;
           }
           .modal-input {
-            width: 90%;
+            // width: 90%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
@@ -177,23 +211,6 @@ const Cities = () => {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
-          }
-          .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          }
-          .btn-primary {
-            background: #007bff;
-            color: white;
-          }
-          .btn-primary.active {
-            background: #0056b3; /* Darker shade for active state */
-          }
-          .btn-secondary {
-            background: #6c757d;
-            color: white;
           }
           .close-btn {
             position: absolute;
@@ -205,20 +222,20 @@ const Cities = () => {
             cursor: pointer;
           }
           .alert-box {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 14px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  animation: fadeInOut 3s ease-in-out;
-  z-index: 1000;
-  margin-top: 20px; /* Optional: Add some margin from the top */
-}
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeInOut 3s ease-in-out;
+            z-index: 1000;
+            margin-top: 20px;
+          }
           @keyframes fadeInOut {
             0% { opacity: 0; }
             10% { opacity: 1; }
@@ -276,23 +293,34 @@ const Cities = () => {
             margin-top: 20px;
           }
           .no-data p {
-            // margin-top: 10px;
             font-size: 18px;
             color: #666;
           }
           @media (max-width: 768px) {
-            .search-filters {
+            .WarehousesNav {
               flex-direction: column;
+              align-items: flex-start;
+            }
+            .WarehousesNavButtons {
+              width: 100%;
+              justify-content: flex-end;
+              margin-top: 10px;
             }
             .modal-content {
-              width: 95%;
+              width: 90%;
+            }
+            .cities-table th, .cities-table td {
+              padding: 8px;
+            }
+            .btn-edit, .btn-delete {
+              padding: 4px 8px;
+              font-size: 12px;
             }
           }
         `}
       </style>
-     
     </div>
   );
-}
+};
 
 export default Cities;
