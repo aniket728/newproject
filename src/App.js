@@ -26,12 +26,22 @@ import Leaderboard from './components/vendorpanel/pages/Leaderboard';
 import PriceLists from './components/vendorpanel/pages/PriceLists';
 import Target from './components/vendorpanel/pages/Target';
 
+
 import Profile from './components/vendorpanel/pages/Profile';
+
+
+
+
 import Dashboard from './components/vendorpanel/layouts/Dashboard';
 import LiveLocation from './components/vendorpanel/pages/LIveLocation';
+
+
 import Reports from './components/vendorpanel/pages/Reports';
+
 import User from './components/vendorpanel/pages/User';
 import VendorRegister from './components/vendorpanel/Vendorregister';
+
+
 
 function App() {
     return (
@@ -67,8 +77,13 @@ function App() {
                    <Route path='leaderboard' element={<Leaderboard/>}/>
                    <Route path='priceLists' element={<PriceLists/>}/>
                    <Route path='target' element={<Target/>}/>
+
           
                    <Route path='profile' element={<Profile/>}/>
+
+             
+                  
+
 
 
                 </Route>

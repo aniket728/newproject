@@ -178,212 +178,14 @@ const Customers = () => {
         />
       </div>
 
-      {/* Right-to-Left Sidebar */}
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h3>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
-          <button className="close-btn" onClick={toggleSidebar}>
-            &times;
-          </button>
-        </div>
-        <div className="sidebar-body">
-          <form>
-            {/* General Details Section */}
-            <h4>General Details</h4>
-            <div className="form-group">
-              <label htmlFor="businessName">Business Name</label>
-              <input
-                type="text"
-                name="businessName"
-                placeholder="Enter business name"
-                className="form-control"
-                value={formData.businessName}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="code">Code</label>
-              <input
-                type="text"
-                name="code"
-                placeholder="Enter code"
-                className="form-control"
-                value={formData.code}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="contactPerson">Contact Person</label>
-              <input
-                type="text"
-                name="contactPerson"
-                placeholder="Enter contact person"
-                className="form-control"
-                value={formData.contactPerson}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phoneNo">phoneNo</label>
-              <input
-                type="text"
-                name="phoneNo"
-                placeholder="Enter phoneNo number"
-                className="form-control"
-                value={formData.phoneNo}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter email"
-                className="form-control"
-                value={formData.email}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="route">Route</label>
-              <input
-                type="text"
-                name="route"
-                placeholder="Enter route"
-                className="form-control"
-                value={formData.route}
-                onChange={handleInput}
-              />
-            </div>
-
-            {/* Other Details Section */}
-            <h4>Other Details</h4>
-            <div className="form-group">
-              <label htmlFor="billingAddress">Billing Address</label>
-              <input
-                type="text"
-                name="billingAddress"
-                placeholder="Enter billing address"
-                className="form-control"
-                value={formData.billingAddress}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="geolocation">Geolocation</label>
-              <input
-                type="text"
-                name="geolocation"
-                placeholder="Enter geolocation"
-                className="form-control"
-                value={formData.geolocation}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="gstin">GSTIN</label>
-              <input
-                type="text"
-                name="gstin"
-                placeholder="Enter GSTIN"
-                className="form-control"
-                value={formData.gstin}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="openingBalance">Opening Balance</label>
-              <input
-                type="number"
-                name="openingBalance"
-                placeholder="Enter opening balance"
-                className="form-control"
-                value={formData.openingBalance}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditPeriod">Credit Period</label>
-              <input
-                type="text"
-                name="creditPeriod"
-                placeholder="Enter credit period"
-                className="form-control"
-                value={formData.creditPeriod}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditLimit">Credit Limit</label>
-              <input
-                type="text"
-                name="creditLimit"
-                placeholder="Enter credit limit"
-                className="form-control"
-                value={formData.creditLimit}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="stateOfSupply">State of Supply</label>
-              <input
-                type="text"
-                name="stateOfSupply"
-                placeholder="Enter state of supply"
-                className="form-control"
-                value={formData.stateOfSupply}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditBillLimit">Credit Bill Limit</label>
-              <input
-                type="text"
-                name="creditBillLimit"
-                placeholder="Enter credit bill limit"
-                className="form-control"
-                value={formData.creditBillLimit}
-                onChange={handleInput}
-              />
-            </div>
-
-            {/* Upload Document Section */}
-            <h4>Upload Document</h4>
-            <div className="form-group">
-              <label htmlFor="uploadDocument">Upload Document</label>
-              <input
-                type="file"
-                id="uploadDocument"
-                className="form-control"
-                onChange={handleFileUpload}
-              />
-            </div>
-          </form>
-        </div>
-        <div className="sidebar-footer">
-          <button className="btn btn-primary" onClick={handleSave}>
-            {editingIndex !== null ? 'Update' : 'Save'}
-          </button>
-          <button className="btn btn-secondary" onClick={toggleSidebar}>
-            Cancel
-          </button>
-        </div>
-      </div>
 
       {/* Overlay when sidebar is open */}
       {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
 
       {/* Table to display customers */}
       <div className="customers-table">
-        {customers.length === 0 ? (
-          <div className="no-data img-nodata" style={{ textAlign: 'center', marginTop: '20px' }}>
-            <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: '200px', marginTop: '20px' }} />
-            <p>Sorry! No customers found.</p>
-          </div>
-        ) : (
           <div className="table-responsive">
-            <table className="table">
+            <table className="table  ">
               <thead>
                 <tr>
                   <th>Business Name</th>
@@ -417,7 +219,7 @@ const Customers = () => {
               </tbody>
             </table>
           </div>
-        )}
+     
       </div>
 
       {/* Alert Message */}
