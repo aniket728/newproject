@@ -65,7 +65,7 @@ const Areas = () => {
     <div>
       <div className="WarehousesNav spaceB">
         <h3>Areas</h3>
-        <div className="WarehousesNavButtons">
+        <div className="WarehousesNavButtons mx-2">
           <button 
             className={`btn btn-primary ${showDialog ? 'active' : ''}`} 
             onClick={() => setShowDialog(true)}
@@ -74,10 +74,10 @@ const Areas = () => {
           </button>
         </div>
       </div>
-      <div className="WarehousesNav">
-        <input type="text" placeholder="Search" />
-        <input type="text" placeholder="Select Region" />
-        <input type="text" placeholder="Select Warehouse" />
+      <div className="Warehouses-Nav">
+        <input type="text"  className='px-2 mx-2 py-2' placeholder="Search" />
+        <input type="text"  className='px-2 mx-2 py-2' placeholder="Select Region" />
+        <input type="text"  className='px-2 mx-2 py-2' placeholder="Select Warehouse" />
       </div>
 
       {showAlert && <div className="alert-box">{alertMessage}</div>}
@@ -157,8 +157,40 @@ const Areas = () => {
         </div>
       )}
 
-      <style>
+<style>
         {`
+          .WarehousesNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            // border-bottom: 1px solid #ddd;
+          }
+          .WarehousesNavButtons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          }
+          .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+          }
+          .btn-primary {
+            background: #007bff;
+            color: white;
+          }
+          .btn-primary.active {
+            background: #0056b3; /* Darker shade for active state */
+          }
+          .btn-secondary {
+            background: #6c757d;
+            color: white;
+          }
           .modal-overlay {
             position: fixed;
             top: 0;
@@ -182,7 +214,7 @@ const Areas = () => {
             text-align: center;
           }
           .modal-input {
-            width: 90%;
+            // width: 90%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
@@ -192,23 +224,6 @@ const Areas = () => {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
-          }
-          .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          }
-          .btn-primary {
-            background: #007bff;
-            color: white;
-          }
-          .btn-primary.active {
-            background: #0056b3; /* Darker shade for active state */
-          }
-          .btn-secondary {
-            background: #6c757d;
-            color: white;
           }
           .close-btn {
             position: absolute;
@@ -220,20 +235,20 @@ const Areas = () => {
             cursor: pointer;
           }
           .alert-box {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 14px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  animation: fadeInOut 3s ease-in-out;
-  z-index: 1000;
-  margin-top: 20px; /* Optional: Add some margin from the top */
-}
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeInOut 3s ease-in-out;
+            z-index: 1000;
+            margin-top: 20px;
+          }
           @keyframes fadeInOut {
             0% { opacity: 0; }
             10% { opacity: 1; }
@@ -291,16 +306,28 @@ const Areas = () => {
             margin-top: 20px;
           }
           .no-data p {
-            // margin-top: 10px;
             font-size: 18px;
             color: #666;
           }
           @media (max-width: 768px) {
-            .search-filters {
+            .WarehousesNav {
               flex-direction: column;
+              align-items: flex-start;
+            }
+            .WarehousesNavButtons {
+              width: 100%;
+              justify-content: flex-end;
+              margin-top: 10px;
             }
             .modal-content {
-              width: 95%;
+              width: 90%;
+            }
+            .areas-table th, .areas-table td {
+              padding: 8px;
+            }
+            .btn-edit, .btn-delete {
+              padding: 4px 8px;
+              font-size: 12px;
             }
           }
         `}

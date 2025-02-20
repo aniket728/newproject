@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api_url } from '../../helpers/api_helper';
 
 const Vendorlogin = () => {
@@ -122,7 +122,7 @@ const Vendorlogin = () => {
             </div>
             {/* <a href="#">Forgot Password?</a> */}
                 <p className="signup-link">
-              Don't have an account? <a href="/vendorregister">Sign up</a>
+              Don't have an account? <Link to="/vendorregister">Sign up</Link>
             </p>
             <button type="submit" className="btn">
               Login

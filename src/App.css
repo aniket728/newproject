@@ -150,7 +150,7 @@
 }
 
 .login a{
-	display: block;
+	/* display: block; */
 	text-align: right;
 	text-decoration: none;
 	color: #999;
@@ -787,13 +787,209 @@ nav {
   to {
     transform: translateX(0);
   }
+
+  .UsersNav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    margin: 5px;
+  }
+
+  .UsersNavButtons{
+    display: flex;
+    gap: 10px;
+  }
+
+  .UsersNavButtons button{  
+    padding: 5px 10px;
+    border: 1px solid #272525;
+    border-radius: 2px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .UsersNavButtons button:hover{
+    background-color: #787a7e;
+    color: white;
+  }
+
+  .InputDiv{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    gap: 20px;
+  }
+
+  .InputDiv input select{
+   background: transparent;
+   border: 1px solid #ccc;
+   padding: 5px;
+  }
+
+  /* Base styles */
+.user-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+.user-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-section__title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.user-section__nav {
+  display: flex;
+  gap: 10px;
+}
+
+.user-section__nav-button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.user-section__nav-button--primary {
+  background-color: blue;
+  color: white;
+  border: none;
+}
+
+.user-section__filters {
+  margin-bottom: 20px;
+}
+
+.user-section__search {
+  display: flex;
+  gap: 10px;
+}
+
+.user-section__search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+.user-section__filter-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+/* Table styles */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+}
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Start off-screen */
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.open {
+  right: 0; /* Slide in from the right */
+}
+
+.sidebar-content {
+  padding: 20px;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button,
+.cancel-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submit-button {
+  background-color: blue;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Overlay for sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Below sidebar but above other content */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Full width on smaller screens */
+    right: -100%; /* Start off-screen */
   }
-  to {
-    opacity: 1;
+
+  .sidebar.open {
+    right: 0; /* Slide in from the right */
+>>>>>>> Stashed changes
   }
 }
