@@ -35,7 +35,7 @@ const Customers = () => {
 
   const storeCustomerData = async () => {
     try {
-      const response = await fetch(`${api_url}/api/customers`, {
+      const response = await fetch(`${api_url}/api/customer`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,6 @@ const Customers = () => {
       console.log('Response Data:', result);
 
       if (response.ok) {
-        // Add the new customer to the customers state
         const newCustomer = {
           businessName,
           clientType,
@@ -96,16 +95,9 @@ const Customers = () => {
           note,
         };
 
-        // Update the customers state with the new customer
         setCustomers([...customers, newCustomer]);
-
-        // Show success message
         alert(result.message || 'User created successfully.');
-
-        // Close the dialog
         toggleDialog();
-
-        // Navigate to the customers page (if needed)
         navigate('/dashboard/customers');
       } else {
         alert(result.message || 'Failed to create user.');
@@ -116,27 +108,9 @@ const Customers = () => {
     }
   };
 
-
-  // const getCustomerData = async () => {
-  //   let id = localStorage.getItem('vendorId');
-  //   try {
-  //     const response = await fetch(`${api_url}/api/customers/${id}`);
-  //     const result = await response.json();
-  //     console.log(result);
-
-  //   } catch {
-  //     (e) => console.log(e);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getCustomerData()
-  // }, [])
-
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
     if (!isDialogOpen) {
-      // Reset form fields when opening the dialog
       setBusinessName('');
       setClientType('');
       setContactPersonName('');
@@ -247,226 +221,286 @@ const Customers = () => {
         <input type="text" className='px-2 mx-2 py-2' placeholder="Search" />
       </div>
 
-      {/* Right-to-Left Sidebar */}
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h3>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
-          <button className="close-btn" onClick={toggleSidebar}>
-            &times;
-          </button>
+      {isDialogOpen && (
+        <div className="dialog-overlay">
+          <div className="dialog-box">
+            <div className="dialog-header">
+              <h3>{editingIndex !== null ? 'Edit Customer' : 'New Customer'}</h3>
+              <button className="close-btn" onClick={toggleDialog}>
+                &times;
+              </button>
+            </div>
+            <div className="dialog-body">
+              <form>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="ContactPersonName">Person Name</label>
+                    <input
+                      type="text"
+                      name="ContactPersonName"
+                      id="ContactPersonName"
+                      placeholder="Enter contact person"
+                      className="form-control"
+                      onChange={(e) => setContactPersonName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Email">Email</label>
+                    <input
+                      type="email"
+                      id="Email"
+                      name="Email"
+                      placeholder="Enter email"
+                      className="form-control"
+                      onChange={(e) => setMail(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="ClientType">Client Type</label>
+                    <input
+                      type="text"
+                      name="ClientType"
+                      id="ClientType"
+                      placeholder="Enter contact person"
+                      className="form-control"
+                      onChange={(e) => setClientType(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="BuisnessName">Business Name</label>
+                    <input
+                      type="text"
+                      name="BuisnessName"
+                      id="BuisnessName"
+                      placeholder="Enter phone number"
+                      className="form-control"
+                      onChange={(e) => setBusinessName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="PinCode">Pincode</label>
+                    <input
+                      type="text"
+                      name="PinCode"
+                      id="PinCode"
+                      placeholder="Enter phone number"
+                      className="form-control"
+                      onChange={(e) => setPinCode(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="PhoneNo">Phone No</label>
+                    <input
+                      type="number"
+                      name="PhoneNo"
+                      id="PhoneNo"
+                      placeholder="Enter route"
+                      className="form-control"
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="Address">Address</label>
+                    <input
+                      type="text"
+                      name="Address"
+                      id="Address"
+                      placeholder="Enter email"
+                      className="form-control"
+                      onChange={(e) => setAddress(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="City">City</label>
+                    <input
+                      type="text"
+                      name="City"
+                      id="City"
+                      placeholder="Enter route"
+                      className="form-control"
+                      onChange={(e) => setCity(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="State">State</label>
+                    <input
+                      type="State"
+                      name="State"
+                      id="State"
+                      placeholder="Enter email"
+                      className="form-control"
+                      onChange={(e) => setState(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Country">country</label>
+                    <input
+                      type="text"
+                      name="Country"
+                      id="Country"
+                      placeholder="Enter route"
+                      className="form-control"
+                      onChange={(e) => setCountry(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="IndustryType">Industry Type</label>
+                    <input
+                      type="text"
+                      name="IndustryType"
+                      id="IndustryType"
+                      placeholder="Enter billing address"
+                      className="form-control"
+                      onChange={(e) => setIndustryType(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="BusinessRegistrationNo">Business Registration No</label>
+                    <input
+                      type="text"
+                      name="BusinessRegistrationNo"
+                      id="BusinessRegistrationNo"
+                      placeholder="Enter geolocation"
+                      className="form-control"
+                      onChange={(e) => setBusinessRegNo(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="GstNo">Gst No</label>
+                    <input
+                      type="text"
+                      id="GstNo"
+                      name="GstNo"
+                      placeholder="Enter GSTIN"
+                      className="form-control"
+                      onChange={(e) => setGstNo(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="AnnualTurnover">Annual Turn-over</label>
+                    <input
+                      type="number"
+                      name="AnnualTurnover"
+                      id="AnnualTurnover"
+                      placeholder="Enter opening balance"
+                      className="form-control"
+                      onChange={(e) => setAnnualTurnover(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="LatLongPosition">Lat Long Position</label>
+                    <input
+                      type="text"
+                      name="LatLongPosition"
+                      id="LatLongPosition"
+                      placeholder="Enter credit period"
+                      className="form-control"
+                      onChange={(e) => setLatLongPosition(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Note">Note</label>
+                    <input
+                      type="text"
+                      id="Note"
+                      name="Note"
+                      placeholder="Enter credit limit"
+                      className="form-control"
+                      onChange={(e) => setNote(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="Remark">Remark</label>
+                    <input
+                      type="text"
+                      name="Remark"
+                      id="Remark"
+                      placeholder="Enter state of supply"
+                      className="form-control"
+                      onChange={(e) => setRemark(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="AssignedSalesmanId">Assigned SalesmanId</label>
+                    <input
+                      type="text"
+                      id="AssignedSalesmanId"
+                      name="AssignedSalesmanId"
+                      placeholder="Enter credit bill limit"
+                      className="form-control"
+                      onChange={(e) => setAssignedSalesmanId(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div className="dialog-footer">
+              <button className="btn btn-primary" type="submit" id="submitBtn" onClick={storeCustomerData}>
+                {editingIndex !== null ? 'Update' : 'Save'}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="sidebar-body">
-          <form>
-            {/* General Details Section */}
-            <h4>General Details</h4>
-            <div className="form-group">
-              <label htmlFor="businessName">Business Name</label>
-              <input
-                type="text"
-                name="businessName"
-                placeholder="Enter business name"
-                className="form-control"
-                value={formData.businessName}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="code">Code</label>
-              <input
-                type="text"
-                name="code"
-                placeholder="Enter code"
-                className="form-control"
-                value={formData.code}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="contactPerson">Contact Person</label>
-              <input
-                type="text"
-                name="contactPerson"
-                placeholder="Enter contact person"
-                className="form-control"
-                value={formData.contactPerson}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phoneNo">phoneNo</label>
-              <input
-                type="text"
-                name="phoneNo"
-                placeholder="Enter phoneNo number"
-                className="form-control"
-                value={formData.phoneNo}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter email"
-                className="form-control"
-                value={formData.email}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="route">Route</label>
-              <input
-                type="text"
-                name="route"
-                placeholder="Enter route"
-                className="form-control"
-                value={formData.route}
-                onChange={handleInput}
-              />
-            </div>
+      )}
 
-            {/* Other Details Section */}
-            <h4>Other Details</h4>
-            <div className="form-group">
-              <label htmlFor="billingAddress">Billing Address</label>
-              <input
-                type="text"
-                name="billingAddress"
-                placeholder="Enter billing address"
-                className="form-control"
-                value={formData.billingAddress}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="geolocation">Geolocation</label>
-              <input
-                type="text"
-                name="geolocation"
-                placeholder="Enter geolocation"
-                className="form-control"
-                value={formData.geolocation}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="gstin">GSTIN</label>
-              <input
-                type="text"
-                name="gstin"
-                placeholder="Enter GSTIN"
-                className="form-control"
-                value={formData.gstin}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="openingBalance">Opening Balance</label>
-              <input
-                type="number"
-                name="openingBalance"
-                placeholder="Enter opening balance"
-                className="form-control"
-                value={formData.openingBalance}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditPeriod">Credit Period</label>
-              <input
-                type="text"
-                name="creditPeriod"
-                placeholder="Enter credit period"
-                className="form-control"
-                value={formData.creditPeriod}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditLimit">Credit Limit</label>
-              <input
-                type="text"
-                name="creditLimit"
-                placeholder="Enter credit limit"
-                className="form-control"
-                value={formData.creditLimit}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="stateOfSupply">State of Supply</label>
-              <input
-                type="text"
-                name="stateOfSupply"
-                placeholder="Enter state of supply"
-                className="form-control"
-                value={formData.stateOfSupply}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="creditBillLimit">Credit Bill Limit</label>
-              <input
-                type="text"
-                name="creditBillLimit"
-                placeholder="Enter credit bill limit"
-                className="form-control"
-                value={formData.creditBillLimit}
-                onChange={handleInput}
-              />
-            </div>
-
-            {/* Upload Document Section */}
-            <h4>Upload Document</h4>
-            <div className="form-group">
-              <label htmlFor="uploadDocument">Upload Document</label>
-              <input
-                type="file"
-                id="uploadDocument"
-                className="form-control"
-                onChange={handleFileUpload}
-              />
-            </div>
-          </form>
-        </div>
-        <div className="sidebar-footer">
-          <button className="btn btn-primary" onClick={handleSave}>
-            {editingIndex !== null ? 'Update' : 'Save'}
-          </button>
-          <button className="btn btn-secondary" onClick={toggleSidebar}>
-            Cancel
-          </button>
-        </div>
-      </div>
-
-      {/* Overlay when dialog is open */}
       {isDialogOpen && <div className="overlay" onClick={toggleDialog}></div>}
 
-      {/* Table to display customers */}
-
       <div className="customers-table">
-        {customers.length === 0 ? (
-          <div className="no-data img-nodata" style={{ textAlign: 'center', marginTop: '20px' }}>
-            <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: '200px', marginTop: '20px' }} />
-            <p>Sorry! No customers found.</p>
-          </div>
-        ) : (
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Business Name</th>
-                  <th>Code</th>
-                  <th>Contact Person</th>
-                  <th>phoneNo</th>
-                  <th>Email</th>
-                  <th>Opening Balance</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((customer, index) => (
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Business Name</th>
+                <th>GST No</th>
+                <th>Phone No</th>
+                <th>Address</th>
+                <th>Mail</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.length === 0 ? (
+                <div className="no-data img-nodata" style={{ textAlign: 'center', marginTop: '20px' }}>
+                  <img src="../../assets/img/nodata.svg" alt="No data available" style={{ width: '200px', marginTop: '20px' }} />
+                  <p>Sorry! No customers found.</p>
+                </div>
+              ) : (
+                customers && customers.map((customer, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{customer.businessName}</td>
@@ -483,17 +517,13 @@ const Customers = () => {
                       </button>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-
-
-
-      {/* Alert Message */}
       {showAlert && (
         <div className="alert-box pt-3 px-3">
           <p>{alertMessage}</p>
@@ -504,4 +534,3 @@ const Customers = () => {
 };
 
 export default Customers;
-

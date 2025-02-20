@@ -40,6 +40,7 @@ import Reports from './components/vendorpanel/pages/Reports';
 
 import User from './components/vendorpanel/pages/User';
 import VendorRegister from './components/vendorpanel/Vendorregister';
+import CompanyDetails from './components/vendorpanel/CompanyDetails';
 
 
 
@@ -52,6 +53,7 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="vendorlogin" element={<Vendorlogin />} />
                     <Route path="vendorregister" element={<VendorRegister />} />
+        <Route path="company-details" element={<CompanyDetails />} />
                 </Route>
 
                 {/* Dashboard Route */}
