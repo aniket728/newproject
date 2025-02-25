@@ -63,6 +63,7 @@ console.log(result)
       if (result.statusCode === 200) {
         localStorage.setItem('vendorId', result.data?.userId);
         localStorage.setItem('vendorusername', result.data?.username);
+        localStorage.setItem('companyId', result.data?.companyId);
         alert(result.message);
         navigate('/dashboard');
       } else {
