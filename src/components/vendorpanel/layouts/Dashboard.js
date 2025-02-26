@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const salesChartRef = useRef(null);
@@ -8,11 +8,19 @@ const Dashboard = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [isIconBlack, setIsIconBlack] = useState(false); // State to track icon color
   const location = useLocation();
+  const navigate = useNavigate();
+  const vName = localStorage.getItem("vendorusername");
 
   useEffect(() => {
     const path = location.pathname.split('/')[2];
     setActiveMenuItem(path || 'dashboard');
   }, [location]);
+
+  useEffect(() => {
+    if (vName === null) {
+      navigate("/vendorlogin");
+    }
+  }, [vName, navigate]);
 
   useEffect(() => {
     const initializeDropdowns = () => {
@@ -80,6 +88,21 @@ const Dashboard = () => {
 
   const toggleIconColor = () => {
     setIsIconBlack(!isIconBlack);
+  };
+
+  const handleLoggedOut = () => {
+    // Clear localStorage
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
+    localStorage.removeItem("vendorusername");
+
+    // Clear sessionStorage
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("vendorusername");
+
+    // Navigate to the vendor login page
+    navigate("/vendorlogin");
   };
 
   return (
@@ -178,9 +201,14 @@ const Dashboard = () => {
               Settings
             </Link>
           </li>
+          <li className={`sidebar-menu-item ${activeMenuItem === 'profile' ? 'active' : ''}`}>
+            <Link to="profile" onClick={() => setActiveMenuItem('profile')}>
+              <i className="ri-file-chart-line sidebar-menu-item-icon"></i>
+              Profile
+            </Link>
+          </li>
         </ul>
-        {/* Bottom Circle with Icon */}
-             </div>
+      </div>
       <div className="sidebar-overlay"></div>
 
       <main className="bg-light" style={{ background: 'linear-gradient(145deg, #f8f9fa, #ffffff)', boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)' }}>
@@ -246,9 +274,9 @@ const Dashboard = () => {
                 <i className="ri-arrow-down-s-line ms-2" style={{ color: '#6610f2', fontSize: '12px' }}></i>
               </div>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a className="dropdown-item" href="#">Action</a></li>
+                <li><a className="dropdown-item" href="/profile">Profile</a></li>
                 <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><Link className="dropdown-item" to="/vendorlogin">Log out</Link></li>
+                <li><Link className="dropdown-item" onClick={handleLoggedOut}>Log out</Link></li>
               </ul>
             </div>
           </nav>
