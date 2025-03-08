@@ -1,62 +1,45 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Select from 'react-select';
 import { api_url } from '../../helpers/api_helper';
 
 const VendorRegister = () => {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    dateOfBirth: '',
+    mobile: '',
+    gender: '',
+    companyName: '',
+    gstNo: '',
+    pincode: '',
+    phoneNo: '',
+    companyEmail: '',
+  });
+
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [city, setCity] = useState(null);
-  const [state, setState] = useState(null);
-  const [country, setCountry] = useState('');
-  const [address, setAddress] = useState('');
-  const [pincode, setPincode] = useState('');
 
-  const genderOptions = [
-    { value: 'male', label: 'Male' },
-    { value: 'female', label: 'Female' },
-    { value: 'other', label: 'Other' },
-  ];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  const maritalStatusOptions = [
-    { value: 'single', label: 'Single' },
-    { value: 'married', label: 'Married' },
-    { value: 'divorced', label: 'Divorced' },
-    { value: 'widowed', label: 'Widowed' },
-  ];
+  const nextStep = () => {
+    setStep(step + 1);
+  };
 
-  const cityOptions = [
-    { value: 'new-york', label: 'New York' },
-    { value: 'los-angeles', label: 'Los Angeles' },
-    { value: 'chicago', label: 'Chicago' },
-    // Add more cities as needed
-  ];
+  const prevStep = () => {
+    setStep(step - 1);
+  };
 
-  const stateOptions = [
-    { value: 'california', label: 'California' },
-    { value: 'texas', label: 'Texas' },
-    { value: 'florida', label: 'Florida' },
-    // Add more states as needed
-  ];
-
-  const countryOptions = [
-    { value: 'usa', label: 'United States' },
-    { value: 'canada', label: 'Canada' },
-    { value: 'uk', label: 'United Kingdom' },
-    // Add more countries as needed
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const storeVendorData = async () => {
     try {
       const response = await fetch(`${api_url}/api/user`, {
         method: 'POST',
@@ -64,21 +47,22 @@ const VendorRegister = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          mobile,
-          email,
-          password,
-          firstName,
-          lastName,
-          gender,
-          maritalStatus,
-          dateOfBirth,
-          nationality,
-          username,
-          city: city ? city.value : '',
-          state: state ? state.value : '',
-          pincode,
-          country,
-          address,
+          mobile: formData.mobile,
+          mail: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          gender: formData.gender,
+          dateOfBirth: formData.dateOfBirth,
+          username: formData.username,
+          company: {
+            companyName: formData.companyName,
+            gstNo: formData.gstNo,
+            pincode: formData.pincode,
+            phoneNo: formData.phoneNo,
+            email: formData.companyEmail,
+            users: ["string"],
+          },
           role: {
             id: 1,
             name: 'employee',
@@ -100,8 +84,7 @@ const VendorRegister = () => {
       console.log('Response Data:', result);
 
       if (response.ok) {
-        alert(result.message || 'User created successfully.');
-        navigate('/vendorlogin');
+        navigate('/vendorlogin') // Move to the next step after saving user data
       } else {
         alert(result.message || 'Failed to create user.');
       }
@@ -112,278 +95,313 @@ const VendorRegister = () => {
   };
 
   return (
-    <div className="ragister">
-      <div className="container">
-        <div className="title">Registration</div>
-        <div className="content">
-          <form onSubmit={handleSubmit}>
-            <div className="user-details">
-              <div className="input-box">
-                <span className="details">First Name</span>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Last Name</span>
-                <input
-                  type="text"
-                  placeholder="Enter your last name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Username</span>
-                <input
-                  type="text"
-                  placeholder="Enter your username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Phone Number</span>
-                <input
-                  type="text"
-                  placeholder="Enter your number"
-                  onChange={(e) => setMobile(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Password</span>
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Date of Birth</span>
-                <input
-                  type="date"
-                  onChange={(e) => setDateOfBirth(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Gender</span>
-                <Select
-                  options={genderOptions}
-                  onChange={(selectedOption) => setGender(selectedOption.value)}
-                  placeholder="Select Gender"
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Marital Status</span>
-                <Select
-                  options={maritalStatusOptions}
-                  onChange={(selectedOption) => setMaritalStatus(selectedOption.value)}
-                  placeholder="Select Marital Status"
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">City</span>
-                <Select
-                  options={cityOptions}
-                  onChange={(selectedOption) => setCity(selectedOption)}
-                  placeholder="Select City"
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">State</span>
-                <Select
-                  options={stateOptions}
-                  onChange={(selectedOption) => setState(selectedOption)}
-                  placeholder="Select State"
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Country</span>
-                <Select
-                  options={countryOptions}
-                  onChange={(selectedOption) => setCountry(selectedOption.value)}
-                  placeholder="Select Country"
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Address</span>
-                <input
-                  type="text"
-                  placeholder="Enter your address"
-                  onChange={(e) => setAddress(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Nationality</span>
-                <input
-                  type="text"
-                  placeholder="Enter your nationality"
-                  onChange={(e) => setNationality(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Pincode</span>
-                <input
-                  type="text"
-                  placeholder="Enter your pincode"
-                  onChange={(e) => setPincode(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="button-container">
-              <button type="submit" className="btn-submit">
-                Save
-              </button>
-            </div>
+    <section style={{ display: 'flex', height: '100vh', width: '100vw', margin: 0, padding: 0 }}>
+      {/* Left Side Content */}
+      <div style={{ flex: 3, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f8f9fa', backgroundImage: 'url(images/background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div style={{ textAlign: 'center', color: '#fff', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Welcome to Our Platform</h1>
+          <p style={{ fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
+            Join us to manage your business efficiently and grow your network. Register now to get started!
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side Registration Form */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', boxShadow: '-2px 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <div style={{ width: '100%', maxWidth: '400px', padding: '20px', marginLeft: '-6px', marginTop: '345px' }}>
+          <form style={{ display: 'flex', flexDirection: 'column' }}>
+            {step === 1 && (
+              <>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="username" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>Username
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="password" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-lock" style={{ marginRight: '10px' }}></i>Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="confirmPassword" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-lock" style={{ marginRight: '10px' }}></i>Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+
+                {/* Next Button for Step 1 */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="firstName" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="First Name"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="lastName" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Last Name"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="gender" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>Gender
+                  </label>
+                  <input
+                    type="text"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    placeholder="Gender"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+
+                {/* Previous and Next Buttons for Step 2 */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-email" style={{ marginRight: '10px' }}></i>Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="dateOfBirth" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-calendar" style={{ marginRight: '10px' }}></i>Date of Birth
+                  </label>
+                  <input
+                    type="date"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="mobile" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-phone" style={{ marginRight: '10px' }}></i>Mobile
+                  </label>
+                  <input
+                    type="text"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    placeholder="Mobile"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+
+                {/* Previous and Next Buttons for Step 3 */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 4 && (
+              <>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="companyName" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>Company Name
+                  </label>
+                  <input
+                    type="text"
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={handleChange}
+                    placeholder="Company Name"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="gstNo" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>GST Number
+                  </label>
+                  <input
+                    type="text"
+                    name="gstNo"
+                    value={formData.gstNo}
+                    onChange={handleChange}
+                    placeholder="GST Number"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="pincode" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-account material-icons-name" style={{ marginRight: '10px' }}></i>Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    name="pincode"
+                    value={formData.pincode}
+                    onChange={handleChange}
+                    placeholder="Postal Code"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+
+                {/* Previous and Next Buttons for Step 4 */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 5 && (
+              <>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="phoneNo" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-phone" style={{ marginRight: '10px' }}></i>Company Phone
+                  </label>
+                  <input
+                    type="text"
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    placeholder="Company Phone"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', color: '#555' }}>
+                    <i className="zmdi zmdi-email" style={{ marginRight: '10px' }}></i>Company Email
+                  </label>
+                  <input
+                    type="email"
+                    name="companyEmail"
+                    value={formData.companyEmail}
+                    onChange={handleChange}
+                    placeholder="Company Email"
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                  />
+                </div>
+
+                {/* Previous and Save Buttons for Step 5 */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    style={{ padding: '10px 20px', backgroundColor: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    onClick={storeVendorData}
+                    style={{ padding: '10px 20px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>
-      <style>
-        {`
-          .ragister .container {
-            max-width: 1000px;
-            width: 100%;
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-in-out;
-          }
-
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          .ragister .container .title {
-            font-size: 25px;
-            font-weight: 500;
-            position: relative;
-            color: #333;
-          }
-
-          .ragister .container .title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 3px;
-            width: 30px;
-            border-radius: 5px;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-          }
-
-          .ragister .content form .user-details {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 20px 0 12px 0;
-          }
-
-          form .user-details .input-box {
-            margin-bottom: 15px;
-            width: 100%; /* Full width on small screens */
-          }
-
-          @media (min-width: 768px) {
-            form .user-details .input-box {
-              width: calc(50% - 20px); /* Two columns on medium screens */
-            }
-          }
-
-          @media (min-width: 992px) {
-            form .user-details .input-box {
-              width: calc(33.33% - 20px); /* Three columns on large screens */
-            }
-          }
-
-          form .user-details .input-box .details {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 5px;
-            color: #555;
-          }
-
-          form .user-details .input-box input,
-          form .user-details .input-box .react-select__control {
-            height: 45px;
-            width: 100%;
-            outline: none;
-            font-size: 16px;
-            border-radius: 5px;
-            padding-left: 15px;
-            border: 1px solid #ccc;
-            border-bottom-width: 2px;
-            transition: all 0.3s ease;
-          }
-
-          form .user-details .input-box input:focus,
-          form .user-details .input-box input:valid,
-          form .user-details .input-box .react-select__control--is-focused {
-            border-color: #9b59b6;
-            box-shadow: 0 0 8px rgba(155, 89, 182, 0.3);
-          }
-
-          .button-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-          }
-
-          .btn-submit {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            background-color: #28a745;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-
-          .btn-submit:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-          }
-
-          .btn-submit:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-        `}
-      </style>
-    </div>
+    </section>
   );
 };
 

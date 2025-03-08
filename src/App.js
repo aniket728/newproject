@@ -40,6 +40,11 @@ import Reports from './components/vendorpanel/pages/Reports';
 
 import User from './components/vendorpanel/pages/User';
 import VendorRegister from './components/vendorpanel/Vendorregister';
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1e13475df6084d431770bee3714544ec5b848028
 
 
 function App() {
@@ -51,9 +56,13 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="vendorlogin" element={<Vendorlogin />} />
                     <Route path="vendorregister" element={<VendorRegister />} />
+<<<<<<< HEAD
         {/* <Route path="company-details" element={<CompanyDetails/>} /> */}
 {/*          */}
  <Route path="company-details" element={<companyDetails/>}/>
+=======
+   
+>>>>>>> 1e13475df6084d431770bee3714544ec5b848028
                 </Route>
 
                 {/* Dashboard Route */}

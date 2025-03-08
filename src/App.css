@@ -816,6 +816,7 @@ Base styles
 	margin-bottom: 10px;
 	font-size: 16px;
 	}
+<<<<<<< HEAD
 
 
   /* Importing Google Fonts - Poppins */
@@ -945,21 +946,79 @@ form .button input:hover {
 
   .container {
     max-width: 100%;
+=======
+  /* ragister */
+.register {
+    font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+>>>>>>> 1e13475df6084d431770bee3714544ec5b848028
   }
-  form .user-details .input-box {
-    margin-bottom: 15px;
+  /* Global Stylings */
+  .register label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .register input {
+    display: block;
     width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
   }
-  form .category {
+  
+  .register .width-50 {
+    width: 50%;
+  }
+  
+  .register  .ml-auto {
+    margin-left: auto;
+  }
+  
+  .register  .text-center {
+    text-align: center;
+  }
+  
+  /* Progressbar */
+  .progressbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    counter-reset: step;
+    margin: 2rem 0 4rem;
+  }
+  
+  .progressbar::before,
+  .progress {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
     width: 100%;
+    background-color: #dcdcdc;
+    z-index: -1;
   }
-  .ragister .content form .user-details {
-    max-height: 300px;
-    overflow-y: scroll;
+  
+  .progress {
+    background-color: var(--primary-color);
+    width: 0%;
+    transition: 0.3s;
   }
-  .ragister .user-details::-webkit-scrollbar {
-    width: 5px;
+  
+  .progress-step {
+    width: 2.1875rem;
+    height: 2.1875rem;
+    background-color: #dcdcdc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+<<<<<<< HEAD
 
 /* Responsive media query code for mobile devices */
  
@@ -979,6 +1038,91 @@ form .button input:hover {
     background-color: white;
     margin: 5px;
   }
+=======
+  
+  .progress-step::before {
+    counter-increment: step;
+    content: counter(step);
+  }
+  
+  .progress-step::after {
+    content: attr(data-title);
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .progress-step-active {
+    background-color: var(--primary-color);
+    color: #f3f3f3;
+  }
+  
+  /* Form */
+  .register .form {
+    width: clamp(447px, 30%, 430px);
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 0.35rem;
+    padding: 1.5rem;
+  }
+  
+  .register .form-step {
+    display: none;
+    transform-origin: top;
+    animation: animate 0.5s;
+  }
+  
+  .register .form-step-active {
+    display: block;
+  }
+  
+  .register .input-group {
+    margin: 2rem 0;
+  }
+  
+  @keyframes animate {
+     from {
+      transform: scale(1, 0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+  }
+  
+  /* Button */
+  .register .btns-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .register .btn {
+    padding: 0.75rem;
+    display: block;
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: #f3f3f3;
+    text-align: center;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .register .btn:hover {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+  }
+/* Eye Icon Styling */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999;
+}
+>>>>>>> 1e13475df6084d431770bee3714544ec5b848028
 
   .UsersNavButtons
   {
@@ -1231,6 +1375,7 @@ form .button input:hover {
   }
 }
 
+<<<<<<< HEAD
 /* Eye Icon Styling */
 .eye-icon {
   position: absolute;
@@ -1258,4 +1403,65 @@ form .button input:hover {
 
 
 
+=======
+.dcard{
+  margin-top:20px;
+  background:#FAFAFA;
+}
+.dcard .order-card {
+  color: #fff;
+}
+>>>>>>> 1e13475df6084d431770bee3714544ec5b848028
 
+.dcard .bg-c-blue {
+  background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.dcard .bg-c-green {
+  background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.dcard .bg-c-yellow {
+  background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.dcard .bg-c-pink {
+  background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.dcard .card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  border: none;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.dcard .card .card-block {
+  padding: 25px;
+}
+
+.dcard .order-card i {
+  font-size: 26px;
+}
+
+.dcard .f-left {
+  float: left;
+}
+
+.dcard .f-right {
+  float: right;
+}
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
