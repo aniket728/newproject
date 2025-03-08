@@ -31,16 +31,16 @@ import Profile from './components/vendorpanel/pages/Profile';
 
 import Warehouses from './components/vendorpanel/pages/Warehouses';
 
-
+ 
 import Dashboard from './components/vendorpanel/layouts/Dashboard';
 import LiveLocation from './components/vendorpanel/pages/LIveLocation';
 
-import User from './components/vendorpanel/pages/Users';
+
 import Reports from './components/vendorpanel/pages/Reports';
 
-// import  User from './components/vendorpanel/pages/User';
+import User from './components/vendorpanel/pages/User';
+import VendorRegister from './components/vendorpanel/Vendorregister';
 
-import  VendorRegister from './components/vendorpanel/Vendorregister';
 
 function App() {
     return (
@@ -51,11 +51,14 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="vendorlogin" element={<Vendorlogin />} />
                     <Route path="vendorregister" element={<VendorRegister />} />
+        {/* <Route path="company-details" element={<CompanyDetails/>} /> */}
+{/*          */}
+ <Route path="company-details" element={<companyDetails/>}/>
                 </Route>
 
                 {/* Dashboard Route */}
                 <Route path="/dashboard" element={<Dashboard/>}>
-                    <Route index element={< DashboardHome/>} /> {/* Default dashboard page */}
+                    <Route index element={< DashboardHome/>} /> 
                     <Route path="live-location" element={<LiveLocation />} />
                     <Route path="parties" element={<Parties />} />
               
@@ -76,8 +79,13 @@ function App() {
                    <Route path='leaderboard' element={<Leaderboard/>}/>
                    <Route path='priceLists' element={<PriceLists/>}/>
                    <Route path='target' element={<Target/>}/>
+
           
                    <Route path='profile' element={<Profile/>}/>
+
+                   <Route path='warehouses' element={<Warehouses/>}/>
+                  
+
 
 
                 </Route>

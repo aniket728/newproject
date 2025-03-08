@@ -1,87 +1,114 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { api_url } from '../../helpers/api_helper';
 
 const VendorRegister = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    username: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
-    confirmPassword: '',
-    gender: '',
-    dateOfBirth: '',
-    altMobile: '',
-    whatsapp: '',
-    maritalStatus: '',
-    userNumber: '',
-    nationality: '',
-    city: '',
-    state: '',
-    pincode: '',
-    country: '',
-    jobTitle: '',
-    salary: '',
-    hireDate: '',
-    terminationDate: '',
-    trainingPeriod: '',
-    terminationPeriod: '',
-    remark: '',
-    address: '',
-  });
-
-  const [step, setStep] = useState(1); // Step state for multi-step form
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState('');
+  const [nationality, setNationality] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
+  const [country, setCountry] = useState('');
+  const [address, setAddress] = useState('');
+  const [pincode, setPincode] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' },
+  ];
 
-  const handleCityChange = (selectedOption) => {
-    setFormData({
-      ...formData,
-      city: selectedOption ? selectedOption.value : '',
-    });
-  };
+  const maritalStatusOptions = [
+    { value: 'single', label: 'Single' },
+    { value: 'married', label: 'Married' },
+    { value: 'divorced', label: 'Divorced' },
+    { value: 'widowed', label: 'Widowed' },
+  ];
 
-  const handleStateChange = (selectedOption) => {
-    setFormData({
-      ...formData,
-      state: selectedOption ? selectedOption.value : '',
-    });
-  };
+  const cityOptions = [
+    { value: 'new-york', label: 'New York' },
+    { value: 'los-angeles', label: 'Los Angeles' },
+    { value: 'chicago', label: 'Chicago' },
+    // Add more cities as needed
+  ];
 
-  const handleNext = () => {
-    if (step === 1) {
-      // Validate step 1 fields before proceeding
-      if (
-        !formData.fullName ||
-        !formData.username ||
-        !formData.email ||
-        !formData.phoneNumber ||
-        !formData.password ||
-        !formData.confirmPassword ||
-        !formData.gender
-      ) {
-        alert('Please fill in all required fields.');
+  const stateOptions = [
+    { value: 'california', label: 'California' },
+    { value: 'texas', label: 'Texas' },
+    { value: 'florida', label: 'Florida' },
+    // Add more states as needed
+  ];
+
+  const countryOptions = [
+    { value: 'usa', label: 'United States' },
+    { value: 'canada', label: 'Canada' },
+    { value: 'uk', label: 'United Kingdom' },
+    // Add more countries as needed
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${api_url}/api/user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mobile,
+          email,
+          password,
+          firstName,
+          lastName,
+          gender,
+          maritalStatus,
+          dateOfBirth,
+          nationality,
+          username,
+          city: city ? city.value : '',
+          state: state ? state.value : '',
+          pincode,
+          country,
+          address,
+          role: {
+            id: 1,
+            name: 'employee',
+          },
+        }),
+      });
+
+      console.log('Response Status:', response.status);
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        console.error('Invalid JSON response', jsonError);
+        alert('Invalid response from server.');
         return;
       }
-    }
-    setStep(step + 1); // Move to the next step
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission, e.g., send data to an API
-    console.log(formData);
-    // Navigate to another page after successful registration
-    navigate('/vendor-dashboard');
+      console.log('Response Data:', result);
+
+      if (response.ok) {
+        alert(result.message || 'User created successfully.');
+        navigate('/vendorlogin');
+      } else {
+        alert(result.message || 'Failed to create user.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to fetch. Please check your network or server.');
+    }
   };
 
   return (
@@ -90,723 +117,274 @@ const VendorRegister = () => {
         <div className="title">Registration</div>
         <div className="content">
           <form onSubmit={handleSubmit}>
-            {step === 1 && (
-              <>
-                <div className="user-details">
-                  <div className="input-box">
-                    <span className="details">Full Name</span>
-                    <input
-                      type="text"
-                      name="fullName"
-                      placeholder="Enter your name"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Username</span>
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Enter your username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Email</span>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Enter your email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Phone Number</span>
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      placeholder="Enter your number"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Password</span>
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Enter your password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Confirm Password</span>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="Confirm your password"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="gender-details">
-                  <input
-                    type="radio"
-                    name="gender"
-                    id="dot-1"
-                    value="Male"
-                    checked={formData.gender === 'Male'}
-                    onChange={handleChange}
-                  />
-                  <input
-                    type="radio"
-                    name="gender"
-                    id="dot-2"
-                    value="Female"
-                    checked={formData.gender === 'Female'}
-                    onChange={handleChange}
-                  />
-                  <input
-                    type="radio"
-                    name="gender"
-                    id="dot-3"
-                    value="Prefer not to say"
-                    checked={formData.gender === 'Prefer not to say'}
-                    onChange={handleChange}
-                  />
-                  <span className="gender-title">Gender</span>
-                  <div className="category">
-                    <label htmlFor="dot-1">
-                      <span className="dot one"></span>
-                      <span className="gender">Male</span>
-                    </label>
-                    <label htmlFor="dot-2">
-                      <span className="dot two"></span>
-                      <span className="gender">Female</span>
-                    </label>
-                    <label htmlFor="dot-3">
-                      <span className="dot three"></span>
-                      <span className="gender">Prefer not to say</span>
-                    </label>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {step === 2 && (
-              <>
-                <div className="user-details">
-                  <div className="input-box">
-                    <span className="details">Date of Birth</span>
-                    <input
-                      type="date"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Alternate Mobile</span>
-                    <input
-                      type="text"
-                      name="altMobile"
-                      placeholder="Enter alternate mobile number"
-                      value={formData.altMobile}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">WhatsApp Number</span>
-                    <input
-                      type="text"
-                      name="whatsapp"
-                      placeholder="Enter WhatsApp number"
-                      value={formData.whatsapp}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Marital Status</span>
-                    <select
-                      name="maritalStatus"
-                      value={formData.maritalStatus}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Marital Status</option>
-                      <option value="Single">Single</option>
-                      <option value="Married">Married</option>
-                      <option value="Divorced">Divorced</option>
-                      <option value="Widowed">Widowed</option>
-                    </select>
-                  </div>
-                  <div className="input-box">
-                    <span className="details">User Number</span>
-                    <input
-                      type="text"
-                      name="userNumber"
-                      placeholder="Enter user number"
-                      value={formData.userNumber}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Nationality</span>
-                    <input
-                      type="text"
-                      name="nationality"
-                      placeholder="Enter nationality"
-                      value={formData.nationality}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-
-            {step === 3 && (
-              <>
-                <div className="user-details">
-                  <div className="input-box">
-                    <span className="details">City</span>
-                    <Select
-                      options={[
-                        { value: 'New York', label: 'New York' },
-                        { value: 'Los Angeles', label: 'Los Angeles' },
-                        { value: 'Chicago', label: 'Chicago' },
-                      ]}
-                      onChange={handleCityChange}
-                      placeholder="Select City"
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">State</span>
-                    <Select
-                      options={[
-                        { value: 'California', label: 'California' },
-                        { value: 'Texas', label: 'Texas' },
-                        { value: 'Florida', label: 'Florida' },
-                      ]}
-                      onChange={handleStateChange}
-                      placeholder="Select State"
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Pincode</span>
-                    <input
-                      type="text"
-                      name="pincode"
-                      placeholder="Enter pincode"
-                      value={formData.pincode}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Country</span>
-                    <input
-                      type="text"
-                      name="country"
-                      placeholder="Enter country"
-                      value={formData.country}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Job Title</span>
-                    <input
-                      type="text"
-                      name="jobTitle"
-                      placeholder="Enter job title"
-                      value={formData.jobTitle}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Salary</span>
-                    <input
-                      type="number"
-                      name="salary"
-                      placeholder="Enter salary"
-                      value={formData.salary}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-
-            {step === 4 && (
-              <>
-                <div className="user-details">
-                  <div className="input-box">
-                    <span className="details">Hire Date</span>
-                    <input
-                      type="date"
-                      name="hireDate"
-                      value={formData.hireDate}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Termination Date</span>
-                    <input
-                      type="date"
-                      name="terminationDate"
-                      value={formData.terminationDate}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Training Period</span>
-                    <input
-                      type="text"
-                      name="trainingPeriod"
-                      placeholder="Enter training period"
-                      value={formData.trainingPeriod}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Termination Period</span>
-                    <input
-                      type="text"
-                      name="terminationPeriod"
-                      placeholder="Enter termination period"
-                      value={formData.terminationPeriod}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Remark</span>
-                    <input
-                      type="text"
-                      name="remark"
-                      placeholder="Enter remark"
-                      value={formData.remark}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="input-box">
-                    <span className="details">Address</span>
-                    <textarea
-                      name="address"
-                      placeholder="Enter address"
-                      value={formData.address}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div className="button">
-              {step > 1 && (
-                <button type="button" onClick={() => setStep(step - 1)}>
-                  Previous
-                </button>
-              )}
-              {step < 4 ? (
-                <button type="button" onClick={handleNext}>
-                  Next
-                </button>
-              ) : (
-                <button type="submit">Register</button>
-              )}
+            <div className="user-details">
+              <div className="input-box">
+                <span className="details">First Name</span>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Last Name</span>
+                <input
+                  type="text"
+                  placeholder="Enter your last name"
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Username</span>
+                <input
+                  type="text"
+                  placeholder="Enter your username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Email</span>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Phone Number</span>
+                <input
+                  type="text"
+                  placeholder="Enter your number"
+                  onChange={(e) => setMobile(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Password</span>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Date of Birth</span>
+                <input
+                  type="date"
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Gender</span>
+                <Select
+                  options={genderOptions}
+                  onChange={(selectedOption) => setGender(selectedOption.value)}
+                  placeholder="Select Gender"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Marital Status</span>
+                <Select
+                  options={maritalStatusOptions}
+                  onChange={(selectedOption) => setMaritalStatus(selectedOption.value)}
+                  placeholder="Select Marital Status"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">City</span>
+                <Select
+                  options={cityOptions}
+                  onChange={(selectedOption) => setCity(selectedOption)}
+                  placeholder="Select City"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">State</span>
+                <Select
+                  options={stateOptions}
+                  onChange={(selectedOption) => setState(selectedOption)}
+                  placeholder="Select State"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Country</span>
+                <Select
+                  options={countryOptions}
+                  onChange={(selectedOption) => setCountry(selectedOption.value)}
+                  placeholder="Select Country"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Address</span>
+                <input
+                  type="text"
+                  placeholder="Enter your address"
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Nationality</span>
+                <input
+                  type="text"
+                  placeholder="Enter your nationality"
+                  onChange={(e) => setNationality(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <span className="details">Pincode</span>
+                <input
+                  type="text"
+                  placeholder="Enter your pincode"
+                  onChange={(e) => setPincode(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="button-container">
+              <button type="submit" className="btn-submit">
+                Save
+              </button>
             </div>
           </form>
         </div>
       </div>
+      <style>
+        {`
+          .ragister .container {
+            max-width: 1000px;
+            width: 100%;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+          }
+
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .ragister .container .title {
+            font-size: 25px;
+            font-weight: 500;
+            position: relative;
+            color: #333;
+          }
+
+          .ragister .container .title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 30px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+          }
+
+          .ragister .content form .user-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0 12px 0;
+          }
+
+          form .user-details .input-box {
+            margin-bottom: 15px;
+            width: 100%; /* Full width on small screens */
+          }
+
+          @media (min-width: 768px) {
+            form .user-details .input-box {
+              width: calc(50% - 20px); /* Two columns on medium screens */
+            }
+          }
+
+          @media (min-width: 992px) {
+            form .user-details .input-box {
+              width: calc(33.33% - 20px); /* Three columns on large screens */
+            }
+          }
+
+          form .user-details .input-box .details {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+          }
+
+          form .user-details .input-box input,
+          form .user-details .input-box .react-select__control {
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-left: 15px;
+            border: 1px solid #ccc;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+          }
+
+          form .user-details .input-box input:focus,
+          form .user-details .input-box input:valid,
+          form .user-details .input-box .react-select__control--is-focused {
+            border-color: #9b59b6;
+            box-shadow: 0 0 8px rgba(155, 89, 182, 0.3);
+          }
+
+          .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+          }
+
+          .btn-submit {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+
+          .btn-submit:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+          }
+
+          .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+        `}
+      </style>
     </div>
   );
 };
 
 export default VendorRegister;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

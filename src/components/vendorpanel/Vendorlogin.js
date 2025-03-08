@@ -59,7 +59,7 @@ const Vendorlogin = () => {
       }
 
       const result = await response.json();
-
+console.log(result)
       if (result.statusCode === 200) {
         localStorage.setItem('vendorId', result.data?.userId);
         localStorage.setItem('vendorusername', result.data?.username);
@@ -116,7 +116,7 @@ const Vendorlogin = () => {
                   required
                 />
                 <span className="eye-icon" onClick={handleToggle}>
-                  <i className={`fas ${icon}`}></i>
+                  <i className={`fas ${icon}`} style={{ paddingTop:"21px"}}></i>
                 </span>
               </div>
             </div>
@@ -181,6 +181,7 @@ const Vendorlogin = () => {
 .social-icons a:hover {
   color: green;
 }`
+
         }
       </style>
     </div>
